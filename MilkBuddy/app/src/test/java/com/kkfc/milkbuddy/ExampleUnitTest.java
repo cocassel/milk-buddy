@@ -1,4 +1,4 @@
-package com.example.milkbuddy;
+package com.kkfc.milkbuddy;
 
 import org.junit.Test;
 
