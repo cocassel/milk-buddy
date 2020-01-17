@@ -9,52 +9,52 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseHelper myDb;
-    private Button trnsp;
-    private Button Gsttrnsp;
-    private Button reclog;
+    DatabaseHelper db;
+    private Button transporter;
+    private Button guestTransporter;
+    private Button receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myDb = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
 
-        trnsp = findViewById(R.id.button1);
-        trnsp.setOnClickListener(new View.OnClickListener() {
+        transporter = findViewById(R.id.button1);
+        transporter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trnsplogin();
+                transporterLogin();
             }
         });
-        Gsttrnsp = findViewById(R.id.button2);
-        Gsttrnsp.setOnClickListener(new View.OnClickListener() {
+        guestTransporter = findViewById(R.id.button2);
+        guestTransporter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gsttrnsplogin();
+                guestTransporterLogin();
             }
         });
-        reclog = findViewById(R.id.button3);
-        reclog.setOnClickListener(new View.OnClickListener() {
+        receiver = findViewById(R.id.button3);
+        receiver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recverlog();
+                receiverLogin();
             }
         });
     }
 
-    private void trnsplogin() {
+    private void transporterLogin() {
         Intent intent = new Intent(this, TransporterLogin.class);
         startActivity(intent);
     }
 
-    private void gsttrnsplogin() {
+    private void guestTransporterLogin() {
         Intent intent = new Intent(this, GuestTransporter.class);
         startActivity(intent);
     }
 
-    private void recverlog() {
-        Intent intent = new Intent(this, ReceiverLog.class);
+    private void receiverLogin() {
+        Intent intent = new Intent(this, ReceiverLogin.class);
         startActivity(intent);
     }
 }

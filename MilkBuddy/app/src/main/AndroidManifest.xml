@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReceiverLog"></activity>
+        <activity android:name=".ReceiverHome"></activity>
+        <activity android:name=".ReceiverLogin" />
         <activity android:name=".GuestTransporter" />
         <activity android:name=".TransporterLogin" />
         <activity android:name=".MainActivity">

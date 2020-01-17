@@ -1,6 +1,7 @@
 package com.kkfc.milkbuddy;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -157,15 +158,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_TYPE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FARMER);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ROUTE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTAINER);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSPORTER_DATA);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANT_DATA);
+    public void onUpgrade(SQLiteDatabase SQLiteDatabase, int i, int i1) {
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_TYPE);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FARMER);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ROUTE);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTAINER);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSPORTER_DATA);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANT_DATA);
 
-        onCreate(sqLiteDatabase);
+        onCreate(SQLiteDatabase);
+    }
+
+    // Fetch data
+    public Cursor fetchUsers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USER, null);
+        return cursor;
     }
 }
