@@ -20,21 +20,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         myDb = new DatabaseHelper(this);
 
-        trnsp = findViewById(R.id.button4);
+        trnsp = findViewById(R.id.button1);
         trnsp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 trnsplogin();
             }
         });
-        Gsttrnsp = findViewById(R.id.button5);
+        Gsttrnsp = findViewById(R.id.button2);
         Gsttrnsp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gsttrnsplogin();
             }
         });
-        reclog = findViewById(R.id.button7);
+        reclog = findViewById(R.id.button3);
         reclog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
