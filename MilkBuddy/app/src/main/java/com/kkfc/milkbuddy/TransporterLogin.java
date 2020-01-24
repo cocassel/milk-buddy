@@ -23,7 +23,7 @@ public class TransporterLogin extends AppCompatActivity {
         setContentView(R.layout.activity_transporter_login);
         db = new DatabaseHelper(this);
 
-        Cursor cursor = db.fetchUsers();
+        Cursor cursor = db.fetchTransporters();
         listItem = new ArrayList<>();
         transporterListView = findViewById(R.id.list_view);
 
@@ -34,8 +34,7 @@ public class TransporterLogin extends AppCompatActivity {
         else {
             StringBuffer buffer = new StringBuffer();
             while(cursor.moveToNext()) {
-                // TODO check user type for transporter
-                listItem.add(cursor.getString(4));
+                listItem.add(cursor.getString(1));
             }
             adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItem);
             transporterListView.setAdapter(adapter);
