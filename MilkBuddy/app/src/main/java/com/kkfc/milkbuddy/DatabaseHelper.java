@@ -1,6 +1,7 @@
 package com.kkfc.milkbuddy;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -8,17 +9,6 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "dairy.db";
-
-
-    // User_type table info. A user consists of anyone who actually uses the mobile app
-    public static final String TABLE_USER_TYPE = "user_type_table";
-    public static final String USER_TYPE_ID = "type_id";
-    public static final String USER_TYPE_DEFINITION = "type";
-
-    private String TABLE_CREATE_USER_TYPE = "CREATE TABLE " + TABLE_USER_TYPE + " (" +
-            USER_TYPE_ID + " integer PRIMARY KEY," +
-            USER_TYPE_DEFINITION + " text UNIQUE);";
-
 
     // User table info. A user consists of anyone who actually uses the mobile app
     public static final String TABLE_USER = "user_table";
@@ -35,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             USER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
             USER_USERNAME + " text UNIQUE," +
             USER_PASSWORD + " text," +
-            USER_TYPE + " integer REFERENCES " + TABLE_USER_TYPE + " (" + USER_TYPE_ID + ")," +
+            USER_TYPE + " text, " +
             USER_FIRST_NAME + " text, " +
             USER_LAST_NAME + " text, " +
             USER_PHONE_NUMBER + " text, " +
@@ -80,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CONTAINER_AMOUNT_REMAINING = "amount_remaining";
 
     private String TABLE_CREATE_CONTAINER = "CREATE TABLE " + TABLE_CONTAINER + " (" +
+            // TODO add autoincrement to container ID
             CONTAINER_ID + " integer," +
             CONTAINER_TRANSPORTER_ID + " integer REFERENCES " + TABLE_USER + " (" + USER_ID + ")," +
             CONTAINER_SIZE + " numeric," +
@@ -147,25 +138,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //Log.i("state", TABLE_CREATE_USER);
-        sqLiteDatabase.execSQL(TABLE_CREATE_USER_TYPE);
         sqLiteDatabase.execSQL(TABLE_CREATE_USER);
         sqLiteDatabase.execSQL(TABLE_CREATE_FARMER);
         sqLiteDatabase.execSQL(TABLE_CREATE_ROUTE);
         sqLiteDatabase.execSQL(TABLE_CREATE_CONTAINER);
         sqLiteDatabase.execSQL(TABLE_CREATE_TRANSPORTER_DATA);
         sqLiteDatabase.execSQL(TABLE_CREATE_PLANT_DATA);
+
+        // TODO get rid of this. For now, use this to insert dummy data
+
+        String dummy_data_1 = "INSERT INTO " + TABLE_USER + "(" +
+                USER_USERNAME + "," + USER_PASSWORD + "," + USER_TYPE + "," + USER_FIRST_NAME + ","
+                + USER_LAST_NAME + "," + USER_PHONE_NUMBER + "," + USER_GENDER + ")" +
+                " VALUES('aa','b','c','Celeste','e','f','g')";
+
+        String dummy_data_2 = "INSERT INTO " + TABLE_USER + "(" +
+                USER_USERNAME + "," + USER_PASSWORD + "," + USER_TYPE + "," + USER_FIRST_NAME + ","
+                + USER_LAST_NAME + "," + USER_PHONE_NUMBER + "," + USER_GENDER + ")" +
+                " VALUES('ab','b','c','Malvika','e','f','g')";
+
+        String dummy_data_3 = "INSERT INTO " + TABLE_USER + "(" +
+                USER_USERNAME + "," + USER_PASSWORD + "," + USER_TYPE + "," + USER_FIRST_NAME + ","
+                + USER_LAST_NAME + "," + USER_PHONE_NUMBER + "," + USER_GENDER + ")" +
+                " VALUES('ac','b','c','Priyanka','e','f','g')";
+
+        String dummy_data_4 = "INSERT INTO " + TABLE_USER + "(" +
+                USER_USERNAME + "," + USER_PASSWORD + "," + USER_TYPE + "," + USER_FIRST_NAME + ","
+                + USER_LAST_NAME + "," + USER_PHONE_NUMBER + "," + USER_GENDER + ")" +
+                " VALUES('ad','b','c','Ahmad','e','f','g')";
+
+
+        sqLiteDatabase.execSQL(dummy_data_1);
+        sqLiteDatabase.execSQL(dummy_data_2);
+        sqLiteDatabase.execSQL(dummy_data_3);
+        sqLiteDatabase.execSQL(dummy_data_4);
+
+
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_TYPE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FARMER);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ROUTE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTAINER);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSPORTER_DATA);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANT_DATA);
+    public void onUpgrade(SQLiteDatabase SQLiteDatabase, int i, int i1) {
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FARMER);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ROUTE);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTAINER);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSPORTER_DATA);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANT_DATA);
 
-        onCreate(sqLiteDatabase);
+        onCreate(SQLiteDatabase);
+    }
+
+    // Fetch data
+    public Cursor fetchUsers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USER, null);
+        return cursor;
     }
 }
