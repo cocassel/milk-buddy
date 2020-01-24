@@ -70,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CONTAINER_AMOUNT_REMAINING = "amount_remaining";
 
     private String TABLE_CREATE_CONTAINER = "CREATE TABLE " + TABLE_CONTAINER + " (" +
+            // TODO add autoincrement to container ID
             CONTAINER_ID + " integer," +
             CONTAINER_TRANSPORTER_ID + " integer REFERENCES " + TABLE_USER + " (" + USER_ID + ")," +
             CONTAINER_SIZE + " numeric," +
