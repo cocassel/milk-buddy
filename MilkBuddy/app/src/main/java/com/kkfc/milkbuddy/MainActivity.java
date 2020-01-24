@@ -10,9 +10,8 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper db;
-    private Button transporter;
-    private Button guestTransporter;
-    private Button receiver;
+    private Button start;
+    private Button start2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,41 +19,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         db = new DatabaseHelper(this);
 
-        transporter = findViewById(R.id.button1);
-        transporter.setOnClickListener(new View.OnClickListener() {
+        start = findViewById(R.id.button1);
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transporterLogin();
+                startLogin();
             }
         });
-        guestTransporter = findViewById(R.id.button2);
-        guestTransporter.setOnClickListener(new View.OnClickListener() {
+        start2 = findViewById(R.id.button2);
+        start2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guestTransporterLogin();
+                startLogin();
             }
         });
-        receiver = findViewById(R.id.button3);
-        receiver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                receiverLogin();
-            }
-        });
+
     }
 
-    private void transporterLogin() {
-        Intent intent = new Intent(this, TransporterLogin.class);
-        startActivity(intent);
-    }
-
-    private void guestTransporterLogin() {
-        Intent intent = new Intent(this, GuestTransporter.class);
-        startActivity(intent);
-    }
-
-    private void receiverLogin() {
-        Intent intent = new Intent(this, ReceiverLogin.class);
+    private void startLogin() {
+        Intent intent = new Intent(this, Start.class);
         startActivity(intent);
     }
 }
