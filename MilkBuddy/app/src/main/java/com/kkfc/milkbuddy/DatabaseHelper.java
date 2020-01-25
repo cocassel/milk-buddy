@@ -1,10 +1,21 @@
 package com.kkfc.milkbuddy;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -204,5 +215,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSPORTER, null);
         return cursor;
+    }
+
+
+    // transporters, receivers, and farmers are read in from CSV files
+
+    public void insertTransportersFromCSV() {
+
+        //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+
+        // TODO get permissions working for pixel
+
+        String transportersCsv = "Download/transporters.csv";
+        String receiversCsv = "receivers.csv";
+        String farmersCsv = "farmers.csv";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER);
+
+            String insertStatementPart1 = "INSERT INTO transporter_table (transporter_id, " +
+                    "first_name, last_name, phone_number) values(";
+            String insertStatementPart2 = ");";
+
+            //File transportersCsvFile = new File(Environment.getExternalStorageState(), transportersCsv);
+            //FileReader file = new FileReader(transportersCsvFile);
+
+            // TODO don't hardcode the file path
+            FileReader file = new FileReader("/sdcard/Download/transporters.csv" );
+            BufferedReader buffer = new BufferedReader(file);
+
+            // Skip first line of csv which contains labels/headings
+            String line = buffer.readLine();
+
+            while ((line = buffer.readLine()) != null) {
+                StringBuilder sb = new StringBuilder(insertStatementPart1);
+                String[] str = line.split(",");
+                sb.append("'" + str[0] + "','");
+                sb.append(str[1] + "','");
+                sb.append(str[2] + "','");
+                sb.append(str[3] + "'");
+                sb.append(insertStatementPart2);
+                db.execSQL(sb.toString());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            // Todo: add toast here
+        }
+
     }
 }
