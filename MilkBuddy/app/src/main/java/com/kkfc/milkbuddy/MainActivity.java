@@ -23,21 +23,30 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startLogin();
+                importNewData();
             }
         });
         start2 = findViewById(R.id.button2);
         start2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startLogin();
+                continueWithExistingData();
             }
         });
 
     }
 
-    private void startLogin() {
+    private void importNewData() {
+        db.insertTransportersFromCSV();
         Intent intent = new Intent(this, Start.class);
         startActivity(intent);
     }
+
+    private void continueWithExistingData() {
+        // TODO make sure tables are wiped properly
+        Intent intent = new Intent(this, Start.class);
+        startActivity(intent);
+    }
+
+
 }
