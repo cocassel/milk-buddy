@@ -9,52 +9,44 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseHelper myDb;
-    private Button trnsp;
-    private Button Gsttrnsp;
-    private Button reclog;
+    DatabaseHelper db;
+    private Button start;
+    private Button start2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myDb = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
 
-        trnsp = findViewById(R.id.button1);
-        trnsp.setOnClickListener(new View.OnClickListener() {
+        start = findViewById(R.id.button1);
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trnsplogin();
+                importNewData();
             }
         });
-        Gsttrnsp = findViewById(R.id.button2);
-        Gsttrnsp.setOnClickListener(new View.OnClickListener() {
+        start2 = findViewById(R.id.button2);
+        start2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gsttrnsplogin();
+                continueWithExistingData();
             }
         });
-        reclog = findViewById(R.id.button3);
-        reclog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recverlog();
-            }
-        });
+
     }
 
-    private void trnsplogin() {
-        Intent intent = new Intent(this, TransporterLogin.class);
+    private void importNewData() {
+        db.insertTransportersFromCSV();
+        Intent intent = new Intent(this, Start.class);
         startActivity(intent);
     }
 
-    private void gsttrnsplogin() {
-        Intent intent = new Intent(this, GuestTransporter.class);
+    private void continueWithExistingData() {
+        // TODO make sure tables are wiped properly
+        Intent intent = new Intent(this, Start.class);
         startActivity(intent);
     }
 
-    private void recverlog() {
-        Intent intent = new Intent(this, ReceiverLog.class);
-        startActivity(intent);
-    }
+
 }

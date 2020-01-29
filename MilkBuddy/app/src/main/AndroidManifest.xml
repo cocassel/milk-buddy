@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kkfc.milkbuddy">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Start"></activity>
         <activity android:name=".AddFarmer"></activity>
-        <activity android:name=".ReceiverLog" />
+        <activity android:name=".ReceiverHome" />
+        <activity android:name=".ReceiverLogin" />
         <activity android:name=".GuestTransporter" />
         <activity android:name=".TransporterLogin" />
         <activity android:name=".MainActivity">
