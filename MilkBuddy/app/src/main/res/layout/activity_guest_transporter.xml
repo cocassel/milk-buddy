@@ -6,21 +6,156 @@
     android:layout_height="match_parent"
     tools:context=".GuestTransporter">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="177dp"
-        android:layout_marginLeft="177dp"
-        android:layout_marginTop="351dp"
-        android:layout_marginEnd="176dp"
-        android:layout_marginRight="176dp"
-        android:layout_marginBottom="361dp"
-        android:text="Guest Transporter Login"
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="25sp"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:id="@+id/first_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Guest Transporter Login"
+                android:textColor="#000000"
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/second_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_marginStart="57dp"
+                android:layout_marginLeft="57dp"
+                android:layout_marginTop="40dp"
+                android:text="First Name"
+                android:textColor="#000000"
+                android:textSize="20sp"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/third_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="57dp"
+                android:layout_marginRight="67dp"
+                android:layout_marginBottom="42dp"
+                android:ems="10"
+                android:inputType="textPersonName"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/fourth_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_marginStart="57dp"
+                android:layout_marginLeft="57dp"
+                android:text="Last Name"
+                android:textColor="#000000"
+                android:textSize="20sp"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/fifth_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_marginLeft="57dp"
+                android:layout_marginRight="67dp"
+                android:layout_marginBottom="42dp"
+                android:ems="10"
+                android:inputType="textPersonName"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/sixth_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_marginStart="57dp"
+                android:layout_marginLeft="57dp"
+                android:text="Phone Number"
+                android:textColor="#000000"
+                android:textSize="20sp"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/seventh_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_marginLeft="57dp"
+                android:layout_marginRight="67dp"
+                android:layout_marginBottom="42dp"
+                android:ems="10"
+                android:inputType="textPersonName"/>
+        </TableRow>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout01"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/Button01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:background="#EDF0F0F0">
+            </Button>
+
+            <Button
+                android:id="@+id/Button02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Login"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:background="#EDF0F0F0">
+            </Button>
+        </LinearLayout>
+
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
