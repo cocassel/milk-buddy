@@ -1,6 +1,7 @@
 package com.kkfc.milkbuddy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    private int STORAGE_PERMISSION_CODE = 200;
     public static final String DATABASE_NAME = "dairy.db";
 
     // User table info. A user consists of anyone who actually uses the mobile app
@@ -185,54 +187,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // transporters, receivers, and farmers are read in from CSV files
 
-    public void insertTransportersFromCSV() {
-
-        //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-
-        // TODO get permissions working for pixel
-
-        String transportersCsv = "transporters.csv";
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        try {
-
-            db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER);
-
-            // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO transporter_table (transporter_id, " +
-                    "first_name, last_name, phone_number) values(";
-            String insertStatementPart2 = ");";
-
-            //File transportersCsvFile = new File(Environment.DIRECTORY_DOWNLOADS, transportersCsv);
-            //FileReader file = new FileReader(transportersCsvFile);
-
-            // TODO don't hardcode the file path
-            FileReader file = new FileReader("/sdcard/Download/transporters.csv" );
-            BufferedReader buffer = new BufferedReader(file);
-
-            // Skip first line of csv which contains labels/headings
-            String line = buffer.readLine();
-
-            while ((line = buffer.readLine()) != null) {
-                StringBuilder sb = new StringBuilder(insertStatementPart1);
-                String[] str = line.split(",");
-                sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
-                sb.append(str[3] + "'");
-                sb.append(insertStatementPart2);
-                db.execSQL(sb.toString());
-            }
-            // Todo: add toast here
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            // Todo: add toast here
-        }
-    }
-
-
     public void insertReceiversFromCSV() {
 
         //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
@@ -268,6 +222,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
             }
+            buffer.close();
+
             // Todo: add toast here
 
 
@@ -317,6 +273,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
             }
+            buffer.close();
 
             // Todo: add toast here
 
@@ -324,6 +281,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
 
             // Todo: add toast here
+        }
+    }
+
+    public void insertTransportersFromCSV(BufferedReader buffer) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+
+            db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER);
+
+            // TODO: Don't hardcode this
+            String insertStatementPart1 = "INSERT INTO transporter_table (transporter_id, " +
+                    "first_name, last_name, phone_number) values(";
+            String insertStatementPart2 = ");";
+
+            // Skip first line of csv which contains labels/headings
+            String line = buffer.readLine();
+
+            while ((line = buffer.readLine()) != null) {
+                StringBuilder sb = new StringBuilder(insertStatementPart1);
+                String[] str = line.split(",");
+                sb.append("'" + str[0] + "','");
+                sb.append(str[1] + "','");
+                sb.append(str[2] + "','");
+                sb.append(str[3] + "'");
+                sb.append(insertStatementPart2);
+                db.execSQL(sb.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
