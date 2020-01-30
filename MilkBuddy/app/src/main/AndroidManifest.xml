@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Start"></activity>
-        <activity android:name=".AddFarmer"></activity>
         <activity android:name=".ReceiverHome" />
         <activity android:name=".ReceiverLogin" />
         <activity android:name=".GuestTransporter" />
