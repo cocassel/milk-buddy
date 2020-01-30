@@ -1,0 +1,6 @@
+Farmer ID,Assigned Transporter ID,First Name,Last Name,Phone Number,Active,Expected Collection Time
+1,1,Celeste,Cassel de Camps,111-111-1111,1,10:30
+2,1,Malvika,Balaraj,222-222-2222,0,11:30
+3,2,Priyanka,Brodie,333-333-3333,1,1:00
+4,2,Ada,Hurst,444-444-4444,1,1:05
+5,3,Blair,McKay,555-555-5555,0,2:00
