@@ -1,12 +1,15 @@
 package com.kkfc.milkbuddy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -39,5 +42,24 @@ public class TransporterLogin extends AppCompatActivity {
             adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItem);
             transporterListView.setAdapter(adapter);
         }
+
+        transporterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(TransporterLogin.this, listItem.get(position), Toast.LENGTH_SHORT).show();
+                gototransporterhomepage();
+            }                                                                     
+        });
+
+
+
+
+
+
+
+    }
+    private void gototransporterhomepage() {
+        Intent intent = new Intent(this, TransporterHomepage.class);
+        startActivity(intent);
     }
 }
