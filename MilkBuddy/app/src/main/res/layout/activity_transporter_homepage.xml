@@ -28,7 +28,7 @@
                 android:layout_marginRight="24dp"
                 android:text="Hello Name!"
                 android:textColor="#000000"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
         </TableRow>
 
         <TableRow
@@ -43,7 +43,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:text="My Route"
-                android:textSize="30sp" />
+                android:textSize="24sp" />
 
         </TableRow>
 
@@ -55,7 +55,6 @@
                 android:id="@+id/Spinner1"
                 android:layout_width="350dp"
                 android:layout_height="40dp"
-                android:layout_alightParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
@@ -75,7 +74,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:text="My Containers"
-                android:textSize="30sp" />
+                android:textSize="24sp" />
         </TableRow>
     </TableLayout>
 
