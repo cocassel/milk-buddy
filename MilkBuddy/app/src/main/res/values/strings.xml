@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MilkBuddy</string>
+    
+    <string-array name="routeDropdown">
+        <item>Route 1</item>
+        <item>Route 2</item>
+        <item>Route 3</item>
+        <item>Route 4</item>
+        <item>Route 5</item>
+    </string-array>
 </resources>
