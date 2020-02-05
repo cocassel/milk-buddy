@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class TransporterLogin extends AppCompatActivity {
 
     DatabaseHelper db;
-    ArrayList<String> listItem;
+    ArrayList<String> listItems;
     ArrayAdapter adapter;
     private ListView transporterListView;
 
@@ -27,38 +27,32 @@ public class TransporterLogin extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         Cursor cursor = db.fetchTransporters();
-        listItem = new ArrayList<>();
+        listItems = new ArrayList<>();
         transporterListView = findViewById(R.id.list_view);
 
         if(cursor.getCount() == 0) {
-
             Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
         }
         else {
-            StringBuffer buffer = new StringBuffer();
             while(cursor.moveToNext()) {
-                listItem.add(cursor.getString(1));
+                // 1 is the column for first name
+                listItems.add(cursor.getString(1) + " " + cursor.getString(2));
             }
-            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItem);
+            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
             transporterListView.setAdapter(adapter);
         }
 
         transporterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(TransporterLogin.this, listItem.get(position), Toast.LENGTH_SHORT).show();
-                gototransporterhomepage();
+                Toast.makeText(TransporterLogin.this, listItems.get(position), Toast.LENGTH_SHORT).show();
+                goToTransporterHomepage();
             }                                                                     
         });
 
 
-
-
-
-
-
     }
-    private void gototransporterhomepage() {
+    private void goToTransporterHomepage() {
         Intent intent = new Intent(this, TransporterHomepage.class);
         startActivity(intent);
     }

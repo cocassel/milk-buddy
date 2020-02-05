@@ -12,7 +12,6 @@ import java.io.IOException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private int STORAGE_PERMISSION_CODE = 200;
     public static final String DATABASE_NAME = "dairy.db";
 
     // User table info. A user consists of anyone who actually uses the mobile app
@@ -306,6 +305,70 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sb.append(str[1] + "','");
                 sb.append(str[2] + "','");
                 sb.append(str[3] + "'");
+                sb.append(insertStatementPart2);
+                db.execSQL(sb.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertReceiversFromCSV(BufferedReader buffer) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+
+            db.execSQL("DELETE FROM "+ TABLE_RECEIVER);
+
+            // TODO: Don't hardcode this
+            String insertStatementPart1 = "INSERT INTO receiver_table (receiver_id, " +
+                    "first_name, last_name, phone_number) values(";
+            String insertStatementPart2 = ");";
+
+            // Skip first line of csv which contains labels/headings
+            String line = buffer.readLine();
+
+            while ((line = buffer.readLine()) != null) {
+                StringBuilder sb = new StringBuilder(insertStatementPart1);
+                String[] str = line.split(",");
+                sb.append("'" + str[0] + "','");
+                sb.append(str[1] + "','");
+                sb.append(str[2] + "','");
+                sb.append(str[3] + "'");
+                sb.append(insertStatementPart2);
+                db.execSQL(sb.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertFarmersFromCSV(BufferedReader buffer) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+
+            db.execSQL("DELETE FROM "+ TABLE_FARMER);
+
+            // TODO: Don't hardcode this
+            String insertStatementPart1 = "INSERT INTO farmer_table (farmer_id, " +
+                    "assigned_transporter_id, first_name, last_name, phone_number," +
+                    "active, expected_collection_time) values(";
+            String insertStatementPart2 = ");";
+
+            // Skip first line of csv which contains labels/headings
+            String line = buffer.readLine();
+
+            while ((line = buffer.readLine()) != null) {
+                StringBuilder sb = new StringBuilder(insertStatementPart1);
+                String[] str = line.split(",");
+                sb.append("'" + str[0] + "','");
+                sb.append(str[1] + "','");
+                sb.append(str[2] + "','");
+                sb.append(str[3] + "','");
+                sb.append(str[4] + "','");
+                sb.append(str[5] + "','");
+                sb.append(str[6] + "'");
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
             }

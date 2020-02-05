@@ -14,13 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".ExportData"></activity>
+        <activity android:name=".ImportFarmers" />
+        <activity android:name=".ImportReceivers" />
         <activity android:name=".TransporterHomepage" />
         <activity android:name=".Start" />
         <activity android:name=".ReceiverHome" />
         <activity android:name=".ReceiverLogin" />
         <activity android:name=".GuestTransporter" />
         <activity android:name=".TransporterLogin" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ImportTransporters">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
