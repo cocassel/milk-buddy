@@ -1,12 +1,8 @@
 package com.kkfc.milkbuddy;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,36 +10,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.kkfc.milkbuddy.DatabaseHelper;
+import com.kkfc.milkbuddy.R;
+import com.kkfc.milkbuddy.Start;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class MainActivity extends AppCompatActivity {
+public class ImportReceivers extends AppCompatActivity {
 
     DatabaseHelper db;
     private Button importButton;
     private Button keepExistingButton;
-    private int STORAGE_PERMISSION_CODE = 200;
     private static final int READ_REQUEST_CODE = 42;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_import_receivers);
         db = new DatabaseHelper(this);
 
         importButton = findViewById(R.id.button1);
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-                    ActivityCompat.requestPermissions(MainActivity.this,
-                            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-                }
                 performFileSearch();
 
             }
@@ -53,10 +45,9 @@ public class MainActivity extends AppCompatActivity {
         keepExistingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                continueWithExistingData();
+                continueWithExistingReceiverData();
             }
         });
-
     }
 
     public void performFileSearch() {
@@ -70,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // TODO add error handling
+
         if (requestCode == READ_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // User picks the file
@@ -77,24 +70,23 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(uri);
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    db.insertTransportersFromCSV(reader);
+                    db.insertReceiversFromCSV(reader);
                     inputStream.close();
-                    Toast. makeText(getApplicationContext(),"Transporters have been imported!",Toast. LENGTH_LONG).show();
+                    Toast. makeText(getApplicationContext(),"Receivers have been imported!",Toast. LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast. makeText(getApplicationContext(),"Error importing transporters!",Toast. LENGTH_LONG).show();
+                    Toast. makeText(getApplicationContext(),"Error importing  receivers!",Toast. LENGTH_LONG).show();
                 }
-                Intent intent = new Intent(this, Start.class);
+                Intent intent = new Intent(this, ImportFarmers.class);
                 startActivity(intent);
             } else {
-                Log.i("Didn't work", data.toString());
+                Log.i("Import receivers failed", data.toString());
             }
         }
     }
 
-    private void continueWithExistingData() {
-        Intent intent = new Intent(this, Start.class);
+    private void continueWithExistingReceiverData() {
+        Intent intent = new Intent(this, ImportFarmers.class);
         startActivity(intent);
     }
-
 }
