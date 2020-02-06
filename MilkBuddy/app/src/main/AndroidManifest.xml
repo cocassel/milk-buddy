@@ -18,6 +18,7 @@
         <activity android:name=".ExportData"></activity>
         <activity android:name=".ImportFarmers" />
         <activity android:name=".ImportReceivers" />
+        <activity android:name=".FarmerSearch"></activity>
         <activity android:name=".TransporterHomepage" />
         <activity android:name=".Start" />
         <activity android:name=".ReceiverHome" />
