@@ -176,7 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(SQLiteDatabase);
     }
 
-    // Fetch data
+    // Fetch transporter table
     public Cursor fetchTransporters() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSPORTER, null);
@@ -184,104 +184,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // transporters, receivers, and farmers are read in from CSV files
-
-    public void insertReceiversFromCSV() {
-
-        //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-
-        // TODO get permissions working for pixel
-
-        String receiversCsv = "receivers.csv";
-
+    // Fetch transporter data table
+    public Cursor fetchTransporterData() {
         SQLiteDatabase db = this.getWritableDatabase();
-        try {
-
-            db.execSQL("DELETE FROM " + TABLE_RECEIVER);
-
-            // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO receiver_table (receiver_id, " +
-                    "first_name, last_name, phone_number) values(";
-            String insertStatementPart2 = ");";
-
-            // TODO don't hardcode the file path
-            FileReader file = new FileReader("/sdcard/Download/receivers.csv");
-            BufferedReader buffer = new BufferedReader(file);
-
-            // Skip first line of csv which contains labels/headings
-            String line = buffer.readLine();
-
-            while ((line = buffer.readLine()) != null) {
-                StringBuilder sb = new StringBuilder(insertStatementPart1);
-                String[] str = line.split(",");
-                sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
-                sb.append(str[3] + "'");
-                sb.append(insertStatementPart2);
-                db.execSQL(sb.toString());
-            }
-            buffer.close();
-
-            // Todo: add toast here
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            // TODO: add toast here
-        }
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSPORTER_DATA, null);
+        return cursor;
     }
 
-    public void insertFarmersFromCSV() {
-
-        //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-
-        // TODO get permissions working for pixel
-
-        String farmersCsv = "farmers.csv";
-
+    // Fetch transporter data table
+    public Cursor fetchPlantData() {
         SQLiteDatabase db = this.getWritableDatabase();
-        try {
-
-            db.execSQL("DELETE FROM " + TABLE_FARMER);
-
-            // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO farmer_table (farmer_id, " +
-                    "assigned_transporter_id, first_name, last_name, phone_number," +
-                    "active, expected_collection_time) values(";
-            String insertStatementPart2 = ");";
-
-            // TODO don't hardcode the file path
-            FileReader file = new FileReader("/sdcard/Download/farmers.csv");
-            BufferedReader buffer = new BufferedReader(file);
-
-            // Skip first line of csv which contains labels/headings
-            String line = buffer.readLine();
-
-            while ((line = buffer.readLine()) != null) {
-                StringBuilder sb = new StringBuilder(insertStatementPart1);
-                String[] str = line.split(",");
-                sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
-                sb.append(str[3] + "','");
-                sb.append(str[4] + "','");
-                sb.append(str[5] + "','");
-                sb.append(str[6] + "'");
-                sb.append(insertStatementPart2);
-                db.execSQL(sb.toString());
-            }
-            buffer.close();
-
-            // Todo: add toast here
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            // Todo: add toast here
-        }
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PLANT_DATA, null);
+        return cursor;
     }
+
+
 
     public void insertTransportersFromCSV(BufferedReader buffer) {
 

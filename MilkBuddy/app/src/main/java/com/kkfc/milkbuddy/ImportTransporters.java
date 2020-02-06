@@ -100,7 +100,11 @@ public class ImportTransporters extends AppCompatActivity {
     }
 
     private void continueWithExistingTransporterData() {
+        // TODO move export functionality somewhere else
+        //Comment the following line out to test export
         Intent intent = new Intent(this, ImportReceivers.class);
+        // Uncomment the following line to test export
+        //Intent intent = new Intent(this, ExportData.class);
         startActivity(intent);
     }
 
