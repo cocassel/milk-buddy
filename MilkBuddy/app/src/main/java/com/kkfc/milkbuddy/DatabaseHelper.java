@@ -74,8 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Transporter_data table info
     public static final String TABLE_TRANSPORTER_DATA = "transporter_data_table";
     public static final String TRANSPORTER_DATA_FARMER_ID = "farmer_id";
-    public static final String TRANSPORTER_DATA_FARMER_FIRST_NAME = "farmer_first_name";
-    public static final String TRANSPORTER_DATA_FARMER_LAST_NAME = "farmer_last_name";
+    public static final String TRANSPORTER_DATA_FARMER_NAME = "farmer_name";
     public static final String TRANSPORTER_DATA_FARMER_PHONE_NUMBER = "farmer_phone_number";
     public static final String TRANSPORTER_DATA_TRANSPORTER_ID = "transporter_id";
     public static final String TRANSPORTER_DATA_TRANSPORTER_FIRST_NAME = "transporter_first_name";
@@ -92,7 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // TODO: Take away foreign keys?
     private String TABLE_CREATE_TRANSPORTER_DATA = "CREATE TABLE " + TABLE_TRANSPORTER_DATA+ " (" +
             TRANSPORTER_DATA_FARMER_ID + " integer PRIMARY KEY REFERENCES " + TABLE_FARMER + " (" + FARMER_ID + ")," +
-            TRANSPORTER_DATA_FARMER_FIRST_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_NAME + ")," +
+            TRANSPORTER_DATA_FARMER_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_NAME + ")," +
             TRANSPORTER_DATA_FARMER_PHONE_NUMBER + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_PHONE_NUMBER + ")," +
             TRANSPORTER_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
             TRANSPORTER_DATA_TRANSPORTER_FIRST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_FIRST_NAME + ")," +
@@ -285,7 +284,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 sb.append("'" + str[0] + "','");
                 sb.append(str[1] + "','");
-                // Some names have apostrphones in them so we need to escape them.
+                // Some names have apostrophes in them so we need to escape them.
                 // This is done by using two apostrophes in place of one
                 sb.append(str[2].replace("'", "''")  + "','");
                 sb.append(str[3] + "','");
