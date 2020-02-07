@@ -178,7 +178,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    // Fetch farmer table
+    // Fetch entire farmer table
     public Cursor fetchFarmers() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FARMER + " ORDER BY " + FARMER_NAME, null);

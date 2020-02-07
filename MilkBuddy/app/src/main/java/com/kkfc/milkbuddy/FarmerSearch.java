@@ -30,7 +30,6 @@ public class FarmerSearch extends AppCompatActivity {
     // THE DESIRED COLUMNS TO BE BOUND
     final String[] farmerColumns = new String[]{
             db.FARMER_ID,
-            db.FARMER_ASSIGNED_TRANSPORTER_ID,
             db.FARMER_NAME,
             db.FARMER_EXPECTED_COLLECTION_TIME
     };
@@ -38,7 +37,6 @@ public class FarmerSearch extends AppCompatActivity {
     // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
     final int[] farmerTo = new int[]{
             R.id.farmer_id,
-            R.id.farmer_assigned_transporter_id,
             R.id.farmer_name,
             R.id.farmer_expected_collection_time
     };
@@ -51,7 +49,7 @@ public class FarmerSearch extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
 
-//        // TODO MAKE THIS WORK
+//        // TODO MAKE THIS WORK WITH NEW ADAPTER
 //        farmerSearchView = findViewById(R.id.farmerSearchView);
 //        farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 //
@@ -71,6 +69,7 @@ public class FarmerSearch extends AppCompatActivity {
 //        });
 
 
+        // TODO: Change adapter type so we can get IDs
         // Make dropdown for transporters/routes
         Cursor transporterCursor = db.fetchTransporters();
         transporterListItems = new ArrayList<>();
@@ -101,10 +100,10 @@ public class FarmerSearch extends AppCompatActivity {
             farmerListView.setAdapter(farmerCursorAdapter);
         }
 
-        // Re-fetch farmers when checkbox is toggled
         active_checkbox = findViewById(R.id.checkBox1);
         collected_checkbox = findViewById(R.id.checkBox2);
 
+        // Re-fetch farmers when checkbox is toggled
         active_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
