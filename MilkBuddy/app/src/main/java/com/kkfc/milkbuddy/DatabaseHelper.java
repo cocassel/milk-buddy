@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Farmer table info. Farmers do not use the mobile app and are NOT in the users table above
     public static final String TABLE_FARMER = "farmer_table";
-    public static final String FARMER_ID = "farmer_id";
+    public static final String FARMER_ID = "_id";
     public static final String FARMER_ASSIGNED_TRANSPORTER_ID = "assigned_transporter_id";
     public static final String FARMER_NAME = "name";
     public static final String FARMER_PHONE_NUMBER = "phone_number";
@@ -270,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_FARMER);
 
             // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO farmer_table (farmer_id, " +
+            String insertStatementPart1 = "INSERT INTO farmer_table (_id, " +
                     "assigned_transporter_id, name, phone_number," +
                     "active, expected_collection_time) values(";
             String insertStatementPart2 = ");";

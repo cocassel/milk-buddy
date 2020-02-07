@@ -11,17 +11,17 @@ import android.widget.Toast;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import java.util.ArrayList;
+import android.widget.SimpleCursorAdapter;
 
 public class FarmerSearch extends AppCompatActivity {
 
     DatabaseHelper db;
     private  SearchView farmerSearchView;
-    ArrayList<String> farmerListItems;
-    ArrayAdapter farmerAdapter;
     private ListView farmerListView;
     ArrayList<String> transporterListItems;
     ArrayAdapter transporterAdapter;
     private Spinner transportersSpinnerView;
+    SimpleCursorAdapter farmerCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,22 +29,26 @@ public class FarmerSearch extends AppCompatActivity {
         setContentView(R.layout.activity_farmer_search);
         db = new DatabaseHelper(this);
 
-        farmerSearchView = findViewById(R.id.farmerSearchView);
-        farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 
-            @Override
-            public boolean onQueryTextSubmit(String text) {
-                // TODO Auto-generated method stub
-                return false;
-            }
+//        // TODO MAKE THIS WORK
+//        farmerSearchView = findViewById(R.id.farmerSearchView);
+//        farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
+//
+//            @Override
+//            public boolean onQueryTextSubmit(String text) {
+//
+//                // TODO Auto-generated method stub
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String text) {
+//
+//                farmerCursorAdapter.getFilter().filter(text);
+//                return false;
+//            }
+//        });
 
-            @Override
-            public boolean onQueryTextChange(String text) {
-
-                farmerAdapter.getFilter().filter(text);
-                return false;
-            }
-        });
 
         // Make dropdown for transporters/routes
         Cursor transporterCursor = db.fetchTransporters();
@@ -65,22 +69,31 @@ public class FarmerSearch extends AppCompatActivity {
             transportersSpinnerView.setAdapter(transporterAdapter);
         }
 
-
         // List farmers
         Cursor farmerCursor = db.fetchFarmers();
-        farmerListItems = new ArrayList<>();
         farmerListView = findViewById(R.id.list_view);
-
         if(farmerCursor.getCount() == 0) {
             Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
-        }
-        else {
-            while(farmerCursor.moveToNext()) {
-                // 1 is the column for first name
-                farmerListItems.add(farmerCursor.getString(2));
-            }
-            farmerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, farmerListItems);
-            farmerListView.setAdapter(farmerAdapter);
+        } else {
+            // THE DESIRED COLUMNS TO BE BOUND
+            String[] columns = new String[]{
+                    db.FARMER_ID,
+                    db.FARMER_ASSIGNED_TRANSPORTER_ID,
+                    db.FARMER_NAME,
+                    db.FARMER_ACTIVE,
+                    db.FARMER_EXPECTED_COLLECTION_TIME
+            };
+
+            // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
+            int[] to = new int[]{
+                    R.id.farmer_id,
+                    R.id.farmer_assigned_transporter_id,
+                    R.id.farmer_name,
+                    R.id.farmer_active,
+                    R.id.farmer_expected_collection_time
+            };
+            farmerCursorAdapter = new SimpleCursorAdapter(this, R.layout.farmer_list_entry, farmerCursor, columns, to, 0);
+            farmerListView.setAdapter(farmerCursorAdapter);
         }
 
     }
