@@ -8,12 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import java.util.ArrayList;
 
 public class FarmerSearch extends AppCompatActivity {
 
     DatabaseHelper db;
+    private  SearchView farmerSearchView;
     ArrayList<String> farmerListItems;
     ArrayAdapter farmerAdapter;
     private ListView farmerListView;
@@ -26,6 +28,23 @@ public class FarmerSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_search);
         db = new DatabaseHelper(this);
+
+        farmerSearchView = findViewById(R.id.farmerSearchView);
+        farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String text) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String text) {
+
+                farmerAdapter.getFilter().filter(text);
+                return false;
+            }
+        });
 
         // Make dropdown for transporters/routes
         Cursor transporterCursor = db.fetchTransporters();
