@@ -1,14 +1,12 @@
 package com.kkfc.milkbuddy;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -184,7 +182,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Fetch farmer table
     public Cursor fetchFarmers() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FARMER, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FARMER + " ORDER BY " + FARMER_NAME, null);
         return cursor;
     }
 
@@ -289,7 +287,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sb.append(str[1] + "','");
                 // Some names have apostrphones in them so we need to escape them.
                 // This is done by using two apostrophes in place of one
-                sb.append(str[2].replace("'", "''") + "','");
+                sb.append(str[2].replace("'", "''")  + "','");
                 sb.append(str[3] + "','");
                 sb.append(str[4] + "','");
                 sb.append(str[5] + "'");
