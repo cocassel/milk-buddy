@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +24,25 @@ public class FarmerSearch extends AppCompatActivity {
     ArrayAdapter transporterAdapter;
     private Spinner transportersSpinnerView;
     SimpleCursorAdapter farmerCursorAdapter;
+    CheckBox active_checkbox;
+    CheckBox collected_checkbox;
+
+    // THE DESIRED COLUMNS TO BE BOUND
+    final String[] farmerColumns = new String[]{
+            db.FARMER_ID,
+            db.FARMER_ASSIGNED_TRANSPORTER_ID,
+            db.FARMER_NAME,
+            db.FARMER_EXPECTED_COLLECTION_TIME
+    };
+
+    // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
+    final int[] farmerTo = new int[]{
+            R.id.farmer_id,
+            R.id.farmer_assigned_transporter_id,
+            R.id.farmer_name,
+            R.id.farmer_expected_collection_time
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,29 +93,42 @@ public class FarmerSearch extends AppCompatActivity {
         // List farmers
         Cursor farmerCursor = db.fetchFarmers();
         farmerListView = findViewById(R.id.list_view);
+
         if(farmerCursor.getCount() == 0) {
             Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
         } else {
-            // THE DESIRED COLUMNS TO BE BOUND
-            String[] columns = new String[]{
-                    db.FARMER_ID,
-                    db.FARMER_ASSIGNED_TRANSPORTER_ID,
-                    db.FARMER_NAME,
-                    db.FARMER_ACTIVE,
-                    db.FARMER_EXPECTED_COLLECTION_TIME
-            };
-
-            // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
-            int[] to = new int[]{
-                    R.id.farmer_id,
-                    R.id.farmer_assigned_transporter_id,
-                    R.id.farmer_name,
-                    R.id.farmer_active,
-                    R.id.farmer_expected_collection_time
-            };
-            farmerCursorAdapter = new SimpleCursorAdapter(this, R.layout.farmer_list_entry, farmerCursor, columns, to, 0);
+            farmerCursorAdapter = new SimpleCursorAdapter(this, R.layout.farmer_list_entry, farmerCursor, farmerColumns, farmerTo, 0);
             farmerListView.setAdapter(farmerCursorAdapter);
         }
+
+        // Re-fetch farmers when checkbox is toggled
+        active_checkbox = findViewById(R.id.checkBox1);
+        collected_checkbox = findViewById(R.id.checkBox2);
+
+        active_checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor newFarmerCursor = db.fetchFarmers(
+                        active_checkbox.isChecked(),
+                        collected_checkbox.isChecked(),
+                        // TODO change this
+                        null);
+                farmerCursorAdapter.changeCursor(newFarmerCursor);
+            }
+        });
+
+        // Re-fetch farmers when checkbox is toggled
+        collected_checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor newFarmerCursor = db.fetchFarmers(
+                        active_checkbox.isChecked(),
+                        collected_checkbox.isChecked(),
+                        // TODO change this
+                        null);
+                farmerCursorAdapter.changeCursor(newFarmerCursor);
+            }
+        });
 
     }
 }

@@ -185,6 +185,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    // Fetch farmer table based on checkboxes and dropdown filter
+    public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "SELECT * FROM " + TABLE_FARMER;
+        // if active checkbox is toggled, only select farmers who are active
+        if(active) {
+            insertStatement += " WHERE " + FARMER_ACTIVE + "='1'";
+        }
+        // if collected checkbox is toggled, only select farmers who have not been collected from
+        if(collected) {
+            // TODO
+        }
+        // if a transporter is selected from the dropdown, only select farmers who are on that transporter's route
+        if(id != null) {
+            // TODO
+        }
+        insertStatement += " ORDER BY " + FARMER_NAME;
+        Cursor cursor = db.rawQuery(insertStatement, null);
+        return cursor;
+    }
 
     // Fetch transporter data table
     public Cursor fetchTransporterData() {
