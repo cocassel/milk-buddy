@@ -19,7 +19,7 @@
         <activity android:name=".ImportFarmers" />
         <activity android:name=".ImportReceivers" />
         <activity android:name=".FarmerSearch"></activity>
-        <activity android:name=".TransporterHomepage" />
+        <activity android:name=".TransporterContainerSelection" />
         <activity android:name=".Start" />
         <activity android:name=".ReceiverHome" />
         <activity android:name=".ReceiverLogin" />

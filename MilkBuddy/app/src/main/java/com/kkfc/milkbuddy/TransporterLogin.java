@@ -50,10 +50,9 @@ public class TransporterLogin extends AppCompatActivity {
             }                                                                     
         });
 
-
     }
     private void goToTransporterHomepage() {
-        Intent intent = new Intent(this, TransporterHomepage.class);
+        Intent intent = new Intent(this, TransporterContainerSelection.class);
         startActivity(intent);
     }
 }
