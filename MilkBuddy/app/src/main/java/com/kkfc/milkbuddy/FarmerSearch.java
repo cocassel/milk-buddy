@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -18,7 +19,8 @@ import android.widget.SimpleCursorAdapter;
 public class FarmerSearch extends AppCompatActivity {
 
     DatabaseHelper db;
-    private  SearchView farmerSearchView;
+    private SearchView farmerSearchView;
+    private String searchBarQuery;
     private ListView farmerListView;
     ArrayList<String> transporterListItems;
     ArrayAdapter transporterAdapter;
@@ -47,26 +49,30 @@ public class FarmerSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_search);
         db = new DatabaseHelper(this);
+        
+        searchBarQuery = "";
+        farmerSearchView = findViewById(R.id.farmerSearchView);
+        farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 
+            @Override
+            public boolean onQueryTextSubmit(String text) {
 
-//        // TODO MAKE THIS WORK WITH NEW ADAPTER
-//        farmerSearchView = findViewById(R.id.farmerSearchView);
-//        farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
-//
-//            @Override
-//            public boolean onQueryTextSubmit(String text) {
-//
-//                // TODO Auto-generated method stub
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String text) {
-//
-//                farmerCursorAdapter.getFilter().filter(text);
-//                return false;
-//            }
-//        });
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String text) {
+                searchBarQuery = text;
+                Cursor newFarmerCursor = db.fetchFarmers(
+                        active_checkbox.isChecked(),
+                        collected_checkbox.isChecked(),
+                        // TODO change this
+                        null,
+                        text);
+                farmerCursorAdapter.changeCursor(newFarmerCursor);
+                return false;
+            }
+        });
 
 
         // TODO: Change adapter type so we can get IDs
@@ -111,7 +117,8 @@ public class FarmerSearch extends AppCompatActivity {
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
                         // TODO change this
-                        null);
+                        null,
+                        searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
         });
@@ -124,7 +131,8 @@ public class FarmerSearch extends AppCompatActivity {
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
                         // TODO change this
-                        null);
+                        null,
+                        searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
         });

@@ -186,12 +186,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Fetch farmer table based on checkboxes and dropdown filter
-    public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id) {
+    public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id, String search) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "SELECT * FROM " + TABLE_FARMER;
+        String insertStatement = "SELECT * FROM " + TABLE_FARMER
+                + " WHERE " + FARMER_NAME + " LIKE " + "'%" + search + "%'";
+
         // if active checkbox is toggled, only select farmers who are active
         if(active) {
-            insertStatement += " WHERE " + FARMER_ACTIVE + "='1'";
+            insertStatement += " AND " + FARMER_ACTIVE + "='1'";
         }
         // if collected checkbox is toggled, only select farmers who have not been collected from
         if(collected) {
