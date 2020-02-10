@@ -1,0 +1,14 @@
+package com.kkfc.milkbuddy;
+
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class FarmerCollection extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_farmer_collection);
+    }
+}
