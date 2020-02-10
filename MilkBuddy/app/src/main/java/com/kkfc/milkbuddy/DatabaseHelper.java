@@ -1,13 +1,12 @@
 package com.kkfc.milkbuddy;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -44,10 +43,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Farmer table info. Farmers do not use the mobile app and are NOT in the users table above
     public static final String TABLE_FARMER = "farmer_table";
-    public static final String FARMER_ID = "farmer_id";
+    public static final String FARMER_ID = "_id";
     public static final String FARMER_ASSIGNED_TRANSPORTER_ID = "assigned_transporter_id";
-    public static final String FARMER_FIRST_NAME = "first_name";
-    public static final String FARMER_LAST_NAME = "last_name";
+    public static final String FARMER_NAME = "name";
     public static final String FARMER_PHONE_NUMBER = "phone_number";
     public static final String FARMER_ACTIVE = "active";
     public static final String FARMER_EXPECTED_COLLECTION_TIME = "expected_collection_time";
@@ -55,8 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String TABLE_CREATE_FARMER = "CREATE TABLE " + TABLE_FARMER + " (" +
             FARMER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
             FARMER_ASSIGNED_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
-            FARMER_FIRST_NAME + " text, " +
-            FARMER_LAST_NAME + " text, " +
+            FARMER_NAME + " text, " +
             FARMER_PHONE_NUMBER + " text, " +
             FARMER_ACTIVE + " text, " +
             FARMER_EXPECTED_COLLECTION_TIME + " text);";
@@ -77,8 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Transporter_data table info
     public static final String TABLE_TRANSPORTER_DATA = "transporter_data_table";
     public static final String TRANSPORTER_DATA_FARMER_ID = "farmer_id";
-    public static final String TRANSPORTER_DATA_FARMER_FIRST_NAME = "farmer_first_name";
-    public static final String TRANSPORTER_DATA_FARMER_LAST_NAME = "farmer_last_name";
+    public static final String TRANSPORTER_DATA_FARMER_NAME = "farmer_name";
     public static final String TRANSPORTER_DATA_FARMER_PHONE_NUMBER = "farmer_phone_number";
     public static final String TRANSPORTER_DATA_TRANSPORTER_ID = "transporter_id";
     public static final String TRANSPORTER_DATA_TRANSPORTER_FIRST_NAME = "transporter_first_name";
@@ -95,8 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // TODO: Take away foreign keys?
     private String TABLE_CREATE_TRANSPORTER_DATA = "CREATE TABLE " + TABLE_TRANSPORTER_DATA+ " (" +
             TRANSPORTER_DATA_FARMER_ID + " integer PRIMARY KEY REFERENCES " + TABLE_FARMER + " (" + FARMER_ID + ")," +
-            TRANSPORTER_DATA_FARMER_FIRST_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_FIRST_NAME + ")," +
-            TRANSPORTER_DATA_FARMER_LAST_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_LAST_NAME + ")," +
+            TRANSPORTER_DATA_FARMER_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_NAME + ")," +
             TRANSPORTER_DATA_FARMER_PHONE_NUMBER + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_PHONE_NUMBER + ")," +
             TRANSPORTER_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
             TRANSPORTER_DATA_TRANSPORTER_FIRST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_FIRST_NAME + ")," +
@@ -183,6 +178,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    // Fetch entire farmer table
+    public Cursor fetchFarmers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FARMER + " ORDER BY " + FARMER_NAME, null);
+        return cursor;
+    }
+
+    // Fetch farmer table based on checkboxes and dropdown filter
+    public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id, String search) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "SELECT * FROM " + TABLE_FARMER
+                + " WHERE " + FARMER_NAME + " LIKE " + "'%" + search + "%'";
+
+        // if active checkbox is toggled, only select farmers who are active
+        if(active) {
+            insertStatement += " AND " + FARMER_ACTIVE + "='1'";
+        }
+        // if collected checkbox is toggled, only select farmers who have not been collected from
+        if(collected) {
+            // TODO
+        }
+        // if a transporter is selected from the dropdown, only select farmers who are on that transporter's route
+        if(id != null) {
+            // TODO
+        }
+        insertStatement += " ORDER BY " + FARMER_NAME;
+        Cursor cursor = db.rawQuery(insertStatement, null);
+        return cursor;
+    }
 
     // Fetch transporter data table
     public Cursor fetchTransporterData() {
@@ -268,8 +292,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_FARMER);
 
             // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO farmer_table (farmer_id, " +
-                    "assigned_transporter_id, first_name, last_name, phone_number," +
+            String insertStatementPart1 = "INSERT INTO farmer_table (_id, " +
+                    "assigned_transporter_id, name, phone_number," +
                     "active, expected_collection_time) values(";
             String insertStatementPart2 = ");";
 
@@ -279,16 +303,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while ((line = buffer.readLine()) != null) {
                 StringBuilder sb = new StringBuilder(insertStatementPart1);
                 String[] str = line.split(",");
+
                 sb.append("'" + str[0] + "','");
                 sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
+                // Some names have apostrophes in them so we need to escape them.
+                // This is done by using two apostrophes in place of one
+                sb.append(str[2].replace("'", "''")  + "','");
                 sb.append(str[3] + "','");
                 sb.append(str[4] + "','");
-                sb.append(str[5] + "','");
-                sb.append(str[6] + "'");
+                sb.append(str[5] + "'");
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
             }
+            buffer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

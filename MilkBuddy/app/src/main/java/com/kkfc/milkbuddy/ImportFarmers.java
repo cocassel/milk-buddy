@@ -76,6 +76,8 @@ public class ImportFarmers extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast. makeText(getApplicationContext(),"Error importing farmers!",Toast. LENGTH_LONG).show();
+                    Intent intent = new Intent(this, ImportFarmers.class);
+                    startActivity(intent);
                 }
                 Intent intent = new Intent(this, Start.class);
                 startActivity(intent);
