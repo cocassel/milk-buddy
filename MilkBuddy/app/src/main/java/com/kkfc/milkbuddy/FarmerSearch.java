@@ -8,14 +8,14 @@ import android.database.MergeCursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import java.util.ArrayList;
 import android.widget.SimpleCursorAdapter;
 
 public class FarmerSearch extends AppCompatActivity {
@@ -29,6 +29,7 @@ public class FarmerSearch extends AppCompatActivity {
     SimpleCursorAdapter farmerCursorAdapter;
     CheckBox active_checkbox;
     CheckBox collected_checkbox;
+    int selectedDropdownRoute;
 
     // THE DESIRED COLUMNS TO BE BOUND
     final String[] farmerColumns = new String[]{
@@ -50,7 +51,8 @@ public class FarmerSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_search);
         db = new DatabaseHelper(this);
-        
+
+        selectedDropdownRoute = -1;
         searchBarQuery = "";
         farmerSearchView = findViewById(R.id.farmerSearchView);
         farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
@@ -68,24 +70,18 @@ public class FarmerSearch extends AppCompatActivity {
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
                         // TODO change this
-                        null,
+                        -1,
                         text);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
                 return false;
             }
         });
 
-
-        // TODO: Change adapter type so we can get IDs
-        // TODO: change to just name (not first and last name)
         // Make dropdown for transporters/routes
         String[] transporterAdapterCols=new String[]{"name"};
         int[] transporterAdapterRowViews=new int[]{android.R.id.text1};
 
-
         Cursor transporterCursor = db.fetchTransporters();
-
-
         MatrixCursor allRoutesOption = new MatrixCursor(new String[] { "_id", "name" });
         allRoutesOption.addRow(new String[] { "-1", "All Routes" });
         Cursor[] cursorsToMerge = { allRoutesOption, transporterCursor };
@@ -96,6 +92,35 @@ public class FarmerSearch extends AppCompatActivity {
         transporterCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transportersSpinnerView = findViewById(R.id.Spinner1);
         transportersSpinnerView.setAdapter(transporterCursorAdapter);
+
+        // TODO Finish this
+        transportersSpinnerView.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
+                Cursor cursor = ((SimpleCursorAdapter)parentView.getAdapter()).getCursor();
+                cursor.moveToPosition(position);
+                selectedDropdownRoute = cursor.getInt(cursor.getColumnIndex("_id"));
+
+                // TODO take this away
+                Log.i("ID is", Integer.toString(selectedDropdownRoute));
+
+                // Re-fetch farmers based on route selected from dropdown
+                Cursor newFarmerCursor = db.fetchFarmers(
+                        active_checkbox.isChecked(),
+                        collected_checkbox.isChecked(),
+                        // TODO change this
+                        -1,
+                        searchBarQuery);
+                farmerCursorAdapter.changeCursor(newFarmerCursor);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+
+        });
 
         // List farmers
         Cursor farmerCursor = db.fetchFarmers();
@@ -119,7 +144,7 @@ public class FarmerSearch extends AppCompatActivity {
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
                         // TODO change this
-                        null,
+                        -1,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
@@ -133,7 +158,7 @@ public class FarmerSearch extends AppCompatActivity {
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
                         // TODO change this
-                        null,
+                        -1,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }

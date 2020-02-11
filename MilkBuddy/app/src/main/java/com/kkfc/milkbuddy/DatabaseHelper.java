@@ -190,7 +190,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // TODO
         }
         // if a transporter is selected from the dropdown, only select farmers who are on that transporter's route
-        if(id != null) {
+        // id is -1 for the "All Routes" dropdown item. So when id = -1, don't filter by route.
+        if(id != -1) {
             // TODO
         }
         insertStatement += " ORDER BY " + FARMER_NAME;
