@@ -3,6 +3,8 @@ package com.kkfc.milkbuddy;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,8 +24,7 @@ public class FarmerSearch extends AppCompatActivity {
     private SearchView farmerSearchView;
     private String searchBarQuery;
     private ListView farmerListView;
-    ArrayList<String> transporterListItems;
-    ArrayAdapter transporterAdapter;
+    SimpleCursorAdapter transporterCursorAdapter;
     private Spinner transportersSpinnerView;
     SimpleCursorAdapter farmerCursorAdapter;
     CheckBox active_checkbox;
@@ -76,24 +77,25 @@ public class FarmerSearch extends AppCompatActivity {
 
 
         // TODO: Change adapter type so we can get IDs
+        // TODO: change to just name (not first and last name)
         // Make dropdown for transporters/routes
+        String[] transporterAdapterCols=new String[]{"name"};
+        int[] transporterAdapterRowViews=new int[]{android.R.id.text1};
+
+
         Cursor transporterCursor = db.fetchTransporters();
-        transporterListItems = new ArrayList<>();
-        transporterListItems.add("All Routes");
 
+
+        MatrixCursor allRoutesOption = new MatrixCursor(new String[] { "_id", "name" });
+        allRoutesOption.addRow(new String[] { "-1", "All Routes" });
+        Cursor[] cursorsToMerge = { allRoutesOption, transporterCursor };
+        Cursor routesDropdownCursor = new MergeCursor(cursorsToMerge);
+
+        // Add an option to the dropdown to view all routes (rather than filtering by a single route)
+        transporterCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, routesDropdownCursor, transporterAdapterCols, transporterAdapterRowViews,0);
+        transporterCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transportersSpinnerView = findViewById(R.id.Spinner1);
-
-        if(transporterCursor.getCount() == 0) {
-
-            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
-        }
-        else {
-            while(transporterCursor.moveToNext()) {
-                transporterListItems.add(transporterCursor.getString(1) + " " + transporterCursor.getString(2));
-            }
-            transporterAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, transporterListItems);
-            transportersSpinnerView.setAdapter(transporterAdapter);
-        }
+        transportersSpinnerView.setAdapter(transporterCursorAdapter);
 
         // List farmers
         Cursor farmerCursor = db.fetchFarmers();

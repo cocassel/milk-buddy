@@ -36,7 +36,7 @@ public class TransporterLogin extends AppCompatActivity {
         else {
             while(cursor.moveToNext()) {
                 // 1 is the column for first name
-                listItems.add(cursor.getString(1) + " " + cursor.getString(2));
+                listItems.add(cursor.getString(1));
             }
             adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
             transporterListView.setAdapter(adapter);
