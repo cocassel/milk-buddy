@@ -52,6 +52,7 @@ public class FarmerSearch extends AppCompatActivity {
         setContentView(R.layout.activity_farmer_search);
         db = new DatabaseHelper(this);
 
+        // By default select the option to see all routes (id = -1)
         selectedDropdownRoute = -1;
         searchBarQuery = "";
         farmerSearchView = findViewById(R.id.farmerSearchView);
@@ -69,8 +70,7 @@ public class FarmerSearch extends AppCompatActivity {
                 Cursor newFarmerCursor = db.fetchFarmers(
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
-                        // TODO change this
-                        -1,
+                        selectedDropdownRoute,
                         text);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
                 return false;
@@ -81,13 +81,13 @@ public class FarmerSearch extends AppCompatActivity {
         String[] transporterAdapterCols=new String[]{"name"};
         int[] transporterAdapterRowViews=new int[]{android.R.id.text1};
 
+        // Add an option to the dropdown to view all routes (rather than filtering by a single route)
         Cursor transporterCursor = db.fetchTransporters();
         MatrixCursor allRoutesOption = new MatrixCursor(new String[] { "_id", "name" });
         allRoutesOption.addRow(new String[] { "-1", "All Routes" });
         Cursor[] cursorsToMerge = { allRoutesOption, transporterCursor };
         Cursor routesDropdownCursor = new MergeCursor(cursorsToMerge);
 
-        // Add an option to the dropdown to view all routes (rather than filtering by a single route)
         transporterCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, routesDropdownCursor, transporterAdapterCols, transporterAdapterRowViews,0);
         transporterCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transportersSpinnerView = findViewById(R.id.Spinner1);
@@ -98,6 +98,7 @@ public class FarmerSearch extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
+                // When the dropdown selection changes, fetch the ID of the selected item
                 Cursor cursor = ((SimpleCursorAdapter)parentView.getAdapter()).getCursor();
                 cursor.moveToPosition(position);
                 selectedDropdownRoute = cursor.getInt(cursor.getColumnIndex("_id"));
@@ -109,8 +110,7 @@ public class FarmerSearch extends AppCompatActivity {
                 Cursor newFarmerCursor = db.fetchFarmers(
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
-                        // TODO change this
-                        -1,
+                        selectedDropdownRoute,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
@@ -143,8 +143,7 @@ public class FarmerSearch extends AppCompatActivity {
                 Cursor newFarmerCursor = db.fetchFarmers(
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
-                        // TODO change this
-                        -1,
+                        selectedDropdownRoute,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
@@ -157,8 +156,7 @@ public class FarmerSearch extends AppCompatActivity {
                 Cursor newFarmerCursor = db.fetchFarmers(
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
-                        // TODO change this
-                        -1,
+                        selectedDropdownRoute,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
