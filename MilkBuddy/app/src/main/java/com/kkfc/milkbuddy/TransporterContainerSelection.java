@@ -43,6 +43,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     }public void decreaseInteger(View view) {
         minteger = minteger - 1;
+        if(minteger<0){
+            minteger=0;
+        }
         display(minteger);
     }
 
@@ -61,6 +64,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     }public void decreaseInteger25(View view) {
         minteger25 = minteger25 - 1;
+        if(minteger25<0){
+            minteger25=0;
+        }
         display25(minteger25);
     }
 
@@ -79,6 +85,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     }public void decreaseInteger30(View view) {
         minteger30 = minteger30 - 1;
+        if(minteger30<0){
+            minteger30=0;
+        }
         display30(minteger30);
     }
 
@@ -97,6 +106,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     }public void decreaseInteger35(View view) {
         minteger35 = minteger35 - 1;
+        if(minteger35<0){
+            minteger35=0;
+        }
         display35(minteger35);
     }
 
@@ -115,6 +127,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     }public void decreaseInteger40(View view) {
         minteger40 = minteger40 - 1;
+        if(minteger40<0){
+            minteger40=0;
+        }
         display40(minteger40);
     }
 
@@ -133,6 +148,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     }public void decreaseInteger45(View view) {
         minteger45 = minteger45 - 1;
+        if(minteger45<0){
+            minteger45=0;
+        }
         display45(minteger45);
     }
 
@@ -151,6 +169,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     }public void decreaseInteger50(View view) {
         minteger50 = minteger50 - 1;
+        if(minteger50<0){
+            minteger50=0;
+        }
         display50(minteger50);
     }
 
