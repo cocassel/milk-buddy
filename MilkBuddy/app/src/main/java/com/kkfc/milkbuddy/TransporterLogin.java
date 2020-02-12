@@ -3,22 +3,28 @@ package com.kkfc.milkbuddy;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 
 public class TransporterLogin extends AppCompatActivity {
 
     DatabaseHelper db;
-    ArrayList<String> listItems;
-    ArrayAdapter adapter;
     private ListView transporterListView;
+    SimpleCursorAdapter transporterCursorAdapter;
+    int selectedTransporter;
+
+    // THE DESIRED COLUMNS TO BE BOUND
+    final String[] transporterColumns = new String[]{ db.TRANSPORTER_NAME };
+
+    // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
+    final int[] transporterTo = new int[]{ R.id.transporter_name };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,28 +32,31 @@ public class TransporterLogin extends AppCompatActivity {
         setContentView(R.layout.activity_transporter_login);
         db = new DatabaseHelper(this);
 
-        Cursor cursor = db.fetchTransporters();
-        listItems = new ArrayList<>();
+        // List transporters
+        Cursor transporterCursor = db.fetchTransporters();
         transporterListView = findViewById(R.id.list_view);
 
-        if(cursor.getCount() == 0) {
+        if(transporterCursor.getCount() == 0) {
             Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
-        }
-        else {
-            while(cursor.moveToNext()) {
-                // 1 is the column for first name
-                listItems.add(cursor.getString(1));
-            }
-            adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
-            transporterListView.setAdapter(adapter);
+        } else {
+            transporterCursorAdapter = new SimpleCursorAdapter(this, R.layout.transporter_list_entry, transporterCursor, transporterColumns, transporterTo, 0);
+            transporterListView.setAdapter(transporterCursorAdapter);
         }
 
         transporterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(TransporterLogin.this, listItems.get(position), Toast.LENGTH_SHORT).show();
                 goToTransporterHomepage();
-            }                                                                     
+
+                // When a transporter is selected, fetch the ID of the selected transporter
+                Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
+                cursor.moveToPosition(position);
+                selectedTransporter = cursor.getInt(cursor.getColumnIndex("_id"));
+
+                // TODO: Save logged-in transporter to database
+
+                //Log.i("ID is", Integer.toString(selectedTransporter));
+            }
         });
 
     }

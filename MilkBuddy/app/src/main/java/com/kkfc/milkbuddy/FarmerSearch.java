@@ -34,14 +34,12 @@ public class FarmerSearch extends AppCompatActivity {
 
     // THE DESIRED COLUMNS TO BE BOUND
     final String[] farmerColumns = new String[]{
-            db.FARMER_ID,
             db.FARMER_NAME,
             db.FARMER_EXPECTED_COLLECTION_TIME
     };
 
     // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
     final int[] farmerTo = new int[]{
-            R.id.farmer_id,
             R.id.farmer_name,
             R.id.farmer_expected_collection_time
     };
@@ -104,8 +102,7 @@ public class FarmerSearch extends AppCompatActivity {
                 cursor.moveToPosition(position);
                 selectedDropdownRoute = cursor.getInt(cursor.getColumnIndex("_id"));
 
-                // TODO take this away
-                Log.i("ID is", Integer.toString(selectedDropdownRoute));
+                //Log.i("ID is", Integer.toString(selectedDropdownRoute));
 
                 // Re-fetch farmers based on route selected from dropdown
                 Cursor newFarmerCursor = db.fetchFarmers(
@@ -166,14 +163,18 @@ public class FarmerSearch extends AppCompatActivity {
         farmerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                goToFarmerCollection();
+                Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
+                cursor.moveToPosition(position);
+                int selectedFarmerId = cursor.getInt(cursor.getColumnIndex("_id"));
+                goToFarmerCollection(selectedFarmerId);
             }
         });
 
     }
 
-    private void goToFarmerCollection() {
+    private void goToFarmerCollection(int selectedFarmerId) {
         Intent intent = new Intent(this, FarmerCollection.class);
+        intent.putExtra("farmerId", selectedFarmerId);
         startActivity(intent);
     }
 }
