@@ -188,11 +188,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // if collected checkbox is toggled, only select farmers who have not been collected from
         if(collected) {
             // TODO
+
         }
         // if a transporter is selected from the dropdown, only select farmers who are on that transporter's route
         // id is -1 for the "All Routes" dropdown item. So when id = -1, don't filter by route.
         if(id != -1) {
             // TODO
+            insertStatement += " AND " + FARMER_ASSIGNED_TRANSPORTER_ID + "=" + id;
+
         }
         insertStatement += " ORDER BY " + FARMER_NAME;
         Cursor cursor = db.rawQuery(insertStatement, null);
