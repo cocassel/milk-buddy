@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kkfc.milkbuddy">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
@@ -14,12 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Start"></activity>
+        <activity android:name=".FarmerCollection"></activity>
+        <activity android:name=".ExportData" />
+        <activity android:name=".ImportFarmers" />
+        <activity android:name=".ImportReceivers" />
+        <activity android:name=".FarmerSearch" />
+        <activity android:name=".TransporterContainerSelection" />
+        <activity android:name=".Start" />
         <activity android:name=".ReceiverHome" />
         <activity android:name=".ReceiverLogin" />
         <activity android:name=".GuestTransporter" />
         <activity android:name=".TransporterLogin" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ImportTransporters">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

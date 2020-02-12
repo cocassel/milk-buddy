@@ -1,54 +1,47 @@
 package com.kkfc.milkbuddy;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private int STORAGE_PERMISSION_CODE = 200;
     public static final String DATABASE_NAME = "dairy.db";
 
     // User table info. A user consists of anyone who actually uses the mobile app
     public static final String TABLE_TRANSPORTER = "transporter_table";
-    public static final String TRANSPORTER_ID = "transporter_id";
-    public static final String TRANSPORTER_FIRST_NAME = "first_name";
-    public static final String TRANSPORTER_LAST_NAME = "last_name";
+    public static final String TRANSPORTER_ID = "_id";
+    public static final String TRANSPORTER_NAME = "name";
     public static final String TRANSPORTER_PHONE_NUMBER = "phone_number";
 
     private String TABLE_CREATE_TRANSPORTER = "CREATE TABLE " + TABLE_TRANSPORTER + " (" +
             TRANSPORTER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
-            TRANSPORTER_FIRST_NAME + " text, " +
-            TRANSPORTER_LAST_NAME + " text, " +
+            TRANSPORTER_NAME + " text, " +
             TRANSPORTER_PHONE_NUMBER + " text);";
 
 
     // User table info. A user consists of anyone who actually uses the mobile app
     public static final String TABLE_RECEIVER = "receiver_table";
-    public static final String RECEIVER_ID = "receiver_id";
-    public static final String RECEIVER_FIRST_NAME = "first_name";
-    public static final String RECEIVER_LAST_NAME = "last_name";
+    public static final String RECEIVER_ID = "_id";
+    public static final String RECEIVER_NAME = "name";
     public static final String RECEIVER_PHONE_NUMBER = "phone_number";
 
     private String TABLE_CREATE_RECEIVER = "CREATE TABLE " + TABLE_RECEIVER + " (" +
             RECEIVER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
-            RECEIVER_FIRST_NAME + " text, " +
-            RECEIVER_LAST_NAME + " text, " +
+            RECEIVER_NAME + " text, " +
             RECEIVER_PHONE_NUMBER + " text);";
 
 
     // Farmer table info. Farmers do not use the mobile app and are NOT in the users table above
     public static final String TABLE_FARMER = "farmer_table";
-    public static final String FARMER_ID = "farmer_id";
+    public static final String FARMER_ID = "_id";
     public static final String FARMER_ASSIGNED_TRANSPORTER_ID = "assigned_transporter_id";
-    public static final String FARMER_FIRST_NAME = "first_name";
-    public static final String FARMER_LAST_NAME = "last_name";
+    public static final String FARMER_NAME = "name";
     public static final String FARMER_PHONE_NUMBER = "phone_number";
     public static final String FARMER_ACTIVE = "active";
     public static final String FARMER_EXPECTED_COLLECTION_TIME = "expected_collection_time";
@@ -56,8 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String TABLE_CREATE_FARMER = "CREATE TABLE " + TABLE_FARMER + " (" +
             FARMER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
             FARMER_ASSIGNED_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
-            FARMER_FIRST_NAME + " text, " +
-            FARMER_LAST_NAME + " text, " +
+            FARMER_NAME + " text, " +
             FARMER_PHONE_NUMBER + " text, " +
             FARMER_ACTIVE + " text, " +
             FARMER_EXPECTED_COLLECTION_TIME + " text);";
@@ -78,12 +70,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Transporter_data table info
     public static final String TABLE_TRANSPORTER_DATA = "transporter_data_table";
     public static final String TRANSPORTER_DATA_FARMER_ID = "farmer_id";
-    public static final String TRANSPORTER_DATA_FARMER_FIRST_NAME = "farmer_first_name";
-    public static final String TRANSPORTER_DATA_FARMER_LAST_NAME = "farmer_last_name";
+    public static final String TRANSPORTER_DATA_FARMER_NAME = "farmer_name";
     public static final String TRANSPORTER_DATA_FARMER_PHONE_NUMBER = "farmer_phone_number";
     public static final String TRANSPORTER_DATA_TRANSPORTER_ID = "transporter_id";
-    public static final String TRANSPORTER_DATA_TRANSPORTER_FIRST_NAME = "transporter_first_name";
-    public static final String TRANSPORTER_DATA_TRANSPORTER_LAST_NAME = "transporter_last_name";
+    public static final String TRANSPORTER_DATA_TRANSPORTER_NAME = "transporter_name";
     public static final String TRANSPORTER_DATA_TRANSPORTER_PHONE_NUMBER = "transporter_phone_number";
     public static final String TRANSPORTER_DATA_CONTAINER_ID = "container_id";
     public static final String TRANSPORTER_DATA_QUANTITY_COLLECTED = "quantity_collected";
@@ -96,12 +86,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // TODO: Take away foreign keys?
     private String TABLE_CREATE_TRANSPORTER_DATA = "CREATE TABLE " + TABLE_TRANSPORTER_DATA+ " (" +
             TRANSPORTER_DATA_FARMER_ID + " integer PRIMARY KEY REFERENCES " + TABLE_FARMER + " (" + FARMER_ID + ")," +
-            TRANSPORTER_DATA_FARMER_FIRST_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_FIRST_NAME + ")," +
-            TRANSPORTER_DATA_FARMER_LAST_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_LAST_NAME + ")," +
+            TRANSPORTER_DATA_FARMER_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_NAME + ")," +
             TRANSPORTER_DATA_FARMER_PHONE_NUMBER + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_PHONE_NUMBER + ")," +
             TRANSPORTER_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
-            TRANSPORTER_DATA_TRANSPORTER_FIRST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_FIRST_NAME + ")," +
-            TRANSPORTER_DATA_TRANSPORTER_LAST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_LAST_NAME + ")," +
+            TRANSPORTER_DATA_TRANSPORTER_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_NAME + ")," +
             TRANSPORTER_DATA_TRANSPORTER_PHONE_NUMBER + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_PHONE_NUMBER + ")," +
             TRANSPORTER_DATA_CONTAINER_ID + " integer REFERENCES " + TABLE_CONTAINER + " (" + CONTAINER_ID + ")," +
             TRANSPORTER_DATA_QUANTITY_COLLECTED + " numeric," +
@@ -116,12 +104,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_PLANT_DATA = "plant_data_table";
     public static final String PLANT_DATA_CONTAINER_ID = "container_id";
     public static final String PLANT_DATA_TRANSPORTER_ID = "transporter_id";
-    public static final String PLANT_DATA_TRANSPORTER_FIRST_NAME = "transporter_first_name";
-    public static final String PLANT_DATA_TRANSPORTER_LAST_NAME = "transporter_last_name";
+    public static final String PLANT_DATA_TRANSPORTER_NAME = "transporter_name";
     public static final String PLANT_DATA_TRANSPORTER_PHONE_NUMBER = "transporter_phone_number";
     public static final String PLANT_DATA_RECEIVER_ID = "receiver_id";
-    public static final String PLANT_DATA_RECEIVER_FIRST_NAME = "receiver_first_name";
-    public static final String PLANT_DATA_RECEIVER_LAST_NAME = "receiver_last_name";
+    public static final String PLANT_DATA_RECEIVER_NAME = "receiver_name";
     public static final String PLANT_DATA_RECEIVER_PHONE_NUMBER = "receiver_phone_number";
     public static final String PLANT_DATA_QUANTITY_COLLECTED = "quantity_collected";
     public static final String PLANT_DATA_QUALITY_TEST_SMELL = "smell_test";
@@ -134,12 +120,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String TABLE_CREATE_PLANT_DATA = "CREATE TABLE " + TABLE_PLANT_DATA+ " (" +
             PLANT_DATA_CONTAINER_ID + " integer PRIMARY KEY REFERENCES " + TABLE_CONTAINER + " (" + CONTAINER_ID + ")," +
             PLANT_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
-            PLANT_DATA_TRANSPORTER_FIRST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_FIRST_NAME + ")," +
-            PLANT_DATA_TRANSPORTER_LAST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_LAST_NAME + ")," +
+            PLANT_DATA_TRANSPORTER_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_NAME + ")," +
             PLANT_DATA_TRANSPORTER_PHONE_NUMBER + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_PHONE_NUMBER + ")," +
             PLANT_DATA_RECEIVER_ID + " integer REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_ID + ")," +
-            PLANT_DATA_RECEIVER_FIRST_NAME + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_FIRST_NAME + ")," +
-            PLANT_DATA_RECEIVER_LAST_NAME + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_LAST_NAME + ")," +
+            PLANT_DATA_RECEIVER_NAME + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_NAME + ")," +
             PLANT_DATA_RECEIVER_PHONE_NUMBER + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_PHONE_NUMBER + ")," +
             PLANT_DATA_QUANTITY_COLLECTED + " numeric," +
             PLANT_DATA_QUALITY_TEST_SMELL  + " boolean, " +
@@ -156,7 +140,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        //Log.i("state", TABLE_CREATE_USER);
         sqLiteDatabase.execSQL(TABLE_CREATE_TRANSPORTER);
         sqLiteDatabase.execSQL(TABLE_CREATE_RECEIVER);
         sqLiteDatabase.execSQL(TABLE_CREATE_FARMER);
@@ -177,111 +160,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(SQLiteDatabase);
     }
 
-    // Fetch data
+    // Fetch transporter table
     public Cursor fetchTransporters() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSPORTER, null);
         return cursor;
     }
 
-
-    // transporters, receivers, and farmers are read in from CSV files
-
-    public void insertReceiversFromCSV() {
-
-        //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-
-        // TODO get permissions working for pixel
-
-        String receiversCsv = "receivers.csv";
-
+    // Fetch entire farmer table
+    public Cursor fetchFarmers() {
         SQLiteDatabase db = this.getWritableDatabase();
-        try {
-
-            db.execSQL("DELETE FROM " + TABLE_RECEIVER);
-
-            // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO receiver_table (receiver_id, " +
-                    "first_name, last_name, phone_number) values(";
-            String insertStatementPart2 = ");";
-
-            // TODO don't hardcode the file path
-            FileReader file = new FileReader("/sdcard/Download/receivers.csv");
-            BufferedReader buffer = new BufferedReader(file);
-
-            // Skip first line of csv which contains labels/headings
-            String line = buffer.readLine();
-
-            while ((line = buffer.readLine()) != null) {
-                StringBuilder sb = new StringBuilder(insertStatementPart1);
-                String[] str = line.split(",");
-                sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
-                sb.append(str[3] + "'");
-                sb.append(insertStatementPart2);
-                db.execSQL(sb.toString());
-            }
-            buffer.close();
-
-            // Todo: add toast here
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            // TODO: add toast here
-        }
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FARMER + " ORDER BY " + FARMER_NAME, null);
+        return cursor;
     }
 
-    public void insertFarmersFromCSV() {
-
-        //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-
-        // TODO get permissions working for pixel
-
-        String farmersCsv = "farmers.csv";
-
+    // Fetch farmer table based on checkboxes, dropdown filter, and search bar
+    public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id, String search) {
         SQLiteDatabase db = this.getWritableDatabase();
-        try {
+        String insertStatement = "SELECT * FROM " + TABLE_FARMER
+                + " WHERE " + FARMER_NAME + " LIKE " + "'%" + search + "%'";
 
-            db.execSQL("DELETE FROM " + TABLE_FARMER);
-
-            // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO farmer_table (farmer_id, " +
-                    "assigned_transporter_id, first_name, last_name, phone_number," +
-                    "active, expected_collection_time) values(";
-            String insertStatementPart2 = ");";
-
-            // TODO don't hardcode the file path
-            FileReader file = new FileReader("/sdcard/Download/farmers.csv");
-            BufferedReader buffer = new BufferedReader(file);
-
-            // Skip first line of csv which contains labels/headings
-            String line = buffer.readLine();
-
-            while ((line = buffer.readLine()) != null) {
-                StringBuilder sb = new StringBuilder(insertStatementPart1);
-                String[] str = line.split(",");
-                sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
-                sb.append(str[3] + "','");
-                sb.append(str[4] + "','");
-                sb.append(str[5] + "','");
-                sb.append(str[6] + "'");
-                sb.append(insertStatementPart2);
-                db.execSQL(sb.toString());
-            }
-            buffer.close();
-
-            // Todo: add toast here
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            // Todo: add toast here
+        // if active checkbox is toggled, only select farmers who are active
+        if(active) {
+            insertStatement += " AND " + FARMER_ACTIVE + "='1'";
         }
+        // if collected checkbox is toggled, only select farmers who have not been collected from
+        if(collected) {
+            insertStatement += " AND " + FARMER_ID + " NOT IN (SELECT " + TRANSPORTER_DATA_FARMER_ID
+                    + " FROM " + TABLE_TRANSPORTER_DATA + ")" ;
+        }
+        // if a transporter is selected from the dropdown, only select farmers who are on that transporter's route
+        // id is -1 for the "All Routes" dropdown item. So when id = -1, don't filter by route.
+        if(id != -1) {
+            insertStatement += " AND " + FARMER_ASSIGNED_TRANSPORTER_ID + "=" + id;
+
+        }
+        insertStatement += " ORDER BY " + FARMER_NAME;
+        Cursor cursor = db.rawQuery(insertStatement, null);
+        return cursor;
+    }
+
+    // Fetch transporter data table
+    public Cursor fetchTransporterData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TRANSPORTER_DATA, null);
+        return cursor;
+    }
+
+    // Fetch transporter data table
+    public Cursor fetchPlantData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PLANT_DATA, null);
+        return cursor;
     }
 
     public void insertTransportersFromCSV(BufferedReader buffer) {
@@ -292,8 +222,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER);
 
             // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO transporter_table (transporter_id, " +
-                    "first_name, last_name, phone_number) values(";
+            String insertStatementPart1 = "INSERT INTO transporter_table (_id, " +
+                    "name, phone_number) values(";
             String insertStatementPart2 = ");";
 
             // Skip first line of csv which contains labels/headings
@@ -304,11 +234,76 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String[] str = line.split(",");
                 sb.append("'" + str[0] + "','");
                 sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
-                sb.append(str[3] + "'");
+                sb.append(str[2] + "'");
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertReceiversFromCSV(BufferedReader buffer) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+
+            db.execSQL("DELETE FROM "+ TABLE_RECEIVER);
+
+            // TODO: Don't hardcode this
+            String insertStatementPart1 = "INSERT INTO receiver_table (_id, " +
+                    "name, phone_number) values(";
+            String insertStatementPart2 = ");";
+
+            // Skip first line of csv which contains labels/headings
+            String line = buffer.readLine();
+
+            while ((line = buffer.readLine()) != null) {
+                StringBuilder sb = new StringBuilder(insertStatementPart1);
+                String[] str = line.split(",");
+                sb.append("'" + str[0] + "','");
+                sb.append(str[1] + "','");
+                sb.append(str[2] + "'");
+                sb.append(insertStatementPart2);
+                db.execSQL(sb.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertFarmersFromCSV(BufferedReader buffer) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+
+            db.execSQL("DELETE FROM "+ TABLE_FARMER);
+
+            // TODO: Don't hardcode this
+            String insertStatementPart1 = "INSERT INTO farmer_table (_id, " +
+                    "assigned_transporter_id, name, phone_number," +
+                    "active, expected_collection_time) values(";
+            String insertStatementPart2 = ");";
+
+            // Skip first line of csv which contains labels/headings
+            String line = buffer.readLine();
+
+            while ((line = buffer.readLine()) != null) {
+                StringBuilder sb = new StringBuilder(insertStatementPart1);
+                String[] str = line.split(",");
+
+                sb.append("'" + str[0] + "','");
+                sb.append(str[1] + "','");
+                // Some names have apostrophes in them so we need to escape them.
+                // This is done by using two apostrophes in place of one
+                sb.append(str[2].replace("'", "''")  + "','");
+                sb.append(str[3] + "','");
+                sb.append(str[4] + "','");
+                sb.append(str[5] + "'");
+                sb.append(insertStatementPart2);
+                db.execSQL(sb.toString());
+            }
+            buffer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
