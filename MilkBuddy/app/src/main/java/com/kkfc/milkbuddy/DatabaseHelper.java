@@ -15,29 +15,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // User table info. A user consists of anyone who actually uses the mobile app
     public static final String TABLE_TRANSPORTER = "transporter_table";
-    public static final String TRANSPORTER_ID = "transporter_id";
-    public static final String TRANSPORTER_FIRST_NAME = "first_name";
-    public static final String TRANSPORTER_LAST_NAME = "last_name";
+    public static final String TRANSPORTER_ID = "_id";
+    public static final String TRANSPORTER_NAME = "name";
     public static final String TRANSPORTER_PHONE_NUMBER = "phone_number";
 
     private String TABLE_CREATE_TRANSPORTER = "CREATE TABLE " + TABLE_TRANSPORTER + " (" +
             TRANSPORTER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
-            TRANSPORTER_FIRST_NAME + " text, " +
-            TRANSPORTER_LAST_NAME + " text, " +
+            TRANSPORTER_NAME + " text, " +
             TRANSPORTER_PHONE_NUMBER + " text);";
 
 
     // User table info. A user consists of anyone who actually uses the mobile app
     public static final String TABLE_RECEIVER = "receiver_table";
-    public static final String RECEIVER_ID = "receiver_id";
-    public static final String RECEIVER_FIRST_NAME = "first_name";
-    public static final String RECEIVER_LAST_NAME = "last_name";
+    public static final String RECEIVER_ID = "_id";
+    public static final String RECEIVER_NAME = "name";
     public static final String RECEIVER_PHONE_NUMBER = "phone_number";
 
     private String TABLE_CREATE_RECEIVER = "CREATE TABLE " + TABLE_RECEIVER + " (" +
             RECEIVER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
-            RECEIVER_FIRST_NAME + " text, " +
-            RECEIVER_LAST_NAME + " text, " +
+            RECEIVER_NAME + " text, " +
             RECEIVER_PHONE_NUMBER + " text);";
 
 
@@ -77,8 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TRANSPORTER_DATA_FARMER_NAME = "farmer_name";
     public static final String TRANSPORTER_DATA_FARMER_PHONE_NUMBER = "farmer_phone_number";
     public static final String TRANSPORTER_DATA_TRANSPORTER_ID = "transporter_id";
-    public static final String TRANSPORTER_DATA_TRANSPORTER_FIRST_NAME = "transporter_first_name";
-    public static final String TRANSPORTER_DATA_TRANSPORTER_LAST_NAME = "transporter_last_name";
+    public static final String TRANSPORTER_DATA_TRANSPORTER_NAME = "transporter_name";
     public static final String TRANSPORTER_DATA_TRANSPORTER_PHONE_NUMBER = "transporter_phone_number";
     public static final String TRANSPORTER_DATA_CONTAINER_ID = "container_id";
     public static final String TRANSPORTER_DATA_QUANTITY_COLLECTED = "quantity_collected";
@@ -94,8 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             TRANSPORTER_DATA_FARMER_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_NAME + ")," +
             TRANSPORTER_DATA_FARMER_PHONE_NUMBER + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_PHONE_NUMBER + ")," +
             TRANSPORTER_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
-            TRANSPORTER_DATA_TRANSPORTER_FIRST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_FIRST_NAME + ")," +
-            TRANSPORTER_DATA_TRANSPORTER_LAST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_LAST_NAME + ")," +
+            TRANSPORTER_DATA_TRANSPORTER_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_NAME + ")," +
             TRANSPORTER_DATA_TRANSPORTER_PHONE_NUMBER + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_PHONE_NUMBER + ")," +
             TRANSPORTER_DATA_CONTAINER_ID + " integer REFERENCES " + TABLE_CONTAINER + " (" + CONTAINER_ID + ")," +
             TRANSPORTER_DATA_QUANTITY_COLLECTED + " numeric," +
@@ -110,12 +104,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_PLANT_DATA = "plant_data_table";
     public static final String PLANT_DATA_CONTAINER_ID = "container_id";
     public static final String PLANT_DATA_TRANSPORTER_ID = "transporter_id";
-    public static final String PLANT_DATA_TRANSPORTER_FIRST_NAME = "transporter_first_name";
-    public static final String PLANT_DATA_TRANSPORTER_LAST_NAME = "transporter_last_name";
+    public static final String PLANT_DATA_TRANSPORTER_NAME = "transporter_name";
     public static final String PLANT_DATA_TRANSPORTER_PHONE_NUMBER = "transporter_phone_number";
     public static final String PLANT_DATA_RECEIVER_ID = "receiver_id";
-    public static final String PLANT_DATA_RECEIVER_FIRST_NAME = "receiver_first_name";
-    public static final String PLANT_DATA_RECEIVER_LAST_NAME = "receiver_last_name";
+    public static final String PLANT_DATA_RECEIVER_NAME = "receiver_name";
     public static final String PLANT_DATA_RECEIVER_PHONE_NUMBER = "receiver_phone_number";
     public static final String PLANT_DATA_QUANTITY_COLLECTED = "quantity_collected";
     public static final String PLANT_DATA_QUALITY_TEST_SMELL = "smell_test";
@@ -128,12 +120,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String TABLE_CREATE_PLANT_DATA = "CREATE TABLE " + TABLE_PLANT_DATA+ " (" +
             PLANT_DATA_CONTAINER_ID + " integer PRIMARY KEY REFERENCES " + TABLE_CONTAINER + " (" + CONTAINER_ID + ")," +
             PLANT_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
-            PLANT_DATA_TRANSPORTER_FIRST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_FIRST_NAME + ")," +
-            PLANT_DATA_TRANSPORTER_LAST_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_LAST_NAME + ")," +
+            PLANT_DATA_TRANSPORTER_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_NAME + ")," +
             PLANT_DATA_TRANSPORTER_PHONE_NUMBER + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_PHONE_NUMBER + ")," +
             PLANT_DATA_RECEIVER_ID + " integer REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_ID + ")," +
-            PLANT_DATA_RECEIVER_FIRST_NAME + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_FIRST_NAME + ")," +
-            PLANT_DATA_RECEIVER_LAST_NAME + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_LAST_NAME + ")," +
+            PLANT_DATA_RECEIVER_NAME + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_NAME + ")," +
             PLANT_DATA_RECEIVER_PHONE_NUMBER + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_PHONE_NUMBER + ")," +
             PLANT_DATA_QUANTITY_COLLECTED + " numeric," +
             PLANT_DATA_QUALITY_TEST_SMELL  + " boolean, " +
@@ -150,7 +140,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        //Log.i("state", TABLE_CREATE_USER);
         sqLiteDatabase.execSQL(TABLE_CREATE_TRANSPORTER);
         sqLiteDatabase.execSQL(TABLE_CREATE_RECEIVER);
         sqLiteDatabase.execSQL(TABLE_CREATE_FARMER);
@@ -185,7 +174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    // Fetch farmer table based on checkboxes and dropdown filter
+    // Fetch farmer table based on checkboxes, dropdown filter, and search bar
     public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id, String search) {
         SQLiteDatabase db = this.getWritableDatabase();
         String insertStatement = "SELECT * FROM " + TABLE_FARMER
@@ -197,11 +186,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         // if collected checkbox is toggled, only select farmers who have not been collected from
         if(collected) {
-            // TODO
+            insertStatement += " AND " + FARMER_ID + " NOT IN (SELECT " + TRANSPORTER_DATA_FARMER_ID
+                    + " FROM " + TABLE_TRANSPORTER_DATA + ")" ;
         }
         // if a transporter is selected from the dropdown, only select farmers who are on that transporter's route
-        if(id != null) {
-            // TODO
+        // id is -1 for the "All Routes" dropdown item. So when id = -1, don't filter by route.
+        if(id != -1) {
+            insertStatement += " AND " + FARMER_ASSIGNED_TRANSPORTER_ID + "=" + id;
+
         }
         insertStatement += " ORDER BY " + FARMER_NAME;
         Cursor cursor = db.rawQuery(insertStatement, null);
@@ -222,8 +214,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-
-
     public void insertTransportersFromCSV(BufferedReader buffer) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -232,8 +222,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER);
 
             // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO transporter_table (transporter_id, " +
-                    "first_name, last_name, phone_number) values(";
+            String insertStatementPart1 = "INSERT INTO transporter_table (_id, " +
+                    "name, phone_number) values(";
             String insertStatementPart2 = ");";
 
             // Skip first line of csv which contains labels/headings
@@ -244,8 +234,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String[] str = line.split(",");
                 sb.append("'" + str[0] + "','");
                 sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
-                sb.append(str[3] + "'");
+                sb.append(str[2] + "'");
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
             }
@@ -262,8 +251,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_RECEIVER);
 
             // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO receiver_table (receiver_id, " +
-                    "first_name, last_name, phone_number) values(";
+            String insertStatementPart1 = "INSERT INTO receiver_table (_id, " +
+                    "name, phone_number) values(";
             String insertStatementPart2 = ");";
 
             // Skip first line of csv which contains labels/headings
@@ -274,8 +263,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String[] str = line.split(",");
                 sb.append("'" + str[0] + "','");
                 sb.append(str[1] + "','");
-                sb.append(str[2] + "','");
-                sb.append(str[3] + "'");
+                sb.append(str[2] + "'");
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
             }

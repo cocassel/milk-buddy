@@ -1,20 +1,23 @@
 package com.kkfc.milkbuddy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import java.util.ArrayList;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class FarmerSearch extends AppCompatActivity {
 
@@ -22,23 +25,21 @@ public class FarmerSearch extends AppCompatActivity {
     private SearchView farmerSearchView;
     private String searchBarQuery;
     private ListView farmerListView;
-    ArrayList<String> transporterListItems;
-    ArrayAdapter transporterAdapter;
+    SimpleCursorAdapter transporterCursorAdapter;
     private Spinner transportersSpinnerView;
     SimpleCursorAdapter farmerCursorAdapter;
     CheckBox active_checkbox;
     CheckBox collected_checkbox;
+    int selectedDropdownRoute;
 
     // THE DESIRED COLUMNS TO BE BOUND
     final String[] farmerColumns = new String[]{
-            db.FARMER_ID,
             db.FARMER_NAME,
             db.FARMER_EXPECTED_COLLECTION_TIME
     };
 
     // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
     final int[] farmerTo = new int[]{
-            R.id.farmer_id,
             R.id.farmer_name,
             R.id.farmer_expected_collection_time
     };
@@ -49,7 +50,9 @@ public class FarmerSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_search);
         db = new DatabaseHelper(this);
-        
+
+        // By default select the option to see all routes (id = -1)
+        selectedDropdownRoute = -1;
         searchBarQuery = "";
         farmerSearchView = findViewById(R.id.farmerSearchView);
         farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
@@ -66,34 +69,56 @@ public class FarmerSearch extends AppCompatActivity {
                 Cursor newFarmerCursor = db.fetchFarmers(
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
-                        // TODO change this
-                        null,
+                        selectedDropdownRoute,
                         text);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
                 return false;
             }
         });
 
-
-        // TODO: Change adapter type so we can get IDs
         // Make dropdown for transporters/routes
+        String[] transporterAdapterCols=new String[]{"name"};
+        int[] transporterAdapterRowViews=new int[]{android.R.id.text1};
+
+        // Add an option to the dropdown to view all routes (rather than filtering by a single route)
         Cursor transporterCursor = db.fetchTransporters();
-        transporterListItems = new ArrayList<>();
-        transporterListItems.add("All Routes");
+        MatrixCursor allRoutesOption = new MatrixCursor(new String[] { "_id", "name" });
+        allRoutesOption.addRow(new String[] { "-1", "All Routes" });
+        Cursor[] cursorsToMerge = { allRoutesOption, transporterCursor };
+        Cursor routesDropdownCursor = new MergeCursor(cursorsToMerge);
 
+        transporterCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, routesDropdownCursor, transporterAdapterCols, transporterAdapterRowViews,0);
+        transporterCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transportersSpinnerView = findViewById(R.id.Spinner1);
+        transportersSpinnerView.setAdapter(transporterCursorAdapter);
 
-        if(transporterCursor.getCount() == 0) {
+        // TODO Finish this
+        transportersSpinnerView.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
-        }
-        else {
-            while(transporterCursor.moveToNext()) {
-                transporterListItems.add(transporterCursor.getString(1) + " " + transporterCursor.getString(2));
+                // When the dropdown selection changes, fetch the ID of the selected item
+                Cursor cursor = ((SimpleCursorAdapter)parentView.getAdapter()).getCursor();
+                cursor.moveToPosition(position);
+                selectedDropdownRoute = cursor.getInt(cursor.getColumnIndex("_id"));
+
+                //Log.i("ID is", Integer.toString(selectedDropdownRoute));
+
+                // Re-fetch farmers based on route selected from dropdown
+                Cursor newFarmerCursor = db.fetchFarmers(
+                        active_checkbox.isChecked(),
+                        collected_checkbox.isChecked(),
+                        selectedDropdownRoute,
+                        searchBarQuery);
+                farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
-            transporterAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, transporterListItems);
-            transportersSpinnerView.setAdapter(transporterAdapter);
-        }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+
+        });
 
         // List farmers
         Cursor farmerCursor = db.fetchFarmers();
@@ -116,8 +141,7 @@ public class FarmerSearch extends AppCompatActivity {
                 Cursor newFarmerCursor = db.fetchFarmers(
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
-                        // TODO change this
-                        null,
+                        selectedDropdownRoute,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
@@ -130,12 +154,27 @@ public class FarmerSearch extends AppCompatActivity {
                 Cursor newFarmerCursor = db.fetchFarmers(
                         active_checkbox.isChecked(),
                         collected_checkbox.isChecked(),
-                        // TODO change this
-                        null,
+                        selectedDropdownRoute,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
             }
         });
 
+        farmerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
+                cursor.moveToPosition(position);
+                int selectedFarmerId = cursor.getInt(cursor.getColumnIndex("_id"));
+                goToFarmerCollection(selectedFarmerId);
+            }
+        });
+
+    }
+
+    private void goToFarmerCollection(int selectedFarmerId) {
+        Intent intent = new Intent(this, FarmerCollection.class);
+        intent.putExtra("farmerId", selectedFarmerId);
+        startActivity(intent);
     }
 }
