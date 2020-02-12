@@ -1,7 +1,6 @@
 package com.kkfc.milkbuddy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
@@ -12,11 +11,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class FarmerSearch extends AppCompatActivity {
 
@@ -159,5 +160,17 @@ public class FarmerSearch extends AppCompatActivity {
             }
         });
 
+        farmerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                goToFarmerCollection();
+            }
+        });
+
+    }
+
+    private void goToFarmerCollection() {
+        Intent intent = new Intent(this, FarmerCollection.class);
+        startActivity(intent);
     }
 }
