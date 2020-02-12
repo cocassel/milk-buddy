@@ -2,6 +2,7 @@ package com.kkfc.milkbuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,36 +11,41 @@ import androidx.appcompat.app.AppCompatActivity;
 public class FarmerCollection extends AppCompatActivity {
 
 
-    private Button cancelcollection;
-
-    private Button savecollection;
+    private Button cancelCollection;
+    private Button saveCollection;
+    private int farmerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_collection);
 
-        cancelcollection = findViewById(R.id.Button1);
-        cancelcollection.setOnClickListener(new View.OnClickListener() {
+        Intent intent = getIntent();
+        // Get the farmer ID, which was passed from the farmer search activity page
+        farmerId = intent.getIntExtra("farmerId", 1);
+
+        //Log.i("Farmer ID is", Integer.toString(farmerId));
+
+        cancelCollection = findViewById(R.id.Button1);
+        cancelCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                returntofarmersearch();
+                returnToFarmerSearch();
             }
         });
 
-        savecollection = findViewById(R.id.Button2);
-        savecollection.setOnClickListener(new View.OnClickListener() {
+        saveCollection = findViewById(R.id.Button2);
+        saveCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //save data into database
-                returntofarmersearch();
+                //TODO: save data into database
+                returnToFarmerSearch();
             }
         });
-
 
     }
 
-    private void returntofarmersearch() {
+    private void returnToFarmerSearch() {
         Intent intent = new Intent(this, FarmerSearch.class);
         startActivity(intent);
     }

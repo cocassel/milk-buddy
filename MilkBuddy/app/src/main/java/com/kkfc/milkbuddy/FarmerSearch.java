@@ -163,14 +163,18 @@ public class FarmerSearch extends AppCompatActivity {
         farmerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                goToFarmerCollection();
+                Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
+                cursor.moveToPosition(position);
+                int selectedFarmerId = cursor.getInt(cursor.getColumnIndex("_id"));
+                goToFarmerCollection(selectedFarmerId);
             }
         });
 
     }
 
-    private void goToFarmerCollection() {
+    private void goToFarmerCollection(int selectedFarmerId) {
         Intent intent = new Intent(this, FarmerCollection.class);
+        intent.putExtra("farmerId", selectedFarmerId);
         startActivity(intent);
     }
 }
