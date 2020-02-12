@@ -140,7 +140,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        //Log.i("state", TABLE_CREATE_USER);
         sqLiteDatabase.execSQL(TABLE_CREATE_TRANSPORTER);
         sqLiteDatabase.execSQL(TABLE_CREATE_RECEIVER);
         sqLiteDatabase.execSQL(TABLE_CREATE_FARMER);
@@ -175,7 +174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    // Fetch farmer table based on checkboxes and dropdown filter
+    // Fetch farmer table based on checkboxes, dropdown filter, and search bar
     public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id, String search) {
         SQLiteDatabase db = this.getWritableDatabase();
         String insertStatement = "SELECT * FROM " + TABLE_FARMER
@@ -187,13 +186,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         // if collected checkbox is toggled, only select farmers who have not been collected from
         if(collected) {
-            // TODO
-
+            insertStatement += " AND " + FARMER_ID + " NOT IN (SELECT " + TRANSPORTER_DATA_FARMER_ID
+                    + " FROM " + TABLE_TRANSPORTER_DATA + ")" ;
         }
         // if a transporter is selected from the dropdown, only select farmers who are on that transporter's route
         // id is -1 for the "All Routes" dropdown item. So when id = -1, don't filter by route.
         if(id != -1) {
-            // TODO
             insertStatement += " AND " + FARMER_ASSIGNED_TRANSPORTER_ID + "=" + id;
 
         }
@@ -215,8 +213,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PLANT_DATA, null);
         return cursor;
     }
-
-
 
     public void insertTransportersFromCSV(BufferedReader buffer) {
 

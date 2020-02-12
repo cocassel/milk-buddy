@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".FarmerCollection">
 
+
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="0dp"
@@ -62,11 +63,12 @@
 
             <RadioGroup
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radioButton1"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pass" />
 
@@ -78,7 +80,7 @@
 
                 <RadioButton
                     android:id="@+id/radioButton3"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A" />
             </RadioGroup>
@@ -102,11 +104,12 @@
 
             <RadioGroup
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radioButton4"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pass" />
 
@@ -118,7 +121,7 @@
 
                 <RadioButton
                     android:id="@+id/radioButton6"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A" />
             </RadioGroup>
@@ -142,12 +145,12 @@
                 android:textSize="25sp" />
 
             <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <RadioButton
                     android:id="@+id/radioButton7"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="27L" />
 
@@ -159,7 +162,7 @@
 
                 <RadioButton
                     android:id="@+id/radioButton9"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="29L" />
 
@@ -171,7 +174,7 @@
 
                 <RadioButton
                     android:id="@+id/radioButton11"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A" />
             </RadioGroup>

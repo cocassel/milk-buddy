@@ -102,7 +102,7 @@ public class FarmerSearch extends AppCompatActivity {
                 cursor.moveToPosition(position);
                 selectedDropdownRoute = cursor.getInt(cursor.getColumnIndex("_id"));
 
-                Log.i("ID is", Integer.toString(selectedDropdownRoute));
+                //Log.i("ID is", Integer.toString(selectedDropdownRoute));
 
                 // Re-fetch farmers based on route selected from dropdown
                 Cursor newFarmerCursor = db.fetchFarmers(
