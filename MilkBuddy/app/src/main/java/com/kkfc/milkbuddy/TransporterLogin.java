@@ -3,9 +3,9 @@ package com.kkfc.milkbuddy;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class TransporterLogin extends AppCompatActivity {
 
     DatabaseHelper db;
+    private Button guestTransporter;
     private ListView transporterListView;
     SimpleCursorAdapter transporterCursorAdapter;
     int selectedTransporter;
@@ -59,9 +60,22 @@ public class TransporterLogin extends AppCompatActivity {
             }
         });
 
+        guestTransporter = findViewById(R.id.button1);
+        guestTransporter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guestTransporterLogin();
+            }
+        });
+
     }
     private void goToTransporterHomepage() {
         Intent intent = new Intent(this, TransporterContainerSelection.class);
+        startActivity(intent);
+    }
+
+    private void guestTransporterLogin() {
+        Intent intent = new Intent(this, GuestTransporter.class);
         startActivity(intent);
     }
 }

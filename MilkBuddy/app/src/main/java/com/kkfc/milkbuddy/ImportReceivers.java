@@ -10,10 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.kkfc.milkbuddy.DatabaseHelper;
-import com.kkfc.milkbuddy.R;
-import com.kkfc.milkbuddy.Start;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
