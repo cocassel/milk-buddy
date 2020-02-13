@@ -39,6 +39,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
     //20 L
     public void increaseInteger(View view) {
         minteger = minteger + 1;
+        if(minteger>10){
+            minteger=10;
+        }
         display(minteger);
 
     }public void decreaseInteger(View view) {
@@ -60,6 +63,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
     int minteger25 = 0;
     public void increaseInteger25(View view) {
         minteger25 = minteger25 + 1;
+        if(minteger25>10){
+            minteger25=10;
+        }
         display25(minteger25);
 
     }public void decreaseInteger25(View view) {
@@ -81,6 +87,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
     int minteger30 = 0;
     public void increaseInteger30(View view) {
         minteger30 = minteger30 + 1;
+        if(minteger30>10){
+            minteger30=10;
+        }
         display30(minteger30);
 
     }public void decreaseInteger30(View view) {
@@ -102,6 +111,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
     int minteger35 = 0;
     public void increaseInteger35(View view) {
         minteger35 = minteger35 + 1;
+        if(minteger35>10){
+            minteger35=10;
+        }
         display35(minteger35);
 
     }public void decreaseInteger35(View view) {
@@ -123,6 +135,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
     int minteger40 = 0;
     public void increaseInteger40(View view) {
         minteger40 = minteger40 + 1;
+        if(minteger40>10){
+            minteger40=10;
+        }
         display40(minteger40);
 
     }public void decreaseInteger40(View view) {
@@ -144,6 +159,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
     int minteger45 = 0;
     public void increaseInteger45(View view) {
         minteger45 = minteger45 + 1;
+        if(minteger45>10){
+            minteger45=10;
+        }
         display45(minteger45);
 
     }public void decreaseInteger45(View view) {
@@ -165,6 +183,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
     int minteger50 = 0;
     public void increaseInteger50(View view) {
         minteger50 = minteger50 + 1;
+        if(minteger50>10){
+            minteger50=10;
+        }
         display50(minteger50);
 
     }public void decreaseInteger50(View view) {
