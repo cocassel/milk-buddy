@@ -20,7 +20,6 @@
         <activity android:name=".ImportReceivers" />
         <activity android:name=".FarmerSearch" />
         <activity android:name=".TransporterContainerSelection" />
-        <activity android:name=".Start" />
         <activity android:name=".ReceiverHome" />
         <activity android:name=".ReceiverLogin" />
         <activity android:name=".GuestTransporter" />

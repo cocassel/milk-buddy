@@ -1,7 +1,5 @@
 package com.kkfc.milkbuddy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,9 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.kkfc.milkbuddy.DatabaseHelper;
-import com.kkfc.milkbuddy.R;
-import com.kkfc.milkbuddy.Start;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -79,7 +75,7 @@ public class ImportFarmers extends AppCompatActivity {
                     Intent intent = new Intent(this, ImportFarmers.class);
                     startActivity(intent);
                 }
-                Intent intent = new Intent(this, Start.class);
+                Intent intent = new Intent(this, TransporterLogin.class);
                 startActivity(intent);
             } else {
                 Log.i("Import farmers failed", data.toString());
@@ -88,7 +84,7 @@ public class ImportFarmers extends AppCompatActivity {
     }
 
     private void continueWithExistingFarmerData() {
-        Intent intent = new Intent(this, Start.class);
+        Intent intent = new Intent(this, TransporterLogin.class);
         startActivity(intent);
     }
 }
