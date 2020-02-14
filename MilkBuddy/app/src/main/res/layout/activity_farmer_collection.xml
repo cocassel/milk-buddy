@@ -7,59 +7,59 @@
     tools:context=".FarmerCollection">
 
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:stretchColumns="*"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <TableRow
             android:id="@+id/first_row"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="Farmer Name:"
                 android:textColor="#000000"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
-            <TextView
+        <!--    <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="30dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="Place Holder"
                 android:textColor="#000000"
-                android:textSize="25sp" />
+                android:textSize="20sp" />-->
         </TableRow>
 
         <TableRow
             android:id="@+id/second_row"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-
+                android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="Sniff Test:"
                 android:textColor="#000000"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <RadioGroup
                 android:layout_width="wrap_content"
@@ -70,37 +70,41 @@
                     android:id="@+id/radioButton1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pass" />
+                    android:text="Pass"
+                    android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fail" />
+                    android:text="Fail"
+                    android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A" />
+                    android:text="N/A"
+                    android:textSize="20sp"/>
             </RadioGroup>
         </TableRow>
 
         <TableRow
             android:id="@+id/third_row"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-
+                android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="Alcohol Test:"
                 android:textColor="#000000"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <RadioGroup
                 android:layout_width="wrap_content"
@@ -111,19 +115,22 @@
                     android:id="@+id/radioButton4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pass" />
+                    android:text="Pass"
+                    android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fail" />
+                    android:text="Fail"
+                    android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A" />
+                    android:text="N/A"
+                    android:textSize="20sp"/>
             </RadioGroup>
 
         </TableRow>
@@ -131,18 +138,19 @@
         <TableRow
             android:id="@+id/fourth_row"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-
+                android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Density Test (L):"
+                android:text="Density Test:"
                 android:textColor="#000000"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -152,31 +160,36 @@
                     android:id="@+id/radioButton7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="27L" />
+                    android:text="27L"
+                    android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="28L" />
+                    android:text="28L"
+                    android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="29L" />
+                    android:text="29L"
+                    android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30+ L" />
+                    android:text="30+L"
+                    android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A" />
+                    android:text="N/A"
+                    android:textSize="20sp"/>
             </RadioGroup>
 
         </TableRow>
@@ -184,20 +197,23 @@
         <TableRow
             android:id="@+id/fifth_row"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:layout_marginLeft="20dp"
                 android:text="Quantity (L):"
+                android:gravity="center_vertical"
                 android:textColor="#000000"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/editText1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -208,17 +224,57 @@
         <TableRow
             android:id="@+id/sixth_row"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:layout_marginLeft="20dp"
                 android:text="Container(s):"
-                android:textColor="#000000"
-                android:textSize="25sp" />
+                android:textSize="20sp"
+                android:textColor="#000000"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/seventh_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:text="Comments:"
+                android:textSize="20sp"
+                android:textColor="#000000"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/eight_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp">
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"/>
 
         </TableRow>
 
@@ -227,36 +283,10 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Comment:"
-                android:textColor="#000000"
-                android:textSize="25sp" />
-
-            <EditText
-                android:id="@+id/editText6"
-                android:layout_width="match_parent"
-                android:layout_height="88dp"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/LinearLayout02"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
+            android:layout_marginTop="10dp">
 
             <Button
-                android:id="@+id/Button1"
+                android:id="@+id/Button01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -267,7 +297,7 @@
             </Button>
 
             <Button
-                android:id="@+id/Button2"
+                android:id="@+id/Button02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -279,5 +309,7 @@
         </LinearLayout>
 
     </TableLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
