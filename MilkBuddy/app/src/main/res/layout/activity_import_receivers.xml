@@ -45,7 +45,7 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Import Receivers"
+                android:text="Yes, Import New Receivers"
                 android:textSize="25sp" />
         </TableRow>
 
@@ -61,7 +61,7 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Keep Existing Receivers"
+                android:text="No, Keep Existing Receivers"
                 android:textSize="25sp" />
         </TableRow>
 
