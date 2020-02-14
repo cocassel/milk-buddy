@@ -26,7 +26,7 @@ public class FarmerCollection extends AppCompatActivity {
 
         //Log.i("Farmer ID is", Integer.toString(farmerId));
 
-        cancelCollection = findViewById(R.id.Button1);
+        cancelCollection = findViewById(R.id.Button01);
         cancelCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +34,7 @@ public class FarmerCollection extends AppCompatActivity {
             }
         });
 
-        saveCollection = findViewById(R.id.Button2);
+        saveCollection = findViewById(R.id.Button02);
         saveCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

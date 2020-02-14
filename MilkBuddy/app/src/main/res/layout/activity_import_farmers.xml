@@ -29,7 +29,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Do you want to import new farmers?"
+                android:text="Has the farmer list changed?"
                 android:textSize="25sp" />
         </TableRow>
 
@@ -45,7 +45,7 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Import New Farmers"
+                android:text="Yes, Import New Farmers"
                 android:textSize="25sp" />
         </TableRow>
 
@@ -61,7 +61,7 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Keep Existing Farmers"
+                android:text="No, Keep Existing Farmers"
                 android:textSize="25sp" />
         </TableRow>
 
