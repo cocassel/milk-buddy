@@ -188,6 +188,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor fetchLoggedInTransporter() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LOGGED_IN_TRANSPORTER, null);
+        return cursor;
+    }
+
+    public Cursor fetchLoggedInReceiver() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LOGGED_IN_RECEIVER, null);
+        return cursor;
+    }
+
     // Fetch entire farmer table
     public Cursor fetchFarmers() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -233,6 +245,63 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PLANT_DATA, null);
         return cursor;
+    }
+
+    public Cursor fetchContainers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONTAINER, null);
+        return cursor;
+    }
+
+
+
+    public void deleteLoggedInTransporter() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
+    }
+
+    public void deleteLoggedInReceiver() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_RECEIVER);
+    }
+
+    public void deleteContainers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_CONTAINER);
+    }
+
+    public void deleteTransporterCollectionData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER_DATA);
+    }
+
+    public void deletePlantData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_PLANT_DATA);
+    }
+
+    public void resetTables() {
+        deleteLoggedInTransporter();
+        deleteLoggedInReceiver();
+        deleteContainers();
+        deleteTransporterCollectionData();
+        deletePlantData();
+    }
+
+    // Save logged-in transporter data. This function is used for regular transporters (not guest)
+    public void insertLoggedInTransporter(int id, String name, String phoneNumber) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(" +
+                id + ", '" + name + "', '" + phoneNumber + "');";
+        db.execSQL(insertStatement);
+    }
+
+    // Save logged-in transporter data. Use -1 as the transporter ID
+    public void insertLoggedInGuestTransporter(String name, String phoneNumber) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(-1, '" +
+                name + "', '" + phoneNumber + "');";
+        db.execSQL(insertStatement);
     }
 
     public void insertTransportersFromCSV(BufferedReader buffer) {

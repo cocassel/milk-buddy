@@ -49,4 +49,9 @@ public class FarmerCollection extends AppCompatActivity {
         Intent intent = new Intent(this, FarmerSearch.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
+    }
 }

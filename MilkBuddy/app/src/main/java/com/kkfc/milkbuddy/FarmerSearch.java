@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -22,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class FarmerSearch extends AppCompatActivity {
 
     DatabaseHelper db;
+    private Button resetButton;
+    private Button dropOffToReceiverButton;
     private SearchView farmerSearchView;
     private String searchBarQuery;
     private ListView farmerListView;
@@ -50,6 +53,29 @@ public class FarmerSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_search);
         db = new DatabaseHelper(this);
+
+        // Button for dropping off to receiver
+        dropOffToReceiverButton = findViewById(R.id.button1);
+        dropOffToReceiverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO add popup to check if the user wants to proceed
+
+            }
+        });
+
+
+        // Button for resetting the app
+        resetButton = findViewById(R.id.button2);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO add popup to check if the user wants to proceed
+                db.resetTables();
+                // Redirect to import transporters page
+                goToImportTransporters();
+            }
+        });
 
         // By default select the option to see all routes (id = -1)
         selectedDropdownRoute = -1;
@@ -91,8 +117,6 @@ public class FarmerSearch extends AppCompatActivity {
         transporterCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transportersSpinnerView = findViewById(R.id.Spinner1);
         transportersSpinnerView.setAdapter(transporterCursorAdapter);
-
-        // TODO Finish this
         transportersSpinnerView.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -176,5 +200,15 @@ public class FarmerSearch extends AppCompatActivity {
         Intent intent = new Intent(this, FarmerCollection.class);
         intent.putExtra("farmerId", selectedFarmerId);
         startActivity(intent);
+    }
+
+    private void goToImportTransporters() {
+        Intent intent = new Intent(this, ImportTransporters.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
     }
 }

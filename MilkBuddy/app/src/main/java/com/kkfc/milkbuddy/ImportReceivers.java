@@ -85,4 +85,9 @@ public class ImportReceivers extends AppCompatActivity {
         Intent intent = new Intent(this, ImportFarmers.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
+    }
 }
