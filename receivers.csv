@@ -1,7 +1,7 @@
-ID,Name,Phone Number
-1,Celeste Cassel de Camps,111-111-1111
-2,Malvika Balaraj,222-222-2222
-3,Priyanka Brodie,333-333-3333
-4,Ada Hurst,444-444-4444
-5,Blair McKay,555-555-5555
-6,Mark Smucker,666-666-6666
+ID,Name,Phone Number,Username,Password Hash
+1,Celeste Cassel de Camps,111-111-1111,coccassel,af0932ruewhf
+2,Malvika Balaraj,222-222-2222,mbalaraj,943kslgj843
+3,Priyanka Brodie,333-333-3333,prbodie,asjfuweruweroi
+4,Ada Hurst,444-444-4444,ahurst,w89u834r89u4we
+5,Blair McKay,555-555-5555,bmckay,ijrejt9j843qth
+6,Mark Smucker,666-666-6666,msucker,qitj340tj03e

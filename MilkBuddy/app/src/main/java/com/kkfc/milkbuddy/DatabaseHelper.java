@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "dairy.db";
 
-    // User table info. A user consists of anyone who actually uses the mobile app
+    // Transporter table info
     public static final String TABLE_TRANSPORTER = "transporter_table";
     public static final String TRANSPORTER_ID = "_id";
     public static final String TRANSPORTER_NAME = "name";
@@ -24,20 +24,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             TRANSPORTER_NAME + " text, " +
             TRANSPORTER_PHONE_NUMBER + " text);";
 
+    // Logged-in transporter table info. This could be a regular transporter or a guest transporter
+    public static final String TABLE_LOGGED_IN_TRANSPORTER = "logged_in_transporter_table";
+    public static final String LOGGED_IN_TRANSPORTER_ID = "_id";
+    public static final String LOGGED_IN_TRANSPORTER_NAME = "name";
+    public static final String LOGGED_IN_TRANSPORTER_PHONE_NUMBER = "phone_number";
 
-    // User table info. A user consists of anyone who actually uses the mobile app
+    private String TABLE_CREATE_LOGGED_IN_TRANSPORTER = "CREATE TABLE " + TABLE_LOGGED_IN_TRANSPORTER + " (" +
+            LOGGED_IN_TRANSPORTER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
+            LOGGED_IN_TRANSPORTER_NAME + " text, " +
+            LOGGED_IN_TRANSPORTER_PHONE_NUMBER + " text);";
+
+
+    // Receiver table info
     public static final String TABLE_RECEIVER = "receiver_table";
     public static final String RECEIVER_ID = "_id";
     public static final String RECEIVER_NAME = "name";
     public static final String RECEIVER_PHONE_NUMBER = "phone_number";
+    public static final String RECEIVER_USERNAME = "username";
+    public static final String RECEIVER_PASSWORD = "password_hash";
 
     private String TABLE_CREATE_RECEIVER = "CREATE TABLE " + TABLE_RECEIVER + " (" +
             RECEIVER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
             RECEIVER_NAME + " text, " +
-            RECEIVER_PHONE_NUMBER + " text);";
+            RECEIVER_PHONE_NUMBER + " text, " +
+            RECEIVER_USERNAME + " text UNIQUE, " +
+            RECEIVER_PASSWORD + " text);";
 
 
-    // Farmer table info. Farmers do not use the mobile app and are NOT in the users table above
+    // Logged-in receiver table info
+    public static final String TABLE_LOGGED_IN_RECEIVER = "logged_in_receiver_table";
+    public static final String LOGGED_IN_RECEIVER_ID = "_id";
+    public static final String LOGGED_IN_RECEIVER_NAME = "name";
+    public static final String LOGGED_IN_RECEIVER_PHONE_NUMBER = "phone_number";
+
+    private String TABLE_CREATE_LOGGED_IN_RECEIVER = "CREATE TABLE " + TABLE_LOGGED_IN_RECEIVER + " (" +
+            LOGGED_IN_RECEIVER_ID + " integer PRIMARY KEY AUTOINCREMENT," +
+            LOGGED_IN_RECEIVER_NAME + " text, " +
+            LOGGED_IN_RECEIVER_PHONE_NUMBER + " text);";
+
+
+    // Farmer table info.
     public static final String TABLE_FARMER = "farmer_table";
     public static final String FARMER_ID = "_id";
     public static final String FARMER_ASSIGNED_TRANSPORTER_ID = "assigned_transporter_id";
@@ -69,12 +96,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Transporter_data table info
     public static final String TABLE_TRANSPORTER_DATA = "transporter_data_table";
+    public static final String TRANSPORTER_DATA_PICK_UP_NUMBER = "pick_up_number";
     public static final String TRANSPORTER_DATA_FARMER_ID = "farmer_id";
-    public static final String TRANSPORTER_DATA_FARMER_NAME = "farmer_name";
-    public static final String TRANSPORTER_DATA_FARMER_PHONE_NUMBER = "farmer_phone_number";
     public static final String TRANSPORTER_DATA_TRANSPORTER_ID = "transporter_id";
-    public static final String TRANSPORTER_DATA_TRANSPORTER_NAME = "transporter_name";
-    public static final String TRANSPORTER_DATA_TRANSPORTER_PHONE_NUMBER = "transporter_phone_number";
     public static final String TRANSPORTER_DATA_CONTAINER_ID = "container_id";
     public static final String TRANSPORTER_DATA_QUANTITY_COLLECTED = "quantity_collected";
     public static final String TRANSPORTER_DATA_QUALITY_TEST_SMELL = "smell_test";
@@ -82,55 +106,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL = "alcohol_test";
     public static final String TRANSPORTER_DATA_COMMENT = "comment";
     public static final String TRANSPORTER_DATA_CREATE_DATE = "create_date";
+    public static final String TRANSPORTER_DATA_CREATE_TIME = "create_time";
 
-    // TODO: Take away foreign keys?
     private String TABLE_CREATE_TRANSPORTER_DATA = "CREATE TABLE " + TABLE_TRANSPORTER_DATA+ " (" +
-            TRANSPORTER_DATA_FARMER_ID + " integer PRIMARY KEY REFERENCES " + TABLE_FARMER + " (" + FARMER_ID + ")," +
-            TRANSPORTER_DATA_FARMER_NAME + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_NAME + ")," +
-            TRANSPORTER_DATA_FARMER_PHONE_NUMBER + " text REFERENCES " + TABLE_FARMER + " (" + FARMER_PHONE_NUMBER + ")," +
+            TRANSPORTER_DATA_PICK_UP_NUMBER + " integer PRIMARY KEY AUTOINCREMENT," +
+            TRANSPORTER_DATA_FARMER_ID + " integer REFERENCES " + TABLE_FARMER + " (" + FARMER_ID + ")," +
             TRANSPORTER_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
-            TRANSPORTER_DATA_TRANSPORTER_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_NAME + ")," +
-            TRANSPORTER_DATA_TRANSPORTER_PHONE_NUMBER + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_PHONE_NUMBER + ")," +
             TRANSPORTER_DATA_CONTAINER_ID + " integer REFERENCES " + TABLE_CONTAINER + " (" + CONTAINER_ID + ")," +
             TRANSPORTER_DATA_QUANTITY_COLLECTED + " numeric," +
             TRANSPORTER_DATA_QUALITY_TEST_SMELL  + " boolean, " +
             TRANSPORTER_DATA_QUALITY_TEST_DENSITY + " numeric," +
             TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + " numeric," +
             TRANSPORTER_DATA_COMMENT + " text, " +
-            TRANSPORTER_DATA_CREATE_DATE + " text);";
+            TRANSPORTER_DATA_CREATE_DATE + " text, " +
+            TRANSPORTER_DATA_CREATE_TIME + " text);";
 
 
     // Plant_data table info
     public static final String TABLE_PLANT_DATA = "plant_data_table";
     public static final String PLANT_DATA_CONTAINER_ID = "container_id";
     public static final String PLANT_DATA_TRANSPORTER_ID = "transporter_id";
-    public static final String PLANT_DATA_TRANSPORTER_NAME = "transporter_name";
-    public static final String PLANT_DATA_TRANSPORTER_PHONE_NUMBER = "transporter_phone_number";
     public static final String PLANT_DATA_RECEIVER_ID = "receiver_id";
-    public static final String PLANT_DATA_RECEIVER_NAME = "receiver_name";
-    public static final String PLANT_DATA_RECEIVER_PHONE_NUMBER = "receiver_phone_number";
     public static final String PLANT_DATA_QUANTITY_COLLECTED = "quantity_collected";
     public static final String PLANT_DATA_QUALITY_TEST_SMELL = "smell_test";
     public static final String PLANT_DATA_QUALITY_TEST_DENSITY = "density_test";
     public static final String PLANT_DATA_QUALITY_TEST_ALCOHOL = "alcohol_test";
     public static final String PLANT_DATA_COMMENT = "comment";
     public static final String PLANT_DATA_CREATE_DATE = "create_date";
+    public static final String PLANT_DATA_CREATE_TIME = "create_time";
 
-    // TODO: Take away foreign keys?
+
     private String TABLE_CREATE_PLANT_DATA = "CREATE TABLE " + TABLE_PLANT_DATA+ " (" +
             PLANT_DATA_CONTAINER_ID + " integer PRIMARY KEY REFERENCES " + TABLE_CONTAINER + " (" + CONTAINER_ID + ")," +
             PLANT_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
-            PLANT_DATA_TRANSPORTER_NAME + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_NAME + ")," +
-            PLANT_DATA_TRANSPORTER_PHONE_NUMBER + " text REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_PHONE_NUMBER + ")," +
             PLANT_DATA_RECEIVER_ID + " integer REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_ID + ")," +
-            PLANT_DATA_RECEIVER_NAME + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_NAME + ")," +
-            PLANT_DATA_RECEIVER_PHONE_NUMBER + " text REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_PHONE_NUMBER + ")," +
             PLANT_DATA_QUANTITY_COLLECTED + " numeric," +
             PLANT_DATA_QUALITY_TEST_SMELL  + " boolean, " +
             PLANT_DATA_QUALITY_TEST_DENSITY + " numeric," +
             PLANT_DATA_QUALITY_TEST_ALCOHOL + " numeric," +
             PLANT_DATA_COMMENT + " text, " +
-            PLANT_DATA_CREATE_DATE + " text);";
+            PLANT_DATA_CREATE_DATE + " text, " +
+            PLANT_DATA_CREATE_TIME + " text);";
 
 
     public DatabaseHelper(Context context) {
@@ -141,17 +157,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(TABLE_CREATE_TRANSPORTER);
+        sqLiteDatabase.execSQL(TABLE_CREATE_LOGGED_IN_TRANSPORTER);
         sqLiteDatabase.execSQL(TABLE_CREATE_RECEIVER);
+        sqLiteDatabase.execSQL(TABLE_CREATE_LOGGED_IN_RECEIVER);
         sqLiteDatabase.execSQL(TABLE_CREATE_FARMER);
         sqLiteDatabase.execSQL(TABLE_CREATE_CONTAINER);
         sqLiteDatabase.execSQL(TABLE_CREATE_TRANSPORTER_DATA);
         sqLiteDatabase.execSQL(TABLE_CREATE_PLANT_DATA);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase SQLiteDatabase, int i, int i1) {
         SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSPORTER);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGGED_IN_TRANSPORTER);
         SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_RECEIVER);
+        SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGGED_IN_RECEIVER);
         SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_FARMER);
         SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTAINER);
         SQLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSPORTER_DATA);
@@ -222,7 +243,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER);
 
             // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO transporter_table (_id, " +
+            String insertStatementPart1 = "INSERT INTO " + TABLE_TRANSPORTER + " (_id, " +
                     "name, phone_number) values(";
             String insertStatementPart2 = ");";
 
@@ -251,8 +272,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_RECEIVER);
 
             // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO receiver_table (_id, " +
-                    "name, phone_number) values(";
+            String insertStatementPart1 = "INSERT INTO " + TABLE_RECEIVER + " (_id, " +
+                    "name, phone_number, username, password_hash) values(";
             String insertStatementPart2 = ");";
 
             // Skip first line of csv which contains labels/headings
@@ -263,7 +284,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String[] str = line.split(",");
                 sb.append("'" + str[0] + "','");
                 sb.append(str[1] + "','");
-                sb.append(str[2] + "'");
+                sb.append(str[2] + "','");
+                sb.append(str[3] + "','");
+                sb.append(str[4] + "'");
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
             }
@@ -280,7 +303,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_FARMER);
 
             // TODO: Don't hardcode this
-            String insertStatementPart1 = "INSERT INTO farmer_table (_id, " +
+            String insertStatementPart1 = "INSERT INTO " + TABLE_FARMER + " (_id, " +
                     "assigned_transporter_id, name, phone_number," +
                     "active, expected_collection_time) values(";
             String insertStatementPart2 = ");";

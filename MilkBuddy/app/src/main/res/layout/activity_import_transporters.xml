@@ -29,7 +29,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Do you want to import new transporters?"
+                android:text="Has the transporter list changed?"
                 android:textSize="25sp" />
         </TableRow>
 
@@ -45,7 +45,7 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Import"
+                android:text="Yes, Import New Transporters"
                 android:textSize="25sp" />
         </TableRow>
 
@@ -61,7 +61,7 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="Keep Existing Transporters"
+                android:text="No, Keep Existing Transporters"
                 android:textSize="25sp" />
         </TableRow>
 
