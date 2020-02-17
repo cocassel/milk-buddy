@@ -186,7 +186,7 @@ public class FarmerSearch extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 Toast.makeText(getApplicationContext(),"you choose switch to receiver flow",
                                         Toast.LENGTH_SHORT).show();
-                                //TODO: add receiver functionality
+                                goToReceiverLogin();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -242,6 +242,11 @@ public class FarmerSearch extends AppCompatActivity {
     private void goToFarmerCollection(int selectedFarmerId) {
         Intent intent = new Intent(this, FarmerCollection.class);
         intent.putExtra("farmerId", selectedFarmerId);
+        startActivity(intent);
+    }
+
+    private void goToReceiverLogin(){
+        Intent intent = new Intent(this,ReceiverLogin.class );
         startActivity(intent);
     }
 }
