@@ -56,29 +56,6 @@ public class FarmerSearch extends AppCompatActivity {
         setContentView(R.layout.activity_farmer_search);
         db = new DatabaseHelper(this);
 
-        // Button for dropping off to receiver
-        dropOffToReceiverButton = findViewById(R.id.button1);
-        dropOffToReceiverButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO add popup to check if the user wants to proceed
-
-            }
-        });
-
-
-        // Button for resetting the app
-        resetButton = findViewById(R.id.button2);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO add popup to check if the user wants to proceed
-                db.resetTables();
-                // Redirect to import transporters page
-                goToImportTransporters();
-            }
-        });
-
         // By default select the option to see all routes (id = -1)
         selectedDropdownRoute = -1;
         searchBarQuery = "";
@@ -196,6 +173,7 @@ public class FarmerSearch extends AppCompatActivity {
             }
         });
 
+        // Button for dropping off to receiver
         dropOffToReceiverButton = findViewById(R.id.button1);
         builder = new AlertDialog.Builder(this);
         dropOffToReceiverButton.setOnClickListener(new View.OnClickListener() {
@@ -227,6 +205,7 @@ public class FarmerSearch extends AppCompatActivity {
 
         });
 
+        // Button for resetting the app
         resetButton = findViewById(R.id.button2);
         builder = new AlertDialog.Builder(this);
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -238,8 +217,9 @@ public class FarmerSearch extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 Toast.makeText(getApplicationContext(),"Resetting the application",
                                         Toast.LENGTH_SHORT).show();
-                                //TODO: add reset functionality
-                            }
+                                db.resetTables();
+                                // Redirect to import transporters page
+                                goToImportTransporters();                            }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
