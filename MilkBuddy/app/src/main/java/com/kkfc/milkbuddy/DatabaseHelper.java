@@ -309,4 +309,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //Update container table with the number of containers selected by the user
+
+
 }
