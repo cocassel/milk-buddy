@@ -1,14 +1,15 @@
 package com.kkfc.milkbuddy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -17,11 +18,15 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class FarmerSearch extends AppCompatActivity {
 
     DatabaseHelper db;
+    AlertDialog.Builder builder;
+    private Button dropoff;
+    private Button resetdata;
     private SearchView farmerSearchView;
     private String searchBarQuery;
     private ListView farmerListView;
@@ -170,11 +175,78 @@ public class FarmerSearch extends AppCompatActivity {
             }
         });
 
+        dropoff = findViewById(R.id.button1);
+        builder = new AlertDialog.Builder(this);
+        dropoff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.setMessage("Are you sure you want to drop-off your milk?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getApplicationContext(),"you choose switch to receiver flow",
+                                        Toast.LENGTH_SHORT).show();
+                                goToReceiverLogin();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"you choose to cancel drop-off",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Milk Buddy");
+                alert.show();
+            }
+
+        });
+
+        resetdata = findViewById(R.id.button2);
+        builder = new AlertDialog.Builder(this);
+        resetdata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.setMessage("Are you sure you want to reset Milk Buddy?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getApplicationContext(),"you choose to reset the application",
+                                        Toast.LENGTH_SHORT).show();
+                                //TODO: add reset functionality
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"you choose to cancel application reset",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Milk Buddy");
+                alert.show();
+            }
+
+        });
+
     }
 
     private void goToFarmerCollection(int selectedFarmerId) {
         Intent intent = new Intent(this, FarmerCollection.class);
         intent.putExtra("farmerId", selectedFarmerId);
+        startActivity(intent);
+    }
+
+    private void goToReceiverLogin(){
+        Intent intent = new Intent(this,ReceiverLogin.class );
         startActivity(intent);
     }
 }
