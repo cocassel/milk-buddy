@@ -1,5 +1,6 @@
 package com.kkfc.milkbuddy;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -333,6 +334,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Update container table with the number of containers selected by the user
+    public boolean addContainers (int containers, String size){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        for (int i = 0; i<= containers-1; i++) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(CONTAINER_SIZE, size);
+           long result = db.insert(TABLE_CONTAINER, null, contentValues);
+            if(result == -1)
+                return false;
+
+       }
+        return true;
+
+
+    }
 
 
 }

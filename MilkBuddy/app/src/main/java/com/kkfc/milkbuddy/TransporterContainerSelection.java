@@ -2,19 +2,28 @@ package com.kkfc.milkbuddy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+
 
 
 import java.util.ArrayList;
 
 public class TransporterContainerSelection extends AppCompatActivity {
 
+    Context context = this;
     DatabaseHelper db;
+    SQLiteDatabase sqLiteDatabase;
     private Button nextButton;
+
+
 
     int minteger = 0;
     @Override
@@ -31,6 +40,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
                 goToFarmerSearch();
             }
         });
+        insertContainer();
     }
     private void goToFarmerSearch() {
         Intent intent = new Intent(this, FarmerSearch.class);
@@ -202,6 +212,41 @@ public class TransporterContainerSelection extends AppCompatActivity {
         displayInteger.setText("" + number);
 
     }
+
+    //update database with container information
+
+    int size = 20;
+    public void insertContainer(){
+        nextButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                                public void onClick(View v){
+                                    boolean isInserted = db.addContainers(minteger,String.valueOf(size));
+                                    if(isInserted == true)
+                                        Toast.makeText(TransporterContainerSelection.this,"Data Saved",Toast.LENGTH_LONG).show();
+                                    else
+                                        Toast.makeText(TransporterContainerSelection.this, "Data not inserted",Toast.LENGTH_LONG).show();
+                                }
+
+                }
+        );
+    }
+
+
+   /* public void addContainer (View view){
+        //int i = 0;
+        //for (i > 0; i <= minteger; i++)
+        //db = new database(context);
+        sqLiteDatabase = db.getWritableDatabase();
+        boolean isInserted = db.addContainers(minteger,20);
+        //db.updateContainers(minteger25,25);
+        if(isInserted == true)
+            Toast.makeText(TransporterContainerSelection.this,"Data Saved",Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(TransporterContainerSelection.this, "Data not inserted",Toast.LENGTH_LONG).show();
+
+    }*/
+
 
 
 }
