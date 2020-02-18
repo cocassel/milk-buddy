@@ -35,7 +35,7 @@ public class ExportData extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
                 .addCategory(Intent.CATEGORY_OPENABLE)
                 .setType("text/csv")
-                .putExtra(Intent.EXTRA_TITLE, "Transporter Data " + date);
+                .putExtra(Intent.EXTRA_TITLE, "Transporter Milk Log " + date);
         startActivityForResult(intent, WRITE_REQUEST_CODE);
     }
 
@@ -73,6 +73,11 @@ public class ExportData extends AppCompatActivity {
                 Log.i("Export transpo. failed", data.toString());
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
     }
 
 }

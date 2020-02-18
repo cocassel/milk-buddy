@@ -11,4 +11,9 @@ public class ReceiverLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver_login);
     }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
+    }
 }

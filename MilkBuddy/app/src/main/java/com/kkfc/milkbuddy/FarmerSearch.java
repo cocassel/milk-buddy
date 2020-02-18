@@ -24,9 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class FarmerSearch extends AppCompatActivity {
 
     DatabaseHelper db;
+    private Button resetButton;
+    private Button dropOffToReceiverButton;
     AlertDialog.Builder builder;
-    private Button dropoff;
-    private Button resetdata;
     private SearchView farmerSearchView;
     private String searchBarQuery;
     private ListView farmerListView;
@@ -59,6 +59,9 @@ public class FarmerSearch extends AppCompatActivity {
         // By default select the option to see all routes (id = -1)
         selectedDropdownRoute = -1;
         searchBarQuery = "";
+
+        // TODO Remember filter settings after farmer collection (saving or cancelling)
+
         farmerSearchView = findViewById(R.id.farmerSearchView);
         farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 
@@ -96,8 +99,6 @@ public class FarmerSearch extends AppCompatActivity {
         transporterCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transportersSpinnerView = findViewById(R.id.Spinner1);
         transportersSpinnerView.setAdapter(transporterCursorAdapter);
-
-        // TODO Finish this
         transportersSpinnerView.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -175,16 +176,17 @@ public class FarmerSearch extends AppCompatActivity {
             }
         });
 
-        dropoff = findViewById(R.id.button1);
+        // Button for dropping off to receiver
+        dropOffToReceiverButton = findViewById(R.id.button1);
         builder = new AlertDialog.Builder(this);
-        dropoff.setOnClickListener(new View.OnClickListener() {
+        dropOffToReceiverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 builder.setMessage("Are you sure you want to drop-off your milk?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getApplicationContext(),"you choose switch to receiver flow",
+                                Toast.makeText(getApplicationContext(),"Switching to receiver flow",
                                         Toast.LENGTH_SHORT).show();
                                 goToReceiverLogin();
                             }
@@ -193,7 +195,7 @@ public class FarmerSearch extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 //  Action for 'NO' Button
                                 dialog.cancel();
-                                Toast.makeText(getApplicationContext(),"you choose to cancel drop-off",
+                                Toast.makeText(getApplicationContext(),"Cancelling drop-off",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -206,25 +208,28 @@ public class FarmerSearch extends AppCompatActivity {
 
         });
 
-        resetdata = findViewById(R.id.button2);
+        // Button for resetting the app
+        resetButton = findViewById(R.id.button2);
         builder = new AlertDialog.Builder(this);
-        resetdata.setOnClickListener(new View.OnClickListener() {
+        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder.setMessage("Are you sure you want to reset Milk Buddy?")
+                builder.setMessage("Are you sure you want to reset Milk Buddy? This will clear your collection data.")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getApplicationContext(),"you choose to reset the application",
+                                Toast.makeText(getApplicationContext(),"Resetting the application",
                                         Toast.LENGTH_SHORT).show();
-                                //TODO: add reset functionality
+                                db.resetTables();
+                                // Redirect to import transporters page
+                                goToImportTransporters();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //  Action for 'NO' Button
                                 dialog.cancel();
-                                Toast.makeText(getApplicationContext(),"you choose to cancel application reset",
+                                Toast.makeText(getApplicationContext(),"Cancelling application reset",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -245,8 +250,21 @@ public class FarmerSearch extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    private void goToImportTransporters() {
+        Intent intent = new Intent(this, ImportTransporters.class);
+        startActivity(intent);
+    }
+
+
     private void goToReceiverLogin(){
         Intent intent = new Intent(this,ReceiverLogin.class );
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
+    }
+
 }
