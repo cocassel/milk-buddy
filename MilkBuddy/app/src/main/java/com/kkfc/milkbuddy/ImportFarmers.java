@@ -78,7 +78,9 @@ public class ImportFarmers extends AppCompatActivity {
                 Intent intent = new Intent(this, TransporterLogin.class);
                 startActivity(intent);
             } else {
-                Log.i("Import farmers failed", data.toString());
+                // If back button is pressed (no file is chosen), go back to same page
+                Intent intent = new Intent(this, ImportFarmers.class);
+                startActivity(intent);
             }
         }
     }

@@ -123,13 +123,13 @@ public class ImportTransporters extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast. makeText(getApplicationContext(),"Error importing transporters!",Toast. LENGTH_LONG).show();
-                    // TODO does this work? (reloading the same activity)
                     Intent intent = new Intent(this, ImportTransporters.class);
                     startActivity(intent);
                 }
-
             } else {
-                Log.i("Import transpo. failed", data.toString());
+                // If back button is pressed (no file is chosen), go back to same page
+                Intent intent = new Intent(this, ImportTransporters.class);
+                startActivity(intent);
             }
         }
     }

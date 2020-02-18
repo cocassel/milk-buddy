@@ -52,6 +52,6 @@ public class FarmerCollection extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        returnToFarmerSearch();
     }
 }

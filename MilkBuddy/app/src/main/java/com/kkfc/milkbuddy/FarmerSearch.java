@@ -59,6 +59,9 @@ public class FarmerSearch extends AppCompatActivity {
         // By default select the option to see all routes (id = -1)
         selectedDropdownRoute = -1;
         searchBarQuery = "";
+
+        // TODO Remember filter settings after farmer collection (saving or cancelling)
+
         farmerSearchView = findViewById(R.id.farmerSearchView);
         farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 
