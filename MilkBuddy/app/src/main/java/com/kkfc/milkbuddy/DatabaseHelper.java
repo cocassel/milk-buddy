@@ -325,7 +325,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 StringBuilder sb = new StringBuilder(insertStatementPart1);
                 String[] str = line.split(",");
                 sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
+                // Some names have apostrophes in them so we need to escape them.
+                // This is done by using two apostrophes in place of one
+                sb.append(str[1].replace("'", "''") + "','");
                 sb.append(str[2] + "'");
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
@@ -354,7 +356,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 StringBuilder sb = new StringBuilder(insertStatementPart1);
                 String[] str = line.split(",");
                 sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
+                // Some names have apostrophes in them so we need to escape them.
+                // This is done by using two apostrophes in place of one
+                sb.append(str[1].replace("'", "''") + "','");
                 sb.append(str[2] + "','");
                 sb.append(str[3] + "','");
                 sb.append(str[4] + "'");
