@@ -211,7 +211,7 @@ public class FarmerSearch extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder.setMessage("Are you sure you want to reset Milk Buddy?")
+                builder.setMessage("Are you sure you want to reset Milk Buddy? This will clear your collection data.")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -219,7 +219,8 @@ public class FarmerSearch extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                                 db.resetTables();
                                 // Redirect to import transporters page
-                                goToImportTransporters();                            }
+                                goToImportTransporters();
+                            }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {

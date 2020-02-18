@@ -280,6 +280,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM "+ TABLE_PLANT_DATA);
     }
 
+    // Reset the app to its beginning-of-day state. Do not reset transporters, farmers, and receivers
+    // because the transporter may want to use the existing data rather than importing from new CSV files
     public void resetTables() {
         deleteLoggedInTransporter();
         deleteLoggedInReceiver();
