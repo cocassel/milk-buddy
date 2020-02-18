@@ -72,17 +72,27 @@ public class ImportReceivers extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast. makeText(getApplicationContext(),"Error importing  receivers!",Toast. LENGTH_LONG).show();
+                    Intent intent = new Intent(this, ImportReceivers.class);
+                    startActivity(intent);
                 }
                 Intent intent = new Intent(this, ImportFarmers.class);
                 startActivity(intent);
             } else {
-                Log.i("Import receivers failed", data.toString());
+                // If back button is pressed (no file is chosen), go back to same page
+                Intent intent = new Intent(this, ImportReceivers.class);
+                startActivity(intent);
             }
         }
     }
 
     private void continueWithExistingReceiverData() {
         Intent intent = new Intent(this, ImportFarmers.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ImportTransporters.class);
         startActivity(intent);
     }
 }

@@ -189,6 +189,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor fetchLoggedInTransporter() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LOGGED_IN_TRANSPORTER, null);
+        return cursor;
+    }
+
+    public Cursor fetchLoggedInReceiver() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LOGGED_IN_RECEIVER, null);
+        return cursor;
+    }
+
     // Fetch entire farmer table
     public Cursor fetchFarmers() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -236,6 +248,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor fetchContainers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CONTAINER, null);
+        return cursor;
+    }
+
+
+
+    public void deleteLoggedInTransporter() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
+    }
+
+    public void deleteLoggedInReceiver() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_RECEIVER);
+    }
+
+    public void deleteContainers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_CONTAINER);
+    }
+
+    public void deleteTransporterCollectionData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER_DATA);
+    }
+
+    public void deletePlantData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_PLANT_DATA);
+    }
+
+    // Reset the app to its beginning-of-day state. Do not reset transporters, farmers, and receivers
+    // because the transporter may want to use the existing data rather than importing from new CSV files
+    public void resetTables() {
+        deleteLoggedInTransporter();
+        deleteLoggedInReceiver();
+        deleteContainers();
+        deleteTransporterCollectionData();
+        deletePlantData();
+    }
+
+    // Save logged-in transporter data. This function is used for regular transporters (not guest)
+    public void insertLoggedInTransporter(int id, String name, String phoneNumber) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(" +
+                id + ", '" + name + "', '" + phoneNumber + "');";
+        db.execSQL(insertStatement);
+    }
+
+    // Save logged-in transporter data. Use -1 as the transporter ID
+    public void insertLoggedInGuestTransporter(String name, String phoneNumber) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(-1, '" +
+                name + "', '" + phoneNumber + "');";
+        db.execSQL(insertStatement);
+    }
+
     public void insertTransportersFromCSV(BufferedReader buffer) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -255,7 +326,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 StringBuilder sb = new StringBuilder(insertStatementPart1);
                 String[] str = line.split(",");
                 sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
+                // Some names have apostrophes in them so we need to escape them.
+                // This is done by using two apostrophes in place of one
+                sb.append(str[1].replace("'", "''") + "','");
                 sb.append(str[2] + "'");
                 sb.append(insertStatementPart2);
                 db.execSQL(sb.toString());
@@ -284,7 +357,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 StringBuilder sb = new StringBuilder(insertStatementPart1);
                 String[] str = line.split(",");
                 sb.append("'" + str[0] + "','");
-                sb.append(str[1] + "','");
+                // Some names have apostrophes in them so we need to escape them.
+                // This is done by using two apostrophes in place of one
+                sb.append(str[1].replace("'", "''") + "','");
                 sb.append(str[2] + "','");
                 sb.append(str[3] + "','");
                 sb.append(str[4] + "'");

@@ -1,14 +1,15 @@
 package com.kkfc.milkbuddy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -17,11 +18,15 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class FarmerSearch extends AppCompatActivity {
 
     DatabaseHelper db;
+    private Button resetButton;
+    private Button dropOffToReceiverButton;
+    AlertDialog.Builder builder;
     private SearchView farmerSearchView;
     private String searchBarQuery;
     private ListView farmerListView;
@@ -54,6 +59,9 @@ public class FarmerSearch extends AppCompatActivity {
         // By default select the option to see all routes (id = -1)
         selectedDropdownRoute = -1;
         searchBarQuery = "";
+
+        // TODO Remember filter settings after farmer collection (saving or cancelling)
+
         farmerSearchView = findViewById(R.id.farmerSearchView);
         farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 
@@ -91,8 +99,6 @@ public class FarmerSearch extends AppCompatActivity {
         transporterCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transportersSpinnerView = findViewById(R.id.Spinner1);
         transportersSpinnerView.setAdapter(transporterCursorAdapter);
-
-        // TODO Finish this
         transportersSpinnerView.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -170,6 +176,72 @@ public class FarmerSearch extends AppCompatActivity {
             }
         });
 
+        // Button for dropping off to receiver
+        dropOffToReceiverButton = findViewById(R.id.button1);
+        builder = new AlertDialog.Builder(this);
+        dropOffToReceiverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.setMessage("Are you sure you want to drop-off your milk?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getApplicationContext(),"Switching to receiver flow",
+                                        Toast.LENGTH_SHORT).show();
+                                goToReceiverLogin();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Cancelling drop-off",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Milk Buddy");
+                alert.show();
+            }
+
+        });
+
+        // Button for resetting the app
+        resetButton = findViewById(R.id.button2);
+        builder = new AlertDialog.Builder(this);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.setMessage("Are you sure you want to reset Milk Buddy? This will clear your collection data.")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getApplicationContext(),"Resetting the application",
+                                        Toast.LENGTH_SHORT).show();
+                                db.resetTables();
+                                // Redirect to import transporters page
+                                goToImportTransporters();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Cancelling application reset",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Milk Buddy");
+                alert.show();
+            }
+
+        });
+
     }
 
     private void goToFarmerCollection(int selectedFarmerId) {
@@ -177,4 +249,22 @@ public class FarmerSearch extends AppCompatActivity {
         intent.putExtra("farmerId", selectedFarmerId);
         startActivity(intent);
     }
+
+
+    private void goToImportTransporters() {
+        Intent intent = new Intent(this, ImportTransporters.class);
+        startActivity(intent);
+    }
+
+
+    private void goToReceiverLogin(){
+        Intent intent = new Intent(this,ReceiverLogin.class );
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
+    }
+
 }

@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,8 +31,42 @@ public class ImportTransporters extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_import_transporters);
+
         db = new DatabaseHelper(this);
+
+        // TODO: put this in a separate java class? add this in other pages too??
+        // CHECK STATE OF APP
+        // Is there a logged-in transporter?
+        Cursor loggedInTransporter = db.fetchLoggedInTransporter();
+        // If no logged-in transporter, stay on this page. If logged-in transporter, do further checks
+        if(loggedInTransporter.getCount() != 0) {
+            // Check if containers table is empty
+            Cursor containers = db.fetchContainers();
+            // If transporter has not selected containers yet, direct them to container selection page
+            if(containers.getCount() == 0) {
+                Intent intent = new Intent(this, TransporterContainerSelection.class);
+                startActivity(intent);
+            }
+            // If transporter has selected containers, do further checks
+            else {
+                Cursor loggedInReceiver = db.fetchLoggedInReceiver();
+                // If there is no logged-in receiver, direct to farmer search page
+                if(loggedInReceiver.getCount() == 0) {
+                    Intent intent = new Intent(this, FarmerSearch.class);
+                    startActivity(intent);
+                }
+                // If there is a logged-in receiver, direct to receiver homepage
+                else {
+                    Intent intent = new Intent(this, ReceiverHome.class);
+                    startActivity(intent);
+                }
+                // TODO: may need to add further checks once we develop receiver portion of the app
+            }
+
+        }
+
+
+        setContentView(R.layout.activity_import_transporters);
 
         importButton = findViewById(R.id.button1);
         importButton.setOnClickListener(new View.OnClickListener() {
@@ -88,13 +123,13 @@ public class ImportTransporters extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast. makeText(getApplicationContext(),"Error importing transporters!",Toast. LENGTH_LONG).show();
-                    // TODO does this work? (reloading the same activity)
                     Intent intent = new Intent(this, ImportTransporters.class);
                     startActivity(intent);
                 }
-
             } else {
-                Log.i("Import transpo. failed", data.toString());
+                // If back button is pressed (no file is chosen), go back to same page
+                Intent intent = new Intent(this, ImportTransporters.class);
+                startActivity(intent);
             }
         }
     }
@@ -106,6 +141,11 @@ public class ImportTransporters extends AppCompatActivity {
         // Uncomment the following line to test export
         //Intent intent = new Intent(this, ExportData.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
     }
 
 }

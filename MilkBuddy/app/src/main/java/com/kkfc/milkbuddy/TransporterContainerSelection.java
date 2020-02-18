@@ -248,6 +248,11 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }*/
 
 
+    @Override
+    public void onBackPressed() {
+        // TODO
+    }
+
 
 }
 

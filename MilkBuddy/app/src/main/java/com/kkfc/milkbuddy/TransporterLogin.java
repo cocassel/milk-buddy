@@ -19,7 +19,6 @@ public class TransporterLogin extends AppCompatActivity {
     private Button guestTransporter;
     private ListView transporterListView;
     SimpleCursorAdapter transporterCursorAdapter;
-    int selectedTransporter;
 
     // THE DESIRED COLUMNS TO BE BOUND
     final String[] transporterColumns = new String[]{ db.TRANSPORTER_NAME };
@@ -52,11 +51,12 @@ public class TransporterLogin extends AppCompatActivity {
                 // When a transporter is selected, fetch the ID of the selected transporter
                 Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
                 cursor.moveToPosition(position);
-                selectedTransporter = cursor.getInt(cursor.getColumnIndex("_id"));
+                int selectedTransporterId = cursor.getInt(cursor.getColumnIndex(db.TRANSPORTER_ID));
+                String selectedTransporterName = cursor.getString(cursor.getColumnIndex(db.TRANSPORTER_NAME));
+                String selectedTransporterPhoneNumber = cursor.getString(cursor.getColumnIndex(db.TRANSPORTER_PHONE_NUMBER));
 
-                // TODO: Save logged-in transporter to database
-
-                //Log.i("ID is", Integer.toString(selectedTransporter));
+                // Save logged-in transporter to database
+                db.insertLoggedInTransporter(selectedTransporterId, selectedTransporterName, selectedTransporterPhoneNumber);
             }
         });
 
@@ -77,5 +77,10 @@ public class TransporterLogin extends AppCompatActivity {
     private void guestTransporterLogin() {
         Intent intent = new Intent(this, GuestTransporter.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO
     }
 }

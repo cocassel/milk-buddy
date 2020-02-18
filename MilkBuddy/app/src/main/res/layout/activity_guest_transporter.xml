@@ -88,7 +88,7 @@
             android:layout_weight="1">
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/editText2"
                 android:layout_marginLeft="57dp"
                 android:layout_marginRight="67dp"
                 android:layout_marginBottom="42dp"
