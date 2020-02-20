@@ -23,9 +23,6 @@ public class TransporterContainerSelection extends AppCompatActivity {
     SQLiteDatabase sqLiteDatabase;
     private Button nextButton;
 
-
-
-    int minteger = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,24 +39,27 @@ public class TransporterContainerSelection extends AppCompatActivity {
         });
         insertContainer();
     }
+
     private void goToFarmerSearch() {
         Intent intent = new Intent(this, FarmerSearch.class);
         startActivity(intent);
     }
+
     //20 L
+    int minteger20 = 0;
     public void increaseInteger(View view) {
-        minteger = minteger + 1;
-        if(minteger>10){
-            minteger=10;
+        minteger20 = minteger20 + 1;
+        if(minteger20>10){
+            minteger20=10;
         }
-        display(minteger);
+        display(minteger20);
 
     }public void decreaseInteger(View view) {
-        minteger = minteger - 1;
-        if(minteger<0){
-            minteger=0;
+        minteger20 = minteger20 - 1;
+        if(minteger20<0){
+            minteger20=0;
         }
-        display(minteger);
+        display(minteger20);
     }
 
     private void display(int number) {
@@ -215,37 +215,31 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     //update database with container information
 
-    int size = 20;
     public void insertContainer(){
         nextButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
-                                public void onClick(View v){
-                                    boolean isInserted = db.addContainers(minteger,String.valueOf(size));
-                                    if(isInserted == true)
-                                        Toast.makeText(TransporterContainerSelection.this,"Data Saved",Toast.LENGTH_LONG).show();
-                                    else
-                                        Toast.makeText(TransporterContainerSelection.this, "Data not inserted",Toast.LENGTH_LONG).show();
-                                }
+                    public void onClick(View v){
+                        try {
+                            db.addContainers(minteger20, 20);
+                            db.addContainers(minteger25, 25);
+                            db.addContainers(minteger30, 30);
+                            db.addContainers(minteger35, 35);
+                            db.addContainers(minteger40, 40);
+                            db.addContainers(minteger45, 45);
+                            db.addContainers(minteger50, 50);
+                            Toast.makeText(TransporterContainerSelection.this,"Containers have been saved!",Toast.LENGTH_LONG).show();
+                            goToFarmerSearch();
 
+                        }
+                        catch(Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(TransporterContainerSelection.this, "Error saving containers!",Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
         );
     }
-
-
-   /* public void addContainer (View view){
-        //int i = 0;
-        //for (i > 0; i <= minteger; i++)
-        //db = new database(context);
-        sqLiteDatabase = db.getWritableDatabase();
-        boolean isInserted = db.addContainers(minteger,20);
-        //db.updateContainers(minteger25,25);
-        if(isInserted == true)
-            Toast.makeText(TransporterContainerSelection.this,"Data Saved",Toast.LENGTH_LONG).show();
-        else
-            Toast.makeText(TransporterContainerSelection.this, "Data not inserted",Toast.LENGTH_LONG).show();
-
-    }*/
 
 
     @Override
