@@ -26,6 +26,14 @@ public class TransporterContainerSelection extends AppCompatActivity {
     AlertDialog.Builder builder;
     private Button nextButton;
     int containerSum;
+    int minteger20 = 0;
+    int minteger25 = 0;
+    int minteger30 = 0;
+    int minteger35 = 0;
+    int minteger40 = 0;
+    int minteger45 = 0;
+    int minteger50 = 0;
+
 
 
     @Override
@@ -55,7 +63,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //20 L
-    int minteger20 = 0;
+
     public void increaseInteger(View view) {
         minteger20 = minteger20 + 1;
         if(minteger20>10){
@@ -79,7 +87,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //25 L
-    int minteger25 = 0;
+
     public void increaseInteger25(View view) {
         minteger25 = minteger25 + 1;
         if(minteger25>10){
@@ -103,7 +111,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //30 L
-    int minteger30 = 0;
+
     public void increaseInteger30(View view) {
         minteger30 = minteger30 + 1;
         if(minteger30>10){
@@ -127,7 +135,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //35 L
-    int minteger35 = 0;
+
     public void increaseInteger35(View view) {
         minteger35 = minteger35 + 1;
         if(minteger35>10){
@@ -151,7 +159,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //40 L
-    int minteger40 = 0;
+
     public void increaseInteger40(View view) {
         minteger40 = minteger40 + 1;
         if(minteger40>10){
@@ -175,7 +183,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //45 L
-    int minteger45 = 0;
+
     public void increaseInteger45(View view) {
         minteger45 = minteger45 + 1;
         if(minteger45>10){
@@ -199,7 +207,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //50 L
-    int minteger50 = 0;
+
     public void increaseInteger50(View view) {
         minteger50 = minteger50 + 1;
         if(minteger50>10){
