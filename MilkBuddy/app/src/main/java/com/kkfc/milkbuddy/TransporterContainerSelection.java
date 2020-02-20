@@ -25,6 +25,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
     SQLiteDatabase sqLiteDatabase;
     AlertDialog.Builder builder;
     private Button nextButton;
+    int containerSum;
 
 
     @Override
@@ -44,10 +45,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
          });
 
        // insertContainer();
-
-
-
-
+        
 
     }
 
@@ -225,7 +223,6 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     public void containerPopup() {
-        final int containerSum;
         containerSum = minteger20 + minteger25 + minteger30 + minteger35 + minteger40 + minteger45 + minteger50;
         builder = new AlertDialog.Builder(this);
         if (containerSum > 0) {
@@ -261,7 +258,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     //  Action for 'NO' Button
                                     dialog.cancel();
-                                    Toast.makeText(getApplicationContext(), "Cancelling container",
+                                    Toast.makeText(getApplicationContext(), "Returning to container page",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
