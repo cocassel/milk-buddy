@@ -3,9 +3,12 @@ package com.kkfc.milkbuddy;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 
@@ -15,12 +18,16 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     DatabaseHelper db;
     private Button nextButton;
+    private TextView NAME;
+    private SimpleCursorAdapter transporterCursorAdapter;
+    String transporterName;
 
     int minteger = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transporter_container_selection);
+        NAME= (TextView)findViewById(R.id.transporterNameView);
 
         db = new DatabaseHelper(this);
 
@@ -31,6 +38,10 @@ public class TransporterContainerSelection extends AppCompatActivity {
                 goToFarmerSearch();
             }
         });
+
+        transporterName = String.valueOf(db.fetchTransporterName());
+        NAME.setText(transporterName);
+
     }
     private void goToFarmerSearch() {
         Intent intent = new Intent(this, FarmerSearch.class);

@@ -253,6 +253,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    //Fetch logged in transporter name
+    public Cursor fetchTransporterName(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT name FROM " + TABLE_LOGGED_IN_TRANSPORTER,null);
+        return cursor;
+    }
+
 
 
     public void deleteLoggedInTransporter() {
