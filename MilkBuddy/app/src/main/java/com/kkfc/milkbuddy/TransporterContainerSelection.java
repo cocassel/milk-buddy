@@ -1,8 +1,10 @@
 package com.kkfc.milkbuddy;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -21,7 +23,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
     Context context = this;
     DatabaseHelper db;
     SQLiteDatabase sqLiteDatabase;
+    AlertDialog.Builder builder;
     private Button nextButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +36,19 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
         nextButton = findViewById(R.id.buttonNext);
         nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToFarmerSearch();
-            }
-        });
-        insertContainer();
+        @Override
+        public void onClick(View v) {
+            containerPopup();
+        //  goToFarmerSearch();
+        }
+         });
+
+       // insertContainer();
+
+
+
+
+
     }
 
     private void goToFarmerSearch() {
@@ -213,33 +224,103 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     }
 
+    public void containerPopup() {
+        final int containerSum;
+        containerSum = minteger20 + minteger25 + minteger30 + minteger35 + minteger40 + minteger45 + minteger50;
+        builder = new AlertDialog.Builder(this);
+        if (containerSum > 0) {
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    builder.setMessage("You have selected " + containerSum + "containers. Are you sure you want to continue?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Toast.makeText(getApplicationContext(), "Switching to farmer search page",
+                                            Toast.LENGTH_SHORT).show();
+                                    goToFarmerSearch();
+                                    //insertContainer();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //  Action for 'NO' Button
+                                    dialog.cancel();
+                                    Toast.makeText(getApplicationContext(), "Cancelling drop-off",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    //Creating dialog box
+                    AlertDialog alert = builder.create();
+                    //Setting the title manually
+                    alert.setTitle("Milk Buddy");
+                    alert.show();
+                }
+
+            });
+        } else {
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    builder.setMessage("Please select at least one container")
+                            .setCancelable(false)
+                            .setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //  Action for 'NO' Button
+                                    dialog.cancel();
+                                    Toast.makeText(getApplicationContext(), "Cancelling drop-off",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    //Creating dialog box
+                    AlertDialog alert = builder.create();
+                    //Setting the title manually
+                    alert.setTitle("Milk Buddy");
+                    alert.show();
+                }
+
+            });
+
+        }
+    }
+
+
+
+
+
+
+
+
+
     //update database with container information
-
     public void insertContainer(){
-        nextButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v){
-                        try {
-                            db.addContainers(minteger20, 20);
-                            db.addContainers(minteger25, 25);
-                            db.addContainers(minteger30, 30);
-                            db.addContainers(minteger35, 35);
-                            db.addContainers(minteger40, 40);
-                            db.addContainers(minteger45, 45);
-                            db.addContainers(minteger50, 50);
-                            Toast.makeText(TransporterContainerSelection.this,"Containers have been saved!",Toast.LENGTH_LONG).show();
-                            goToFarmerSearch();
+            nextButton.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                db.addContainers(minteger20, 20);
+                                db.addContainers(minteger25, 25);
+                                db.addContainers(minteger30, 30);
+                                db.addContainers(minteger35, 35);
+                                db.addContainers(minteger40, 40);
+                                db.addContainers(minteger45, 45);
+                                db.addContainers(minteger50, 50);
+                                Toast.makeText(TransporterContainerSelection.this, "Containers have been saved!", Toast.LENGTH_LONG).show();
+                                goToFarmerSearch();
 
-                        }
-                        catch(Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(TransporterContainerSelection.this, "Error saving containers!",Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(TransporterContainerSelection.this, "Error saving containers!", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
-                }
-        );
+            );
+
+
     }
+
+
 
 
     @Override
