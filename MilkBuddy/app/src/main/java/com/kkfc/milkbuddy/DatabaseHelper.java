@@ -114,9 +114,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             TRANSPORTER_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
             TRANSPORTER_DATA_CONTAINER_ID + " integer REFERENCES " + TABLE_CONTAINER + " (" + CONTAINER_ID + ")," +
             TRANSPORTER_DATA_QUANTITY_COLLECTED + " numeric," +
-            TRANSPORTER_DATA_QUALITY_TEST_SMELL  + " boolean, " +
-            TRANSPORTER_DATA_QUALITY_TEST_DENSITY + " numeric," +
-            TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + " numeric," +
+            TRANSPORTER_DATA_QUALITY_TEST_SMELL  + " text, " +
+            TRANSPORTER_DATA_QUALITY_TEST_DENSITY + " text," +
+            TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + " text," +
             TRANSPORTER_DATA_COMMENT + " text, " +
             TRANSPORTER_DATA_CREATE_DATE + " text, " +
             TRANSPORTER_DATA_CREATE_TIME + " text);";
@@ -141,9 +141,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             PLANT_DATA_TRANSPORTER_ID + " integer REFERENCES " + TABLE_TRANSPORTER + " (" + TRANSPORTER_ID + ")," +
             PLANT_DATA_RECEIVER_ID + " integer REFERENCES " + TABLE_RECEIVER + " (" + RECEIVER_ID + ")," +
             PLANT_DATA_QUANTITY_COLLECTED + " numeric," +
-            PLANT_DATA_QUALITY_TEST_SMELL  + " boolean, " +
-            PLANT_DATA_QUALITY_TEST_DENSITY + " numeric," +
-            PLANT_DATA_QUALITY_TEST_ALCOHOL + " numeric," +
+            PLANT_DATA_QUALITY_TEST_SMELL  + " text, " +
+            PLANT_DATA_QUALITY_TEST_DENSITY + " text," +
+            PLANT_DATA_QUALITY_TEST_ALCOHOL + " text," +
             PLANT_DATA_COMMENT + " text, " +
             PLANT_DATA_CREATE_DATE + " text, " +
             PLANT_DATA_CREATE_TIME + " text);";
@@ -275,11 +275,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteTransporterCollectionData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER_DATA);
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_TRANSPORTER_DATA + "'");
+
     }
 
     public void deletePlantData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+ TABLE_PLANT_DATA);
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_PLANT_DATA + "'");
+
     }
 
     // Reset the app to its beginning-of-day state. Do not reset transporters, farmers, and receivers
