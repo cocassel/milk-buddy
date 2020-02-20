@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -304,6 +303,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(-1, '" +
                 name + "', '" + phoneNumber + "');";
         db.execSQL(insertStatement);
+    }
+
+    // Save farmer collection data.
+    public void insertFarmerCollection(int fId, int tId, double quantityL, String wordComment){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement ="INSERT INTO " + TABLE_TRANSPORTER_DATA + "' (farmer_id)'" + "' VALUES ('" + fId + "');'";
+        db.execSQL(insertStatement);
+
     }
 
     public void insertTransportersFromCSV(BufferedReader buffer) {

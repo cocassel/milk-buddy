@@ -13,9 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 public class FarmerCollection extends AppCompatActivity {
 
 
+    DatabaseHelper db;
     private Button cancelCollection;
     private Button saveCollection;
     private int farmerId;
+    private int transporterId = 1;
+    //private int containerId = 1;
     private EditText quantity;
     private EditText comment;
     private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,desnityTwoSeven, densityTwoEight, densityTwoNine, densityThirtyPlus, densityNa ;
@@ -49,7 +52,8 @@ public class FarmerCollection extends AppCompatActivity {
                 //TODO: save data into database
                 quantity = findViewById(R.id.editText1);
                 comment = findViewById(R.id.editText2);
-                String quantityL = quantity.getText().toString();
+                String quantityLitre = quantity.getText().toString();
+                Double quantityL = Double.parseDouble(quantityLitre);
                 String wordComment = comment.getText().toString();
 
                 //Gathering collection data from sniff test
@@ -93,7 +97,8 @@ public class FarmerCollection extends AppCompatActivity {
                 } else if(densityNa.isChecked()){
                     densityTest=densityNa.getText().toString();
                 }
-                Toast.makeText(getApplicationContext(),quantityL + " - " + wordComment + " - " +  sniffTest+ " - " +  alcoholTest + " - " +  densityTest , Toast.LENGTH_SHORT).show();
+                db.insertFarmerCollection(farmerId, transporterId, quantityL, wordComment);
+                Toast.makeText(getApplicationContext(),quantityL + " - " + wordComment + " - " +  sniffTest+ " - " +  alcoholTest + " - " +  densityTest + " - " + farmerId + " - " + transporterId , Toast.LENGTH_SHORT).show();
 
                 //returnToFarmerSearch();
             }
