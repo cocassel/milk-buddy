@@ -35,7 +35,6 @@ public class TransporterContainerSelection extends AppCompatActivity {
     int minteger50 = 0;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,36 +62,37 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //20 L
-
-    public void increaseInteger(View view) {
+    public void increaseInteger20(View view) {
         minteger20 = minteger20 + 1;
         if(minteger20>10){
             minteger20=10;
         }
-        display(minteger20);
+        updateContainerSum();
+        display20(minteger20);
+    }
 
-    }public void decreaseInteger(View view) {
+    public void decreaseInteger20(View view) {
         minteger20 = minteger20 - 1;
         if(minteger20<0){
             minteger20=0;
         }
-        display(minteger20);
+        updateContainerSum();
+        display20(minteger20);
     }
 
-    private void display(int number) {
+    private void display20(int number) {
         TextView displayInteger = (TextView) findViewById(
                 R.id.integer_number);
         displayInteger.setText("" + number);
-
     }
 
     //25 L
-
     public void increaseInteger25(View view) {
         minteger25 = minteger25 + 1;
         if(minteger25>10){
             minteger25=10;
         }
+        updateContainerSum();
         display25(minteger25);
 
     }public void decreaseInteger25(View view) {
@@ -100,6 +100,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
         if(minteger25<0){
             minteger25=0;
         }
+        updateContainerSum();
         display25(minteger25);
     }
 
@@ -107,16 +108,15 @@ public class TransporterContainerSelection extends AppCompatActivity {
         TextView displayInteger = (TextView) findViewById(
                 R.id.integer_number25);
         displayInteger.setText("" + number);
-
     }
 
     //30 L
-
     public void increaseInteger30(View view) {
         minteger30 = minteger30 + 1;
         if(minteger30>10){
             minteger30=10;
         }
+        updateContainerSum();
         display30(minteger30);
 
     }public void decreaseInteger30(View view) {
@@ -124,6 +124,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
         if(minteger30<0){
             minteger30=0;
         }
+        updateContainerSum();
         display30(minteger30);
     }
 
@@ -135,19 +136,21 @@ public class TransporterContainerSelection extends AppCompatActivity {
     }
 
     //35 L
-
     public void increaseInteger35(View view) {
         minteger35 = minteger35 + 1;
         if(minteger35>10){
             minteger35=10;
         }
+        updateContainerSum();
         display35(minteger35);
+    }
 
-    }public void decreaseInteger35(View view) {
+    public void decreaseInteger35(View view) {
         minteger35 = minteger35 - 1;
         if(minteger35<0){
             minteger35=0;
         }
+        updateContainerSum();
         display35(minteger35);
     }
 
@@ -155,16 +158,15 @@ public class TransporterContainerSelection extends AppCompatActivity {
         TextView displayInteger = (TextView) findViewById(
                 R.id.integer_number35);
         displayInteger.setText("" + number);
-
     }
 
     //40 L
-
     public void increaseInteger40(View view) {
         minteger40 = minteger40 + 1;
         if(minteger40>10){
             minteger40=10;
         }
+        updateContainerSum();
         display40(minteger40);
 
     }public void decreaseInteger40(View view) {
@@ -172,6 +174,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
         if(minteger40<0){
             minteger40=0;
         }
+        updateContainerSum();
         display40(minteger40);
     }
 
@@ -179,16 +182,15 @@ public class TransporterContainerSelection extends AppCompatActivity {
         TextView displayInteger = (TextView) findViewById(
                 R.id.integer_number40);
         displayInteger.setText("" + number);
-
     }
 
     //45 L
-
     public void increaseInteger45(View view) {
         minteger45 = minteger45 + 1;
         if(minteger45>10){
             minteger45=10;
         }
+        updateContainerSum();
         display45(minteger45);
 
     }public void decreaseInteger45(View view) {
@@ -196,6 +198,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
         if(minteger45<0){
             minteger45=0;
         }
+        updateContainerSum();
         display45(minteger45);
     }
 
@@ -203,23 +206,24 @@ public class TransporterContainerSelection extends AppCompatActivity {
         TextView displayInteger = (TextView) findViewById(
                 R.id.integer_number45);
         displayInteger.setText("" + number);
-
     }
 
     //50 L
-
     public void increaseInteger50(View view) {
         minteger50 = minteger50 + 1;
         if(minteger50>10){
             minteger50=10;
         }
+        updateContainerSum();
         display50(minteger50);
+    }
 
-    }public void decreaseInteger50(View view) {
+    public void decreaseInteger50(View view) {
         minteger50 = minteger50 - 1;
         if(minteger50<0){
             minteger50=0;
         }
+        updateContainerSum();
         display50(minteger50);
     }
 
@@ -227,11 +231,13 @@ public class TransporterContainerSelection extends AppCompatActivity {
         TextView displayInteger = (TextView) findViewById(
                 R.id.integer_number50);
         displayInteger.setText("" + number);
+    }
 
+    private void updateContainerSum() {
+        containerSum = minteger20 + minteger25 + minteger30 + minteger35 + minteger40 + minteger45 + minteger50;
     }
 
     public void containerPopup() {
-        containerSum = minteger20 + minteger25 + minteger30 + minteger35 + minteger40 + minteger45 + minteger50;
         builder = new AlertDialog.Builder(this);
         if (containerSum > 0) {
             nextButton.setOnClickListener(new View.OnClickListener() {

@@ -73,7 +73,7 @@
                     android:id="@+id/decrease"
                     android:layout_width="55dp"
                     android:layout_height="35dp"
-                    android:onClick="decreaseInteger"
+                    android:onClick="decreaseInteger20"
                     android:text="-" />
 
                 <TextView
@@ -90,7 +90,7 @@
                     android:id="@+id/increase"
                     android:layout_width="55dp"
                     android:layout_height="35dp"
-                    android:onClick="increaseInteger"
+                    android:onClick="increaseInteger20"
                     android:text="+" />
 
             </LinearLayout>
