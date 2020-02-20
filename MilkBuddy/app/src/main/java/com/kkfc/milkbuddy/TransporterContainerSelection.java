@@ -232,21 +232,36 @@ public class TransporterContainerSelection extends AppCompatActivity {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    builder.setMessage("You have selected " + containerSum + "containers. Are you sure you want to continue?")
+                    builder.setMessage("You have selected " + containerSum + " containers. Are you sure you want to continue?")
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Toast.makeText(getApplicationContext(), "Switching to farmer search page",
-                                            Toast.LENGTH_SHORT).show();
-                                    goToFarmerSearch();
+                                    try {
+                                        db.addContainers(minteger20, 20);
+                                        db.addContainers(minteger25, 25);
+                                        db.addContainers(minteger30, 30);
+                                        db.addContainers(minteger35, 35);
+                                        db.addContainers(minteger40, 40);
+                                        db.addContainers(minteger45, 45);
+                                        db.addContainers(minteger50, 50);
+                                        Toast.makeText(TransporterContainerSelection.this, "Containers have been saved!", Toast.LENGTH_LONG).show();
+                                        goToFarmerSearch();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(TransporterContainerSelection.this, "Error saving containers!", Toast.LENGTH_LONG).show();
+                                    }
+                                    //Toast.makeText(getApplicationContext(), "Switching to farmer search page",
+                                      //      Toast.LENGTH_SHORT).show();
                                     //insertContainer();
+                                    goToFarmerSearch();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     //  Action for 'NO' Button
                                     dialog.cancel();
-                                    Toast.makeText(getApplicationContext(), "Cancelling drop-off",
+                                    Toast.makeText(getApplicationContext(), "Cancelling container",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -286,14 +301,8 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
     //update database with container information
-    public void insertContainer(){
+  /*  public void insertContainer(){
             nextButton.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -318,7 +327,7 @@ public class TransporterContainerSelection extends AppCompatActivity {
             );
 
 
-    }
+    } */
 
 
 
