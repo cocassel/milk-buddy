@@ -1,12 +1,12 @@
 package com.kkfc.milkbuddy;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +17,7 @@ public class FarmerCollection extends AppCompatActivity {
     private Button cancelCollection;
     private Button saveCollection;
     private int farmerId;
-    private int transporterId = 1;
+    private int transporterId;
     //private int containerId = 1;
     private EditText quantity;
     private EditText comment;
@@ -30,6 +30,12 @@ public class FarmerCollection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_collection);
+
+        db = new DatabaseHelper(this);
+        Cursor cursor = db.fetchLoggedInTransporter();
+        //only one row in the table so use first row
+        cursor.moveToFirst();
+        transporterId = cursor.getInt(cursor.getColumnIndex(db.TRANSPORTER_ID));
 
         Intent intent = getIntent();
         // Get the farmer ID, which was passed from the farmer search activity page
@@ -98,9 +104,8 @@ public class FarmerCollection extends AppCompatActivity {
                     densityTest=densityNa.getText().toString();
                 }
                 db.insertFarmerCollection(farmerId, transporterId, quantityL, wordComment);
-                Toast.makeText(getApplicationContext(),quantityL + " - " + wordComment + " - " +  sniffTest+ " - " +  alcoholTest + " - " +  densityTest + " - " + farmerId + " - " + transporterId , Toast.LENGTH_SHORT).show();
-
-                //returnToFarmerSearch();
+                //Toast.makeText(getApplicationContext(),quantityL + " - " + wordComment + " - " +  sniffTest+ " - " +  alcoholTest + " - " +  densityTest + " - " + farmerId + " - " + transporterId , Toast.LENGTH_SHORT).show();
+                returnToFarmerSearch();
             }
         });
 

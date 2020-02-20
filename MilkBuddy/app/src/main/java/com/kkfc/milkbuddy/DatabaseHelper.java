@@ -309,9 +309,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Save farmer collection data.
+    //TODO: add other info to the addition script
     public void insertFarmerCollection(int fId, int tId, double quantityL, String wordComment) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + "' (farmer_id)'" + "' VALUES ('" + fId + "');'";
+        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+ TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " + TRANSPORTER_DATA_COMMENT + " ) " + "VALUES ('" + fId + "', '" + tId + "', '" + quantityL + "', '" + wordComment +"');";
         db.execSQL(insertStatement);
     }
 
