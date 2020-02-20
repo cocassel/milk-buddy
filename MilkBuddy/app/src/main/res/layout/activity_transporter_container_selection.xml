@@ -402,7 +402,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Next" />
+                    android:text="Next"
+                    android:onClick="addContainer"/>
 
             </LinearLayout>
 

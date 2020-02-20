@@ -1,5 +1,6 @@
 package com.kkfc.milkbuddy;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -275,6 +276,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteContainers() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+ TABLE_CONTAINER);
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_CONTAINER + "'");
+
     }
 
     public void deleteTransporterCollectionData() {
@@ -311,6 +314,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(-1, '" +
                 name + "', '" + phoneNumber + "');";
         db.execSQL(insertStatement);
+    }
+
+    // Insert into container table a number of containers of the specified size
+    public void addContainers (int numContainers, int size){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        for (int i = 0; i<= numContainers-1; i++) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(CONTAINER_SIZE, size);
+            contentValues.put(CONTAINER_AMOUNT_REMAINING, size);
+            db.insert(TABLE_CONTAINER, null, contentValues);
+        }
+
     }
 
     public void insertTransportersFromCSV(BufferedReader buffer) {
