@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,9 +17,11 @@ public class FarmerCollection extends AppCompatActivity {
     DatabaseHelper db;
     private Button cancelCollection;
     private Button saveCollection;
+    private String farmerName;
     private int farmerId;
     private int transporterId;
     //private int containerId = 1;
+    private TextView nameFarmer;
     private EditText quantity;
     private EditText comment;
     private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,desnityTwoSeven, densityTwoEight, densityTwoNine, densityThirtyPlus, densityNa ;
@@ -40,6 +43,9 @@ public class FarmerCollection extends AppCompatActivity {
         Intent intent = getIntent();
         // Get the farmer ID, which was passed from the farmer search activity page
         farmerId = intent.getIntExtra("farmerId", 1);
+        farmerName = intent.getStringExtra("farmerName");
+        nameFarmer = findViewById(R.id.textView1);
+        nameFarmer.setText("Farmer Name: " + farmerName);
 
         //Log.i("Farmer ID is", Integer.toString(farmerId));
 
