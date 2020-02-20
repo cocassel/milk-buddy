@@ -32,13 +32,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/transporterNameView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="Hello Name!"
-                    android:textColor="#0E0E0E"
-                    android:textSize="36sp" />
+                    android:text="TextView           "
+                    android:textColor="#050505"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
@@ -393,7 +393,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Next" />
+                    android:text="Next"
+                    android:onClick="addContainer"/>
 
             </LinearLayout>
 

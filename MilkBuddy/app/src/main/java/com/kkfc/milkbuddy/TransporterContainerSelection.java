@@ -2,27 +2,51 @@ package com.kkfc.milkbuddy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+
 
 
 import java.util.ArrayList;
 
 public class TransporterContainerSelection extends AppCompatActivity {
 
+    Context context = this;
     DatabaseHelper db;
+    SQLiteDatabase sqLiteDatabase;
     private Button nextButton;
+    private TextView NAME;
+    private SimpleCursorAdapter transporterCursorAdapter;
+    String transporterName;
 
-    int minteger = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transporter_container_selection);
+        NAME= (TextView)findViewById(R.id.transporterNameView);
 
         db = new DatabaseHelper(this);
+
+        //Fetch the loggedInTransporter to show on the UI
+        Cursor cursor = db.fetchLoggedInTransporter();
+        //only one row in the table so use first row
+        cursor.moveToFirst();
+        String loggedInTransporter = cursor.getString(cursor.getColumnIndex(db.TRANSPORTER_NAME));
+        Log.i("logged in", loggedInTransporter);
+        NAME= (TextView)findViewById(R.id.transporterNameView);
+        NAME.setText("Hello " + loggedInTransporter + "!");
+
 
         nextButton = findViewById(R.id.buttonNext);
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -31,25 +55,32 @@ public class TransporterContainerSelection extends AppCompatActivity {
                 goToFarmerSearch();
             }
         });
+
+
+
+        insertContainer();
     }
+
     private void goToFarmerSearch() {
         Intent intent = new Intent(this, FarmerSearch.class);
         startActivity(intent);
     }
+
     //20 L
+    int minteger20 = 0;
     public void increaseInteger(View view) {
-        minteger = minteger + 1;
-        if(minteger>10){
-            minteger=10;
+        minteger20 = minteger20 + 1;
+        if(minteger20>10){
+            minteger20=10;
         }
-        display(minteger);
+        display(minteger20);
 
     }public void decreaseInteger(View view) {
-        minteger = minteger - 1;
-        if(minteger<0){
-            minteger=0;
+        minteger20 = minteger20 - 1;
+        if(minteger20<0){
+            minteger20=0;
         }
-        display(minteger);
+        display(minteger20);
     }
 
     private void display(int number) {
@@ -202,6 +233,35 @@ public class TransporterContainerSelection extends AppCompatActivity {
         displayInteger.setText("" + number);
 
     }
+
+    //update database with container information
+
+    public void insertContainer(){
+        nextButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v){
+                        try {
+                            db.addContainers(minteger20, 20);
+                            db.addContainers(minteger25, 25);
+                            db.addContainers(minteger30, 30);
+                            db.addContainers(minteger35, 35);
+                            db.addContainers(minteger40, 40);
+                            db.addContainers(minteger45, 45);
+                            db.addContainers(minteger50, 50);
+                            Toast.makeText(TransporterContainerSelection.this,"Containers have been saved!",Toast.LENGTH_LONG).show();
+                            goToFarmerSearch();
+
+                        }
+                        catch(Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(TransporterContainerSelection.this, "Error saving containers!",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+    }
+
 
     @Override
     public void onBackPressed() {
