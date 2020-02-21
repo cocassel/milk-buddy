@@ -71,8 +71,8 @@
 
                 <Button
                     android:id="@+id/decrease"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="decreaseInteger20"
                     android:text="-" />
 
@@ -88,8 +88,8 @@
 
                 <Button
                     android:id="@+id/increase"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="increaseInteger20"
                     android:text="+" />
 
@@ -117,8 +117,8 @@
 
                 <Button
                     android:id="@+id/decrease25"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="decreaseInteger25"
                     android:text="-" />
 
@@ -134,8 +134,8 @@
 
                 <Button
                     android:id="@+id/increase25"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="increaseInteger25"
                     android:text="+" />
 
@@ -163,8 +163,8 @@
 
                 <Button
                     android:id="@+id/decrease30"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="decreaseInteger30"
                     android:text="-" />
 
@@ -180,8 +180,8 @@
 
                 <Button
                     android:id="@+id/increase30"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="increaseInteger30"
                     android:text="+" />
 
@@ -209,8 +209,8 @@
 
                 <Button
                     android:id="@+id/decrease35"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="decreaseInteger35"
                     android:text="-" />
 
@@ -226,8 +226,8 @@
 
                 <Button
                     android:id="@+id/increase35"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="increaseInteger35"
                     android:text="+" />
 
@@ -255,8 +255,8 @@
 
                 <Button
                     android:id="@+id/decrease40"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="decreaseInteger40"
                     android:text="-" />
 
@@ -272,8 +272,8 @@
 
                 <Button
                     android:id="@+id/increase40"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="increaseInteger40"
                     android:text="+" />
 
@@ -301,8 +301,8 @@
 
                 <Button
                     android:id="@+id/decrease45"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="decreaseInteger45"
                     android:text="-" />
 
@@ -318,8 +318,8 @@
 
                 <Button
                     android:id="@+id/increase45"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="increaseInteger45"
                     android:text="+" />
 
@@ -347,8 +347,8 @@
 
                 <Button
                     android:id="@+id/decrease50"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="decreaseInteger50"
                     android:text="-" />
 
@@ -364,8 +364,8 @@
 
                 <Button
                     android:id="@+id/increase50"
-                    android:layout_width="55dp"
-                    android:layout_height="35dp"
+                    android:layout_width="58dp"
+                    android:layout_height="42dp"
                     android:onClick="increaseInteger50"
                     android:text="+" />
 
