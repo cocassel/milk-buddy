@@ -2,11 +2,15 @@ package com.kkfc.milkbuddy;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +38,11 @@ public class FarmerCollection extends AppCompatActivity {
     private String densityTest;
     private String dateToday;
     private String timeToday;
+    SimpleCursorAdapter containerCursorAdapter;
+    private Spinner containerSpinnerView;
+    SimpleCursorAdapter transporterCursorAdapter;
+    private Spinner transportersSpinnerView;
+    int selectedDropdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +62,34 @@ public class FarmerCollection extends AppCompatActivity {
         nameFarmer = findViewById(R.id.textView1);
         nameFarmer.setText("Farmer Name: " + farmerName);
 
-        //Log.i("Farmer ID is", Integer.toString(farmerId));
+
+        String[] containerAdapterCols=new String[]{"amount_remaining"};
+        int[] containerAdapterRowViews=new int[]{android.R.id.text1};
+
+        Cursor containerCursor = db.fetchContainers();
+        MatrixCursor allOption = new MatrixCursor(new String[] { "container_id", "amount_remaining" });
+        //allOption.addRow(new String[] { "-1", "All Routes" });
+        Cursor[] cursorsToMerge = { allOption, containerCursor };
+        Cursor containerDropdownCursor = new MergeCursor(cursorsToMerge);
+
+        containerCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, containerDropdownCursor, containerAdapterCols, containerAdapterRowViews, 0);
+        //containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //containerSpinnerView = findViewById(R.id.Spinner1);
+        //containerSpinnerView.setAdapter(containerCursorAdapter);
+        //containerSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //@Override
+            //public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // When the dropdown selection changes, fetch the ID of the selected item
+                //Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
+                //cursor.moveToPosition(position);
+                //selectedDropdown = cursor.getInt(cursor.getColumnIndex("container_id"));
+            //}
+
+            //@Override
+            //public void onNothingSelected(AdapterView<?> parent) {
+
+            //}
+        //});
 
         cancelCollection = findViewById(R.id.Button01);
         cancelCollection.setOnClickListener(new View.OnClickListener() {
