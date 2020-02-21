@@ -64,7 +64,8 @@ public class FarmerCollection extends AppCompatActivity {
         nameFarmer.setText("Farmer Name: " + farmerName);
 
 
-        String[] containerAdapterCols=new String[]{"amount_remaining"};
+        //Container dropdown
+        String[] containerAdapterCols=new String[]{"container_id"};
         int[] containerAdapterRowViews=new int[]{android.R.id.text1};
 
         Cursor containerCursor = db.fetchContainers();
