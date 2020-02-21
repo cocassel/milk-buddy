@@ -70,7 +70,6 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
 
 
-        insertContainer();
     }
 
     private void goToFarmerSearch() {
