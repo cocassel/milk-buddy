@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class FarmerCollection extends AppCompatActivity {
 
 
@@ -20,7 +24,7 @@ public class FarmerCollection extends AppCompatActivity {
     private String farmerName;
     private int farmerId;
     private int transporterId;
-    //private int containerId = 1;
+    private int containerId = 1;
     private TextView nameFarmer;
     private EditText quantity;
     private EditText comment;
@@ -28,6 +32,8 @@ public class FarmerCollection extends AppCompatActivity {
     private String sniffTest;
     private String alcoholTest;
     private String densityTest;
+    private String dateToday;
+    private String timeToday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +115,10 @@ public class FarmerCollection extends AppCompatActivity {
                 } else if(densityNa.isChecked()){
                     densityTest=densityNa.getText().toString();
                 }
-                db.insertFarmerCollection(farmerId, transporterId, quantityL, wordComment);
+
+                dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
+                timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
+                db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
                 //Toast.makeText(getApplicationContext(),quantityL + " - " + wordComment + " - " +  sniffTest+ " - " +  alcoholTest + " - " +  densityTest + " - " + farmerId + " - " + transporterId , Toast.LENGTH_SHORT).show();
                 returnToFarmerSearch();
             }
