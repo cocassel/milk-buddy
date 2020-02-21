@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,13 +38,27 @@ public class TransporterContainerSelection extends AppCompatActivity {
     int minteger45 = 0;
     int minteger50 = 0;
 
+    private TextView NAME;
+    private SimpleCursorAdapter transporterCursorAdapter;
+    String transporterName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transporter_container_selection);
+        NAME= (TextView)findViewById(R.id.transporterNameView);
 
         db = new DatabaseHelper(this);
+
+        //Fetch the loggedInTransporter to show on the UI
+        Cursor cursor = db.fetchLoggedInTransporter();
+        //only one row in the table so use first row
+        cursor.moveToFirst();
+        String loggedInTransporter = cursor.getString(cursor.getColumnIndex(db.TRANSPORTER_NAME));
+        Log.i("logged in", loggedInTransporter);
+        NAME= (TextView)findViewById(R.id.transporterNameView);
+        NAME.setText("Hello " + loggedInTransporter + "!");
+
 
         nextButton = findViewById(R.id.buttonNext);
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +69,8 @@ public class TransporterContainerSelection extends AppCompatActivity {
         });
 
 
+
+        insertContainer();
     }
 
     private void goToFarmerSearch() {
