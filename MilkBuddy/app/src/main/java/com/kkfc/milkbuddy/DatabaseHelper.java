@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Container table info
     public static final String TABLE_CONTAINER = "container_table";
-    public static final String CONTAINER_ID = "container_id";
+    public static final String CONTAINER_ID = "_id";
     public static final String CONTAINER_SIZE = "size";
     public static final String CONTAINER_AMOUNT_REMAINING = "amount_remaining";
 
