@@ -172,7 +172,8 @@ public class FarmerSearch extends AppCompatActivity {
                 Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
                 cursor.moveToPosition(position);
                 int selectedFarmerId = cursor.getInt(cursor.getColumnIndex("_id"));
-                goToFarmerCollection(selectedFarmerId);
+                String selectedFarmerName =cursor.getString(cursor.getColumnIndex("name"));
+                goToFarmerCollection(selectedFarmerId, selectedFarmerName);
             }
         });
 
@@ -244,9 +245,10 @@ public class FarmerSearch extends AppCompatActivity {
 
     }
 
-    private void goToFarmerCollection(int selectedFarmerId) {
+    private void goToFarmerCollection(int selectedFarmerId, String selectedFarmerName) {
         Intent intent = new Intent(this, FarmerCollection.class);
         intent.putExtra("farmerId", selectedFarmerId);
+        intent.putExtra("farmerName",selectedFarmerName);
         startActivity(intent);
     }
 

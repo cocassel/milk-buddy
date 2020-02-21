@@ -85,6 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
+                    android:checked="true"
                     android:textSize="20sp"/>
             </RadioGroup>
         </TableRow>
@@ -130,6 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
+                    android:checked="true"
                     android:textSize="20sp"/>
             </RadioGroup>
 
@@ -189,6 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
+                    android:checked="true"
                     android:textSize="20sp"/>
             </RadioGroup>
 
