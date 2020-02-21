@@ -47,12 +47,9 @@ public class TransporterContainerSelection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 containerPopup();
-            //  goToFarmerSearch();
             }
         });
 
-       // insertContainer();
-        
 
     }
 
@@ -259,9 +256,6 @@ public class TransporterContainerSelection extends AppCompatActivity {
                                 e.printStackTrace();
                                 Toast.makeText(TransporterContainerSelection.this, "Error saving containers!", Toast.LENGTH_LONG).show();
                             }
-                            //Toast.makeText(getApplicationContext(), "Switching to farmer search page",
-                              //      Toast.LENGTH_SHORT).show();
-                            //insertContainer();
                             goToFarmerSearch();
                         }
                     })
@@ -269,8 +263,6 @@ public class TransporterContainerSelection extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             //  Action for 'NO' Button
                             dialog.cancel();
-                            Toast.makeText(getApplicationContext(), "Returning to container page",
-                                    Toast.LENGTH_SHORT).show();
                         }
                     });
             //Creating dialog box
@@ -286,8 +278,6 @@ public class TransporterContainerSelection extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             //  Action for 'NO' Button
                             dialog.cancel();
-                            Toast.makeText(getApplicationContext(), "Cancelling drop-off",
-                                    Toast.LENGTH_SHORT).show();
                         }
                     });
             //Creating dialog box
@@ -297,39 +287,6 @@ public class TransporterContainerSelection extends AppCompatActivity {
             alert.show();
         }
     }
-
-
-
-    //update database with container information
-  /*  public void insertContainer(){
-            nextButton.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                db.addContainers(minteger20, 20);
-                                db.addContainers(minteger25, 25);
-                                db.addContainers(minteger30, 30);
-                                db.addContainers(minteger35, 35);
-                                db.addContainers(minteger40, 40);
-                                db.addContainers(minteger45, 45);
-                                db.addContainers(minteger50, 50);
-                                Toast.makeText(TransporterContainerSelection.this, "Containers have been saved!", Toast.LENGTH_LONG).show();
-                                goToFarmerSearch();
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Toast.makeText(TransporterContainerSelection.this, "Error saving containers!", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-            );
-
-
-    } */
-
-
-
 
     @Override
     public void onBackPressed() {
