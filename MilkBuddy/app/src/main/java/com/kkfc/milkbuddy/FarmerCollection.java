@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -21,12 +22,13 @@ public class FarmerCollection extends AppCompatActivity {
 
 
     DatabaseHelper db;
+    DatabaseHelper db2;
     private Button cancelCollection;
     private Button saveCollection;
     private String farmerName;
     private int farmerId;
     private int transporterId;
-    private int containerId = 1;
+    private int containerId;
     private TextView nameFarmer;
     private EditText quantity;
     private EditText comment;
@@ -60,32 +62,30 @@ public class FarmerCollection extends AppCompatActivity {
         nameFarmer = findViewById(R.id.textView1);
         nameFarmer.setText("Farmer Name: " + farmerName);
 
+        db2 = new DatabaseHelper(this);
 
-        //Container dropdown
-        //container size
-        //String[] containerAdapterCols=new String[]{db.};
-        //int[] containerAdapterRowViews=new int[]{android.R.id.text1};
+        String [] containerAdapterCols = new String[]{db2.CONTAINER_ID};
+        int[] containerAdapterRowViews=new int[]{android.R.id.text1};
 
-        //Cursor containerCursor = db.fetchContainers();
+        Cursor containerCursor = db2.fetchContainers();
 
-        //containerCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, containerCursor, containerAdapterCols, containerAdapterRowViews, 0);
-        //containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //containerSpinnerView = findViewById(R.id.Spinner1);
-        //containerSpinnerView.setAdapter(containerCursorAdapter);
-        //containerSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            //@Override
-            //public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //When the dropdown selection changes, fetch the ID of the selected item
-                //Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
-                //cursor.moveToPosition(position);
-                //selectedDropdown = cursor.getInt(cursor.getColumnIndex("container_id"));
-            //}
+        containerCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, containerCursor, containerAdapterCols, containerAdapterRowViews, 0);
+        containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        containerSpinnerView = findViewById(R.id.Spinner1);
+        containerSpinnerView.setAdapter(containerCursorAdapter);
+        containerSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Cursor c = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
+                c.moveToPosition(position);
+                containerId = c.getInt(c.getColumnIndex(db2.CONTAINER_ID));
+            }
 
-            //@Override
-            //public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-            //}
-        //});
+            }
+        });
 
         cancelCollection = findViewById(R.id.Button01);
         cancelCollection.setOnClickListener(new View.OnClickListener() {
