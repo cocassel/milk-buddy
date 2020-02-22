@@ -29,6 +29,7 @@ public class FarmerCollection extends AppCompatActivity {
     private int farmerId;
     private int transporterId;
     private int containerId;
+    private double quantityLeftContainer;
     private TextView nameFarmer;
     private EditText quantity;
     private EditText comment;
@@ -79,6 +80,8 @@ public class FarmerCollection extends AppCompatActivity {
                 Cursor c = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
                 c.moveToPosition(position);
                 containerId = c.getInt(c.getColumnIndex(db2.CONTAINER_ID));
+                quantityLeftContainer=c.getDouble(c.getColumnIndex((db2.CONTAINER_AMOUNT_REMAINING)));
+
             }
 
             @Override
@@ -150,7 +153,9 @@ public class FarmerCollection extends AppCompatActivity {
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
+                quantityLeftContainer = quantityLeftContainer - quantityL;
                 db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                db2.updateContainerInfo(containerId,quantityLeftContainer);
                 returnToFarmerSearch();
             }
         });
