@@ -151,7 +151,6 @@ public class FarmerCollection extends AppCompatActivity {
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
                 db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                //Toast.makeText(getApplicationContext(),quantityL + " - " + wordComment + " - " +  sniffTest+ " - " +  alcoholTest + " - " +  densityTest + " - " + farmerId + " - " + transporterId , Toast.LENGTH_SHORT).show();
                 returnToFarmerSearch();
             }
         });
