@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -153,10 +154,15 @@ public class FarmerCollection extends AppCompatActivity {
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
-                quantityLeftContainer = quantityLeftContainer - quantityL;
-                db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                db2.updateContainerInfo(containerId,quantityLeftContainer);
-                returnToFarmerSearch();
+                
+                if(quantityL>quantityLeftContainer) {
+                    Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_SHORT).show();
+                } else {
+                    quantityLeftContainer = quantityLeftContainer - quantityL;
+                    db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                    db2.updateContainerInfo(containerId, quantityLeftContainer);
+                    returnToFarmerSearch();
+                }
             }
         });
 
