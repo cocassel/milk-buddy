@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FarmerCollection"></activity>
+        <activity android:name=".ReceiverCollection"></activity>
+        <activity android:name=".FarmerCollection" />
         <activity android:name=".ExportData" />
         <activity android:name=".ImportFarmers" />
         <activity android:name=".ImportReceivers" />
