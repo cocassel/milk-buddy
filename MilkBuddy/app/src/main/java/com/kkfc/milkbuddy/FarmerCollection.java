@@ -1,5 +1,6 @@
 package com.kkfc.milkbuddy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
@@ -24,6 +26,7 @@ public class FarmerCollection extends AppCompatActivity {
 
     DatabaseHelper db;
     DatabaseHelper db2;
+    AlertDialog.Builder builder;
     private Button cancelCollection;
     private Button saveCollection;
     private String farmerName;
@@ -91,24 +94,50 @@ public class FarmerCollection extends AppCompatActivity {
             }
         });
 
+        // Cancel Collection Process
         cancelCollection = findViewById(R.id.Button01);
+        builder = new AlertDialog.Builder(this);
         cancelCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                returnToFarmerSearch();
+                builder.setMessage("All unsaved data will be lost. Are you sure you want to proceed?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getApplicationContext(),"Collection Canceled",
+                                        Toast.LENGTH_SHORT).show();
+                                returnToFarmerSearch();
+
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Cancel Aborted",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Milk Buddy");
+                alert.show();
             }
         });
 
+        // Save Collection Process
         saveCollection = findViewById(R.id.Button02);
+        builder = new AlertDialog.Builder(this);
         saveCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: save data into database
                 quantity = findViewById(R.id.editText1);
                 comment = findViewById(R.id.editText2);
                 String quantityLitre = quantity.getText().toString();
-                Double quantityL = Double.parseDouble(quantityLitre);
-                String wordComment = comment.getText().toString();
+                final Double quantityL = Double.parseDouble(quantityLitre);
+                final String wordComment = comment.getText().toString();
 
                 //Gathering collection data from sniff test
                 sniffPass = findViewById(R.id.radioButton1);
@@ -154,14 +183,37 @@ public class FarmerCollection extends AppCompatActivity {
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
-                
+
                 if(quantityL>quantityLeftContainer) {
                     Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_SHORT).show();
                 } else {
-                    quantityLeftContainer = quantityLeftContainer - quantityL;
-                    db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                    db2.updateContainerInfo(containerId, quantityLeftContainer);
-                    returnToFarmerSearch();
+                    builder.setMessage("Are you sure you save farmer collection?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    quantityLeftContainer = quantityLeftContainer - quantityL;
+                                    db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                    db2.updateContainerInfo(containerId, quantityLeftContainer);
+                                    Toast.makeText(getApplicationContext(),"Collection Information Saved",
+                                            Toast.LENGTH_SHORT).show();
+                                    returnToFarmerSearch();
+
+
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //  Action for 'NO' Button
+                                    dialog.cancel();
+                                    Toast.makeText(getApplicationContext(),"Saving Aborted",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    //Creating dialog box
+                    AlertDialog alert = builder.create();
+                    //Setting the title manually
+                    alert.setTitle("Milk Buddy");
+                    alert.show();
                 }
             }
         });
