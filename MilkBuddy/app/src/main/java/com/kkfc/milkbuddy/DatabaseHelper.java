@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Container table info
     public static final String TABLE_CONTAINER = "container_table";
-    public static final String CONTAINER_ID = "container_id";
+    public static final String CONTAINER_ID = "_id";
     public static final String CONTAINER_SIZE = "size";
     public static final String CONTAINER_AMOUNT_REMAINING = "amount_remaining";
 
@@ -313,11 +313,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Save farmer collection data.
-    //TODO: add other info to the addition script
-    public void insertFarmerCollection(int fId, int tId, double quantityL, String wordComment) {
+    public void insertFarmerCollection(int fId, int tId,int cId, double quantityL, String sniffTest, String alcoholTest, String densityTest, String wordComment, String createDate, String createTime) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+ TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " + TRANSPORTER_DATA_COMMENT + " ) " + "VALUES ('" + fId + "', '" + tId + "', '" + quantityL + "', '" + wordComment +"');";
+        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+ TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " + TRANSPORTER_DATA_CONTAINER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " + TRANSPORTER_DATA_QUALITY_TEST_SMELL + ", " + TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + ", " + TRANSPORTER_DATA_QUALITY_TEST_DENSITY + ", " + TRANSPORTER_DATA_COMMENT + ", " + TRANSPORTER_DATA_CREATE_DATE + ", " + TRANSPORTER_DATA_CREATE_TIME + " ) " + "VALUES ('" + fId + "', '" + tId + "', '" + cId + "', '" + quantityL + "', '" + sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" + wordComment + "', '" + createDate + "', '" + createTime +"');";
         db.execSQL(insertStatement);
+    }
+
+    //Update conatiner data after collection
+    public void updateContainerInfo (int cId, double amountRemaining){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "UPDATE " + TABLE_CONTAINER + " SET " + CONTAINER_AMOUNT_REMAINING + " = " +"'" + amountRemaining + "' WHERE " + CONTAINER_ID + " = " +"'" + cId + "';";
+        db.execSQL(insertStatement);
+
     }
 
     // Insert into container table a number of containers of the specified size
