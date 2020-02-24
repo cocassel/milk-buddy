@@ -1,26 +1,39 @@
 package com.kkfc.milkbuddy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class FarmerCollection extends AppCompatActivity {
 
 
     DatabaseHelper db;
+    DatabaseHelper db2;
+    AlertDialog.Builder builder;
     private Button cancelCollection;
     private Button saveCollection;
     private String farmerName;
     private int farmerId;
     private int transporterId;
-    //private int containerId = 1;
+    private int containerId;
+    private double quantityLeftContainer;
     private TextView nameFarmer;
     private EditText quantity;
     private EditText comment;
@@ -28,6 +41,13 @@ public class FarmerCollection extends AppCompatActivity {
     private String sniffTest;
     private String alcoholTest;
     private String densityTest;
+    private String dateToday;
+    private String timeToday;
+    SimpleCursorAdapter containerCursorAdapter;
+    private Spinner containerSpinnerView;
+    SimpleCursorAdapter transporterCursorAdapter;
+    private Spinner transportersSpinnerView;
+    int selectedDropdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,26 +67,77 @@ public class FarmerCollection extends AppCompatActivity {
         nameFarmer = findViewById(R.id.textView1);
         nameFarmer.setText("Farmer Name: " + farmerName);
 
-        //Log.i("Farmer ID is", Integer.toString(farmerId));
+        db2 = new DatabaseHelper(this);
 
-        cancelCollection = findViewById(R.id.Button01);
-        cancelCollection.setOnClickListener(new View.OnClickListener() {
+        String [] containerAdapterCols = new String[]{db2.CONTAINER_ID};
+        int[] containerAdapterRowViews=new int[]{android.R.id.text1};
+
+        Cursor containerCursor = db2.fetchContainers();
+
+        containerCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, containerCursor, containerAdapterCols, containerAdapterRowViews, 0);
+        containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        containerSpinnerView = findViewById(R.id.Spinner1);
+        containerSpinnerView.setAdapter(containerCursorAdapter);
+        containerSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                returnToFarmerSearch();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Cursor c = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
+                c.moveToPosition(position);
+                containerId = c.getInt(c.getColumnIndex(db2.CONTAINER_ID));
+                quantityLeftContainer=c.getDouble(c.getColumnIndex((db2.CONTAINER_AMOUNT_REMAINING)));
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
+        // Cancel Collection Process
+        cancelCollection = findViewById(R.id.Button01);
+        builder = new AlertDialog.Builder(this);
+        cancelCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.setMessage("All unsaved data will be lost. Are you sure you want to proceed?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(getApplicationContext(),"Collection Canceled",
+                                        Toast.LENGTH_SHORT).show();
+                                returnToFarmerSearch();
+
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                                Toast.makeText(getApplicationContext(),"Cancel Aborted",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Milk Buddy");
+                alert.show();
+            }
+        });
+
+        // Save Collection Process
         saveCollection = findViewById(R.id.Button02);
+        builder = new AlertDialog.Builder(this);
         saveCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: save data into database
                 quantity = findViewById(R.id.editText1);
                 comment = findViewById(R.id.editText2);
                 String quantityLitre = quantity.getText().toString();
-                Double quantityL = Double.parseDouble(quantityLitre);
-                String wordComment = comment.getText().toString();
+                final Double quantityL = Double.parseDouble(quantityLitre);
+                final String wordComment = comment.getText().toString();
 
                 //Gathering collection data from sniff test
                 sniffPass = findViewById(R.id.radioButton1);
@@ -109,9 +180,41 @@ public class FarmerCollection extends AppCompatActivity {
                 } else if(densityNa.isChecked()){
                     densityTest=densityNa.getText().toString();
                 }
-                db.insertFarmerCollection(farmerId, transporterId, quantityL, wordComment);
-                //Toast.makeText(getApplicationContext(),quantityL + " - " + wordComment + " - " +  sniffTest+ " - " +  alcoholTest + " - " +  densityTest + " - " + farmerId + " - " + transporterId , Toast.LENGTH_SHORT).show();
-                returnToFarmerSearch();
+
+                dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
+                timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
+
+                if(quantityL>quantityLeftContainer) {
+                    Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_SHORT).show();
+                } else {
+                    builder.setMessage("Are you sure you save farmer collection?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    quantityLeftContainer = quantityLeftContainer - quantityL;
+                                    db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                    db2.updateContainerInfo(containerId, quantityLeftContainer);
+                                    Toast.makeText(getApplicationContext(),"Collection Information Saved",
+                                            Toast.LENGTH_SHORT).show();
+                                    returnToFarmerSearch();
+
+
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //  Action for 'NO' Button
+                                    dialog.cancel();
+                                    Toast.makeText(getApplicationContext(),"Saving Aborted",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    //Creating dialog box
+                    AlertDialog alert = builder.create();
+                    //Setting the title manually
+                    alert.setTitle("Milk Buddy");
+                    alert.show();
+                }
             }
         });
 
