@@ -5,17 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button1"
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Drop-Off" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reset" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Reset"
+            android:textSize="15sp"
+            android:id="@+id/button"
+            android:background="#EDF0F0F0"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Drop-Off"
+            android:textSize="15sp"
+            android:id="@+id/button2"
+            android:background="#EDF0F0F0"/>
+
+    </TableRow>
 
     <TextView
         android:id="@+id/textView1"
@@ -24,7 +38,7 @@
         android:gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:text="Search for a Farmer"
         android:textColor="#000000"
@@ -34,6 +48,7 @@
         android:id="@+id/farmerSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
 
