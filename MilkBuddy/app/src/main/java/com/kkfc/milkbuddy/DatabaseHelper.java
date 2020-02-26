@@ -2,6 +2,7 @@ package com.kkfc.milkbuddy;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -299,6 +300,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Save logged-in transporter data. This function is used for regular transporters (not guest)
     public void insertLoggedInTransporter(int id, String name, String phoneNumber) {
         SQLiteDatabase db = this.getWritableDatabase();
+        // Delete existing entry from the table. The table will only be non-empty if the transporter
+        // goes back from the container selection page and chooses a different transporter
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
         String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(" +
                 id + ", '" + name + "', '" + phoneNumber + "');";
         db.execSQL(insertStatement);
@@ -307,6 +311,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Save logged-in transporter data. Use -1 as the transporter ID
     public void insertLoggedInGuestTransporter(String name, String phoneNumber) {
         SQLiteDatabase db = this.getWritableDatabase();
+        // Delete existing entry from the table. The table will only be non-empty if the transporter
+        // goes back from the container selection page and chooses a different transporter
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
         String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(-1, '" +
                 name + "', '" + phoneNumber + "');";
         db.execSQL(insertStatement);
@@ -315,7 +322,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Save farmer collection data.
     public void insertFarmerCollection(int fId, int tId,int cId, double quantityL, String sniffTest, String alcoholTest, String densityTest, String wordComment, String createDate, String createTime) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+ TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " + TRANSPORTER_DATA_CONTAINER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " + TRANSPORTER_DATA_QUALITY_TEST_SMELL + ", " + TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + ", " + TRANSPORTER_DATA_QUALITY_TEST_DENSITY + ", " + TRANSPORTER_DATA_COMMENT + ", " + TRANSPORTER_DATA_CREATE_DATE + ", " + TRANSPORTER_DATA_CREATE_TIME + " ) " + "VALUES ('" + fId + "', '" + tId + "', '" + cId + "', '" + quantityL + "', '" + sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" + wordComment + "', '" + createDate + "', '" + createTime +"');";
+        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+
+                TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " +
+                TRANSPORTER_DATA_CONTAINER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " +
+                TRANSPORTER_DATA_QUALITY_TEST_SMELL + ", " + TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + ", " +
+                TRANSPORTER_DATA_QUALITY_TEST_DENSITY + ", " + TRANSPORTER_DATA_COMMENT + ", " +
+                TRANSPORTER_DATA_CREATE_DATE + ", " + TRANSPORTER_DATA_CREATE_TIME + " ) " +
+                "VALUES ('" + fId + "', '" + tId + "', '" + cId + "', '" + quantityL + "', '" +
+                sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" +
+                wordComment.replace("'", "''") + "', '" +
+                createDate + "', '" + createTime +"');";
         db.execSQL(insertStatement);
     }
 

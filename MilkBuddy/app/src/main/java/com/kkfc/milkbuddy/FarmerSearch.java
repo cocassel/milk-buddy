@@ -1,7 +1,10 @@
 package com.kkfc.milkbuddy;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
@@ -36,6 +39,7 @@ public class FarmerSearch extends AppCompatActivity {
     CheckBox active_checkbox;
     CheckBox collected_checkbox;
     int selectedDropdownRoute;
+    SharedPreferences states;
 
     // THE DESIRED COLUMNS TO BE BOUND
     final String[] farmerColumns = new String[]{
@@ -54,20 +58,34 @@ public class FarmerSearch extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_search);
+
         db = new DatabaseHelper(this);
 
-        // By default select the option to see all routes (id = -1)
+        // Default for dropdown is to see all routes (id = -1)
         selectedDropdownRoute = -1;
+        // Default for search bary query should be empty string
         searchBarQuery = "";
 
-        // TODO Remember filter settings after farmer collection (saving or cancelling)
+        // Retrieve saved state of checkboxes, dropdown, and search bar. This will be used to set them accordingly
+        states = getSharedPreferences("states", Context.MODE_PRIVATE);
 
+        // Get past search bar query (if applicable)
+        searchBarQuery = states.getString("searchBarQuery", "");
+        // Set search bar query
         farmerSearchView = findViewById(R.id.farmerSearchView);
+        farmerSearchView.setQuery(searchBarQuery, true);
         farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String text) {
-
+                searchBarQuery = text;
+                Cursor newFarmerCursor = db.fetchFarmers(
+                        active_checkbox.isChecked(),
+                        collected_checkbox.isChecked(),
+                        selectedDropdownRoute,
+                        text);
+                farmerCursorAdapter.changeCursor(newFarmerCursor);
+                saveState();
                 return false;
             }
 
@@ -80,9 +98,11 @@ public class FarmerSearch extends AppCompatActivity {
                         selectedDropdownRoute,
                         text);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
+                saveState();
                 return false;
             }
         });
+
 
         // Make dropdown for transporters/routes
         String[] transporterAdapterCols=new String[]{"name"};
@@ -99,6 +119,16 @@ public class FarmerSearch extends AppCompatActivity {
         transporterCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transportersSpinnerView = findViewById(R.id.Spinner1);
         transportersSpinnerView.setAdapter(transporterCursorAdapter);
+
+        // Get prior dropdown selection (if applicable)
+        int selectedDropdownPosition = states.getInt("selectedDropdownPosition", -1);
+
+        //Set dropdown selection
+        // TODO
+
+        transportersSpinnerView.setSelection(selectedDropdownPosition);
+
+
         transportersSpinnerView.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -108,8 +138,6 @@ public class FarmerSearch extends AppCompatActivity {
                 cursor.moveToPosition(position);
                 selectedDropdownRoute = cursor.getInt(cursor.getColumnIndex("_id"));
 
-                //Log.i("ID is", Integer.toString(selectedDropdownRoute));
-
                 // Re-fetch farmers based on route selected from dropdown
                 Cursor newFarmerCursor = db.fetchFarmers(
                         active_checkbox.isChecked(),
@@ -117,6 +145,7 @@ public class FarmerSearch extends AppCompatActivity {
                         selectedDropdownRoute,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
+                saveState();
             }
 
             @Override
@@ -125,6 +154,7 @@ public class FarmerSearch extends AppCompatActivity {
             }
 
         });
+
 
         // List farmers
         Cursor farmerCursor = db.fetchFarmers();
@@ -140,7 +170,13 @@ public class FarmerSearch extends AppCompatActivity {
         active_checkbox = findViewById(R.id.checkBox1);
         collected_checkbox = findViewById(R.id.checkBox2);
 
-        // Re-fetch farmers when checkbox is toggled
+        // Set state of checkboxes based on prior selections
+        boolean isActiveChecked = states.getBoolean("activeCheckbox", false);
+        boolean isCollectedChecked = states.getBoolean("collectedCheckbox", false);
+        active_checkbox.setChecked(isActiveChecked);
+        collected_checkbox.setChecked(isCollectedChecked);
+
+        // Re-fetch farmers when checkbox is toggled and save state
         active_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,10 +186,11 @@ public class FarmerSearch extends AppCompatActivity {
                         selectedDropdownRoute,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
+                saveState();
             }
         });
 
-        // Re-fetch farmers when checkbox is toggled
+        // Re-fetch farmers when checkbox is toggled and save state
         collected_checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +200,7 @@ public class FarmerSearch extends AppCompatActivity {
                         selectedDropdownRoute,
                         searchBarQuery);
                 farmerCursorAdapter.changeCursor(newFarmerCursor);
+                saveState();
             }
         });
 
@@ -222,6 +260,7 @@ public class FarmerSearch extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Resetting the application",
                                         Toast.LENGTH_SHORT).show();
                                 db.resetTables();
+                                clearState();
                                 // Redirect to import transporters page
                                 goToImportTransporters();
                             }
@@ -245,6 +284,27 @@ public class FarmerSearch extends AppCompatActivity {
 
     }
 
+    // This function saves the state of the checkboxes, dropdown, and search bar. The idea is that after
+    // a transporter saves collection information and returns to the farmer search page, the transporter
+    // should not need to redo their preferences. If the checkboxes were checked before, they should
+    // stay checked. The search bar query should also remain. The dropdown should also keep its selection
+    private void saveState() {
+        states = getSharedPreferences("states", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = states.edit();
+        editor.putBoolean("activeCheckbox", active_checkbox.isChecked());
+        editor.putBoolean("collectedCheckbox", collected_checkbox.isChecked());
+        editor.putString("searchBarQuery", searchBarQuery);
+        editor.putInt("selectedDropdownPosition", transportersSpinnerView.getSelectedItemPosition());
+        editor.commit();
+    }
+
+    // Clear state of farmer search page (checkboxes, search bar, dropdown)
+    private void clearState() {
+        SharedPreferences states = getSharedPreferences("states", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = states.edit();
+        editor.clear().commit();
+    }
+
     private void goToFarmerCollection(int selectedFarmerId, String selectedFarmerName) {
         Intent intent = new Intent(this, FarmerCollection.class);
         intent.putExtra("farmerId", selectedFarmerId);
@@ -266,7 +326,9 @@ public class FarmerSearch extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        // We intentionally do not allow the user to go back from this page. Once the transporter has
+        // finished the set-up phase (importing, logging-in, and choosing containers) they may not
+        // go back to it unless they reset the app.
     }
 
 }

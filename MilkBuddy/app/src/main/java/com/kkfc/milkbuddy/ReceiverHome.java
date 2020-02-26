@@ -26,6 +26,8 @@ public class ReceiverHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver_home);
 
+        // TODO: Automatically redirect to export page if all containers are received
+
         NAME = (TextView) findViewById(R.id.transporterName);
 
         db = new DatabaseHelper(this);
@@ -58,6 +60,7 @@ public class ReceiverHome extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        // Once a receiver has logged in, the farmer search/collection page and receiver login pages
+        // are no longer accessible so we disable the back button (i.e. it does nothing).
     }
 }
