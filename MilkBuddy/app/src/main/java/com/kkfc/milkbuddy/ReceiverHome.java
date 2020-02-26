@@ -7,12 +7,10 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ReceiverHome extends AppCompatActivity {
 
@@ -52,7 +50,7 @@ public class ReceiverHome extends AppCompatActivity {
     }
 
     private void exportData() {
-        Intent intent = new Intent(this, ExportData.class);
+        Intent intent = new Intent(this, ExportTransporterData.class);
         startActivity(intent);
     }
 
