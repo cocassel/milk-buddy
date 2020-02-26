@@ -309,7 +309,18 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        // We will allow the user to go back to the transporter login page and select a different
+        // transporter. When that happens, we will simply erase the existing data from the logged-in
+        // transporter table and reenter the new transporter selected
+        Intent intent = new Intent(this, TransporterLogin.class);
+        startActivity(intent);
+        // When the user clicks the back button, they are navigated back to the transporter login.
+        // Since they will need to re-log-in to proceed, we can safely delete the prior selection
+        // Deleting this is necessary because if we leave the prior entry in the table and the user
+        // keeps clicking the back button until they reach the import transporters page (first page
+        // of app), the state check will go through and re-direct the user to the container page since
+        // the state of the app will technically be logged-in transporter with no container selection
+        db.deleteLoggedInTransporter();
     }
 
 

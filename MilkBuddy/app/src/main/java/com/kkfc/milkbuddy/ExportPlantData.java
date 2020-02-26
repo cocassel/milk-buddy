@@ -75,10 +75,7 @@ public class ExportPlantData extends AppCompatActivity {
 
                     writer.close();
 
-                    // This ends the cycle so we want to reset the app and redirect to homepage
-                    // TODO maybe add pop-up here to let the receiver know they're all done!
-                    db.resetTables();
-                    Intent intent = new Intent(this, ImportTransporters.class);
+                    Intent intent = new Intent(this, Completed.class);
                     startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -96,6 +93,9 @@ public class ExportPlantData extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        // Allow a user to go back to the ExportTransporterData page so that they can export again
+        // if they so choose
+        Intent intent = new Intent(this, ExportTransporterData.class);
+        startActivity(intent);
     }
 }

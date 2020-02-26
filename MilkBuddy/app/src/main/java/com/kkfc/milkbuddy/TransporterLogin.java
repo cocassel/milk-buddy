@@ -81,6 +81,7 @@ public class TransporterLogin extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        Intent intent = new Intent(this, ImportFarmers.class);
+        startActivity(intent);
     }
 }

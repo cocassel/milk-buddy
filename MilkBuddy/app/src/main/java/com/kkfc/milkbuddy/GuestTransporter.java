@@ -27,7 +27,8 @@ public class GuestTransporter extends AppCompatActivity {
         cancelGuestTransporter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goBackTransporterLogin();
+                // Cancel button should do the same thing as back button
+                onBackPressed();
             }
         });
 
@@ -61,7 +62,7 @@ public class GuestTransporter extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        goBackTransporterLogin();
     }
 
 }
