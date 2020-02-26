@@ -299,6 +299,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Save logged-in transporter data. This function is used for regular transporters (not guest)
     public void insertLoggedInTransporter(int id, String name, String phoneNumber) {
         SQLiteDatabase db = this.getWritableDatabase();
+        // Delete existing entry from the table. The table will only be non-empty if the transporter
+        // goes back from the container selection page and chooses a different transporter
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
         String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(" +
                 id + ", '" + name + "', '" + phoneNumber + "');";
         db.execSQL(insertStatement);

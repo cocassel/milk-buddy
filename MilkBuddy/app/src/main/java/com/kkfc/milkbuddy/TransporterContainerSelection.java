@@ -309,7 +309,11 @@ public class TransporterContainerSelection extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        // We will allow the user to go back to the transporter login page and select a different
+        // transporter. When that happens, we will simply erase the existing data from the logged-in
+        // transporter table and reenter the new transporter selected
+        Intent intent = new Intent(this, TransporterLogin.class);
+        startActivity(intent);
     }
 
 
