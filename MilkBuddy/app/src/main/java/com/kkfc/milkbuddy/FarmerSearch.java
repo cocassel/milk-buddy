@@ -120,16 +120,13 @@ public class FarmerSearch extends AppCompatActivity {
         transportersSpinnerView = findViewById(R.id.Spinner1);
         transportersSpinnerView.setAdapter(transporterCursorAdapter);
 
-        // Get dropdown selection from before (if applicable)
-        selectedDropdownRoute = states.getInt("selectedDropdownRoute", -1);
+        // Get prior dropdown selection (if applicable)
+        int selectedDropdownPosition = states.getInt("selectedDropdownPosition", -1);
 
         //Set dropdown selection
         // TODO
-        if(selectedDropdownRoute==-1){
-            transportersSpinnerView.setSelection(0);
-        } else {
-            transportersSpinnerView.setSelection(selectedDropdownRoute);
-        }
+
+        transportersSpinnerView.setSelection(selectedDropdownPosition);
 
 
         transportersSpinnerView.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -297,7 +294,7 @@ public class FarmerSearch extends AppCompatActivity {
         editor.putBoolean("activeCheckbox", active_checkbox.isChecked());
         editor.putBoolean("collectedCheckbox", collected_checkbox.isChecked());
         editor.putString("searchBarQuery", searchBarQuery);
-        editor.putInt("selectedDropdownRoute", selectedDropdownRoute);
+        editor.putInt("selectedDropdownPosition", transportersSpinnerView.getSelectedItemPosition());
         editor.commit();
     }
 
