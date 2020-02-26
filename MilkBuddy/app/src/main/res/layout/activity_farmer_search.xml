@@ -18,7 +18,8 @@
             android:layout_margin="8dp"
             android:text="Reset"
             android:textSize="15sp"
-            android:background="#EDF0F0F0"/>
+            android:background="#EDF0F0F0"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/button1"
@@ -27,7 +28,8 @@
             android:layout_margin="8dp"
             android:text="Drop-Off"
             android:textSize="15sp"
-            android:background="#EDF0F0F0"/>
+            android:background="#EDF0F0F0"
+            android:layout_weight="1"/>
 
        </LinearLayout>
 
