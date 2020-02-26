@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -253,6 +254,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    // fetch container data in a concatenated form for the container dropdown on the farmer collection page
+    public Cursor fetchConcatContainerInfo(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
+                 CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " + CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
+        Log.i("query ", SQLquery);
+        Cursor cursor = db.rawQuery(SQLquery, null);
+        return cursor;
+
+    }
 
 
     public void deleteLoggedInTransporter() {
@@ -324,14 +335,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String insertStatement = "UPDATE " + TABLE_CONTAINER + " SET " + CONTAINER_AMOUNT_REMAINING + " = " + "'" + amountRemaining + "' WHERE " + CONTAINER_ID + " = " + "'" + cId + "';";
         db.execSQL(insertStatement);
-
-    }
-
-    //concat container data
-    public Cursor fetchConcatContainerInfo(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT CONCAT(" + CONTAINER_ID + " ,  ':' , " + CONTAINER_AMOUNT_REMAINING +" ) AS " + CONTAINER_ID +" FROM " + TABLE_CONTAINER + ";", null);
-        return cursor;
 
     }
 
