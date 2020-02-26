@@ -139,7 +139,7 @@ public class ImportTransporters extends AppCompatActivity {
         //Comment the following line out to test export
         Intent intent = new Intent(this, ImportReceivers.class);
         // Uncomment the following line to test export
-        //Intent intent = new Intent(this, ExportData.class);
+        //Intent intent = new Intent(this, ExportTransporterData.class);
         startActivity(intent);
     }
 
