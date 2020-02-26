@@ -258,7 +258,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor fetchConcatContainerInfo(){
         SQLiteDatabase db = this.getWritableDatabase();
         String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
-                 CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " + CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
+                CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " +
+                CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
         Log.i("query ", SQLquery);
         Cursor cursor = db.rawQuery(SQLquery, null);
         return cursor;
