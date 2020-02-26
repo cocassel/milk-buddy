@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.BufferedWriter;
@@ -19,36 +17,26 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Date;
 
-public class ExportTransporterData extends AppCompatActivity {
+public class ExportData extends AppCompatActivity {
 
     DatabaseHelper db;
     private static final int WRITE_REQUEST_CODE = 42;
-    private Button exportButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_export_transporter_data);
+        setContentView(R.layout.activity_export_data);
 
         db = new DatabaseHelper(this);
 
-        exportButton = findViewById(R.id.button1);
-        exportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create new document of type csv
-                String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        // Create new document of type csv
+        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
-                        .addCategory(Intent.CATEGORY_OPENABLE)
-                        .setType("text/csv")
-                        .putExtra(Intent.EXTRA_TITLE, "Transporter Milk Log " + date);
-                startActivityForResult(intent, WRITE_REQUEST_CODE);
-            }
-        });
-
-
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType("text/csv")
+                .putExtra(Intent.EXTRA_TITLE, "Transporter Milk Log " + date);
+        startActivityForResult(intent, WRITE_REQUEST_CODE);
     }
 
     @Override
@@ -77,19 +65,12 @@ public class ExportTransporterData extends AppCompatActivity {
                     writer.write("DO I WORK?, YES");
                     
                     writer.close();
-
-                    Intent intent = new Intent(this, ExportPlantData.class);
-                    startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast. makeText(getApplicationContext(),"Error exporting transporter data!",Toast. LENGTH_LONG).show();
-                    Intent intent = new Intent(this, ExportTransporterData.class);
-                    startActivity(intent);
+                    Toast. makeText(getApplicationContext(),"Error exporting transporters!",Toast. LENGTH_LONG).show();
                 }
             } else {
-                // If back button is pressed (no file is saved), go back to same page
-                Intent intent = new Intent(this, ExportTransporterData.class);
-                startActivity(intent);
+                Log.i("Export transpo. failed", data.toString());
             }
         }
     }

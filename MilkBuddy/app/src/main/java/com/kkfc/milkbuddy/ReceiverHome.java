@@ -2,22 +2,21 @@ package com.kkfc.milkbuddy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReceiverHome extends AppCompatActivity {
 
     DatabaseHelper db;
     private TextView NAME;
     private ListView containerListView;
-    private Button exportButton;
     SimpleCursorAdapter containerCursorAdapter;
 
 
@@ -39,20 +38,8 @@ public class ReceiverHome extends AppCompatActivity {
         NAME= (TextView)findViewById(R.id.transporterName);
         NAME.setText("These are " + loggedInTransporter + "'s containers");
 
-        exportButton = findViewById(R.id.button1);
-        exportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exportData();
-            }
-        });
-
     }
 
-    private void exportData() {
-        Intent intent = new Intent(this, ExportTransporterData.class);
-        startActivity(intent);
-    }
 
 
 
