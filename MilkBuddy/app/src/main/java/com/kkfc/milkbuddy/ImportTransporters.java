@@ -34,7 +34,6 @@ public class ImportTransporters extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        // TODO: put this in a separate java class? add this in other pages too??
         // CHECK STATE OF APP
         // Is there a logged-in transporter?
         Cursor loggedInTransporter = db.fetchLoggedInTransporter();

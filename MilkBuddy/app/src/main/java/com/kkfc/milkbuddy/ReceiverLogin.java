@@ -33,6 +33,8 @@ public class ReceiverLogin extends AppCompatActivity {
         loginReceiver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // TODO show popup if empty fields and disallow moving forward
                 goToReceiverHomepage();
             }
         });
