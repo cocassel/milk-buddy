@@ -79,7 +79,6 @@ public class FarmerCollection extends AppCompatActivity {
                 c.moveToPosition(position);
                 containerId = c.getInt(c.getColumnIndex(db.CONTAINER_ID));
                 quantityLeftContainer=c.getDouble(c.getColumnIndex((db.CONTAINER_AMOUNT_REMAINING)));
-
             }
 
             @Override
@@ -87,7 +86,6 @@ public class FarmerCollection extends AppCompatActivity {
 
             }
         });
-
         // Cancel Collection Process
         cancelCollection = findViewById(R.id.Button01);
         builder = new AlertDialog.Builder(this);
@@ -176,12 +174,12 @@ public class FarmerCollection extends AppCompatActivity {
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
-                if(quantityLitre.length()==0){
+                if(quantityLitre.length()==0) {
                     quantity.setError("Please Enter a Milk Quantity");
                 } else {
                     final Double quantityL = Double.parseDouble(quantityLitre);
-                    if (quantityL > quantityLeftContainer) {
-                        Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_SHORT).show();
+                    if(quantityL>quantityLeftContainer) {
+                        Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_LONG).show();
                     } else {
                         builder.setMessage("Are you sure you save farmer collection?")
                                 .setCancelable(false)
@@ -211,9 +209,12 @@ public class FarmerCollection extends AppCompatActivity {
                         alert.setTitle("Milk Buddy");
                         alert.show();
                     }
+
                 }
+
             }
         });
+
 
     }
 
