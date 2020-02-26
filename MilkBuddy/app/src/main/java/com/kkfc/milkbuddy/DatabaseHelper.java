@@ -2,10 +2,10 @@ package com.kkfc.milkbuddy;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -333,6 +333,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 wordComment.replace("'", "''") + "', '" +
                 createDate + "', '" + createTime +"');";
         db.execSQL(insertStatement);
+    }
+
+    // fetch container data in a concatenated form for the container dropdown on the farmer collection page
+    public Cursor fetchConcatContainerInfo(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
+                CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " +
+                CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
+        Log.i("query ", SQLquery);
+        Cursor cursor = db.rawQuery(SQLquery, null);
+        return cursor;
+
     }
 
     //Update conatiner data after collection
