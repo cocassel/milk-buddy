@@ -176,8 +176,12 @@ public class FarmerCollection extends AppCompatActivity {
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
+              
                 if(quantityLitre.length()==0){
                     quantity.setError("Please Enter a Milk Quantity");
+
+                if(quantityL>quantityLeftContainer) {
+                    Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_LONG).show();
                 } else {
                     final Double quantityL = Double.parseDouble(quantityLitre);
                     if (quantityL > quantityLeftContainer) {
