@@ -268,7 +268,7 @@ public class FarmerSearch extends AppCompatActivity {
     public void onBackPressed() {
         // We intentionally do not allow the user to go back from this page. Once the transporter has
         // finished the set-up phase (importing, logging-in, and choosing containers) they may not
-        // go back to it unless they reset the app. 
+        // go back to it unless they reset the app.
     }
 
 }

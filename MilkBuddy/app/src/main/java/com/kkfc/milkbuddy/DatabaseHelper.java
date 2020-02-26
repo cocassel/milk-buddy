@@ -318,7 +318,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Save farmer collection data.
     public void insertFarmerCollection(int fId, int tId,int cId, double quantityL, String sniffTest, String alcoholTest, String densityTest, String wordComment, String createDate, String createTime) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+ TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " + TRANSPORTER_DATA_CONTAINER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " + TRANSPORTER_DATA_QUALITY_TEST_SMELL + ", " + TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + ", " + TRANSPORTER_DATA_QUALITY_TEST_DENSITY + ", " + TRANSPORTER_DATA_COMMENT + ", " + TRANSPORTER_DATA_CREATE_DATE + ", " + TRANSPORTER_DATA_CREATE_TIME + " ) " + "VALUES ('" + fId + "', '" + tId + "', '" + cId + "', '" + quantityL + "', '" + sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" + wordComment + "', '" + createDate + "', '" + createTime +"');";
+        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+
+                TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " +
+                TRANSPORTER_DATA_CONTAINER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " +
+                TRANSPORTER_DATA_QUALITY_TEST_SMELL + ", " + TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + ", " +
+                TRANSPORTER_DATA_QUALITY_TEST_DENSITY + ", " + TRANSPORTER_DATA_COMMENT + ", " +
+                TRANSPORTER_DATA_CREATE_DATE + ", " + TRANSPORTER_DATA_CREATE_TIME + " ) " +
+                "VALUES ('" + fId + "', '" + tId + "', '" + cId + "', '" + quantityL + "', '" +
+                sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" +
+                wordComment.replace("'", "''") + "', '" +
+                createDate + "', '" + createTime +"');";
         db.execSQL(insertStatement);
     }
 
