@@ -185,7 +185,7 @@ public class FarmerCollection extends AppCompatActivity {
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
 
                 if(quantityL>quantityLeftContainer) {
-                    Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_LONG).show();
                 } else {
                     builder.setMessage("Are you sure you save farmer collection?")
                             .setCancelable(false)
