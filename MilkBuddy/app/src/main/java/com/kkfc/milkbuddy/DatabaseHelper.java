@@ -322,8 +322,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Update conatiner data after collection
     public void updateContainerInfo (int cId, double amountRemaining){
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "UPDATE " + TABLE_CONTAINER + " SET " + CONTAINER_AMOUNT_REMAINING + " = " +"'" + amountRemaining + "' WHERE " + CONTAINER_ID + " = " +"'" + cId + "';";
+        String insertStatement = "UPDATE " + TABLE_CONTAINER + " SET " + CONTAINER_AMOUNT_REMAINING + " = " + "'" + amountRemaining + "' WHERE " + CONTAINER_ID + " = " + "'" + cId + "';";
         db.execSQL(insertStatement);
+
+    }
+
+    //concat container data
+    public Cursor fetchConcatContainerInfo(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT CONCAT(" + CONTAINER_ID + " ,  ':' , " + CONTAINER_AMOUNT_REMAINING +" ) AS " + CONTAINER_ID +" FROM " + TABLE_CONTAINER + ";", null);
+        return cursor;
 
     }
 

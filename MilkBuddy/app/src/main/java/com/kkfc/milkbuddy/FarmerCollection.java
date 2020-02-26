@@ -72,7 +72,7 @@ public class FarmerCollection extends AppCompatActivity {
         String [] containerAdapterCols = new String[]{db2.CONTAINER_ID};
         int[] containerAdapterRowViews=new int[]{android.R.id.text1};
 
-        Cursor containerCursor = db2.fetchContainers();
+        Cursor containerCursor = db2.fetchConcatContainerInfo();
 
         containerCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, containerCursor, containerAdapterCols, containerAdapterRowViews, 0);
         containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
