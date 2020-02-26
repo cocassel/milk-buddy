@@ -96,7 +96,7 @@ public class ExportTransporterData extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        // This page is automatically navigated to once all milk containers have been
     }
 
 }

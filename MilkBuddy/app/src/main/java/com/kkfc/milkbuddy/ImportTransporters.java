@@ -145,7 +145,7 @@ public class ImportTransporters extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        // This is the first page of the app. Pressing the back button should do nothing.
     }
 
 }

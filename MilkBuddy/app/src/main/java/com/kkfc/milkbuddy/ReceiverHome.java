@@ -58,6 +58,7 @@ public class ReceiverHome extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // TODO
+        // Once a receiver has logged in, the farmer search/collection page and receiver login pages
+        // are no longer accessible so we disable the back button (i.e. it does nothing).
     }
 }
