@@ -28,8 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:text="Receiver Login"
                 android:textColor="#000000"
@@ -54,13 +52,10 @@
         <TableRow
             android:id="@+id/third_row"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/editText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="57dp"
                 android:layout_marginRight="67dp"
                 android:layout_marginTop="15dp"
@@ -75,6 +70,7 @@
 
             <TextView
                 android:id="@+id/textView4"
+                android:layout_marginTop="40dp"
                 android:layout_marginStart="57dp"
                 android:layout_marginLeft="57dp"
                 android:text="Password"
@@ -85,8 +81,7 @@
         <TableRow
             android:id="@+id/seventh_row"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/editText2"
@@ -100,14 +95,16 @@
 
         <LinearLayout
             android:id="@+id/LinearLayout01"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/Button01"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Cancel"
                 android:textSize="20sp"
@@ -117,8 +114,9 @@
 
             <Button
                 android:id="@+id/Button02"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Login"
                 android:textSize="20sp"
@@ -138,11 +136,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginTop="40dp"
                 android:text="Forgot Password?"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColor="#000000"
                 android:background="#FAFAFA">
             </Button>
+
         </TableRow>
 
     </TableLayout>
