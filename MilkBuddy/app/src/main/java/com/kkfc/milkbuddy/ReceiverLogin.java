@@ -4,14 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class ReceiverLogin extends AppCompatActivity {
 
     DatabaseHelper db;
     private Button loginReceiver;
     private Button cancelButton;
+    private EditText usernameField;
+    private EditText passwordField;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +25,8 @@ public class ReceiverLogin extends AppCompatActivity {
         setContentView(R.layout.activity_receiver_login);
 
         db = new DatabaseHelper(this);
+
+
 
         cancelButton = findViewById(R.id.Button01);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +43,18 @@ public class ReceiverLogin extends AppCompatActivity {
             public void onClick(View v) {
 
                 // TODO show popup if empty fields and disallow moving forward
+
+                // Get text from username and password fields
+                usernameField = findViewById(R.id.editText1);
+                passwordField = findViewById(R.id.editText2);
+                String username = usernameField.getText().toString();
+                String password = passwordField.getText().toString();
+
+                Boolean authenticated = db.checkReceiverLoginCredentials(username, password);
+                Log.i("auth", authenticated.toString());
                 goToReceiverHomepage();
+
+                // TODO add to logged in receiver table
             }
         });
     }

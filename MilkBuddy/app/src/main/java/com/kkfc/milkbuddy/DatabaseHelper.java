@@ -189,6 +189,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    // Check receiver credentials
+    public Boolean checkReceiverLoginCredentials(String username, String password) {
+        // TODO hash password
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_RECEIVER + " WHERE " + RECEIVER_USERNAME + "='" +
+                username + "' AND " + RECEIVER_PASSWORD + "='" + password + "'";
+        Cursor cursor = db.rawQuery(query, null);
+        // If there is at least one matching entry in the db, return true
+        Boolean test = cursor.getCount() >= 1;
+        return (cursor.getCount() >= 1);
+    }
+
     public Cursor fetchLoggedInTransporter() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LOGGED_IN_TRANSPORTER, null);
@@ -254,6 +267,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+
+    // fetch container data in a concatenated form for the container dropdown on the farmer collection page
+    public Cursor fetchConcatContainerInfo(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
+                CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " +
+                CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
+        Log.i("query ", SQLquery);
+        Cursor cursor = db.rawQuery(SQLquery, null);
+        return cursor;
+
+    }
 
 
     public void deleteLoggedInTransporter() {
@@ -333,18 +358,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 wordComment.replace("'", "''") + "', '" +
                 createDate + "', '" + createTime +"');";
         db.execSQL(insertStatement);
-    }
-
-    // fetch container data in a concatenated form for the container dropdown on the farmer collection page
-    public Cursor fetchConcatContainerInfo(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
-                CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " +
-                CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
-        Log.i("query ", SQLquery);
-        Cursor cursor = db.rawQuery(SQLquery, null);
-        return cursor;
-
     }
 
     //Update conatiner data after collection
