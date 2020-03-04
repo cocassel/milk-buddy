@@ -1,7 +1,9 @@
 package com.kkfc.milkbuddy;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,7 +20,7 @@ public class ReceiverLogin extends AppCompatActivity {
     private Button cancelButton;
     private EditText usernameField;
     private EditText passwordField;
-
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +65,30 @@ public class ReceiverLogin extends AppCompatActivity {
 
                     db.insertLoggedInReceiver(loggedInId, loggedInName, loggedInPhoneNumber);
                 } else {
-
+                    // TODO popup
+                    invalidCredentialsPopup();
                 }
 
 
             }
         });
+    }
+
+    private void invalidCredentialsPopup() {
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please enter valid log-in credentials")
+                .setCancelable(false)
+                .setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Milk Buddy");
+        alert.show();
     }
 
     private void goToReceiverHomepage() {
