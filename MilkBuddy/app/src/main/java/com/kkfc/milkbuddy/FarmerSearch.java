@@ -217,34 +217,14 @@ public class FarmerSearch extends AppCompatActivity {
 
         // Button for dropping off to receiver
         dropOffToReceiverButton = findViewById(R.id.button1);
-        builder = new AlertDialog.Builder(this);
         dropOffToReceiverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder.setMessage("Are you sure you want to drop-off your milk?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getApplicationContext(),"Switching to receiver flow",
+
+                                Toast.makeText(getApplicationContext(),"Switching to receiver login",
                                         Toast.LENGTH_SHORT).show();
                                 goToReceiverLogin();
                             }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //  Action for 'NO' Button
-                                dialog.cancel();
-                                Toast.makeText(getApplicationContext(),"Cancelling drop-off",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                //Creating dialog box
-                AlertDialog alert = builder.create();
-                //Setting the title manually
-                alert.setTitle("Milk Buddy");
-                alert.show();
-            }
-
         });
 
         // Button for resetting the app
