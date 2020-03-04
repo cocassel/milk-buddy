@@ -273,6 +273,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor checkReceiverLoginCredentials(String username, String password) {
         // TODO hash password
         String passwordHash = getMd5Hash(password);
+        Log.i("hash", passwordHash);
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_RECEIVER + " WHERE " + RECEIVER_USERNAME + "='" +
                 username + "' AND " + RECEIVER_PASSWORD + "='" + passwordHash + "'";
@@ -283,16 +284,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public String getMd5Hash(String password) {
         try {
+            final String MD5 = "MD5";
             // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            MessageDigest digest = java.security.MessageDigest.getInstance(MD5);
             digest.update(password.getBytes());
             byte messageDigest[] = digest.digest();
 
             // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
             return hexString.toString();
         }catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -347,9 +352,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Delete existing entry from the table. The table will only be non-empty if the transporter
         // goes back from the container selection page and chooses a different transporter
         db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
-        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(" +
-                id + ", '" + name + "', '" + phoneNumber + "');";
-        db.execSQL(insertStatement);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LOGGED_IN_TRANSPORTER_ID, id);
+        contentValues.put(LOGGED_IN_TRANSPORTER_NAME, name);
+        contentValues.put(LOGGED_IN_TRANSPORTER_PHONE_NUMBER, phoneNumber);
+        db.insert(TABLE_LOGGED_IN_TRANSPORTER, null, contentValues);
     }
 
     // Save logged-in transporter data. Use -1 as the transporter ID
@@ -358,9 +366,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Delete existing entry from the table. The table will only be non-empty if the transporter
         // goes back from the container selection page and chooses a different transporter
         db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
-        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(-1, '" +
-                name + "', '" + phoneNumber + "');";
-        db.execSQL(insertStatement);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LOGGED_IN_TRANSPORTER_ID, -1);
+        contentValues.put(LOGGED_IN_TRANSPORTER_NAME, name);
+        contentValues.put(LOGGED_IN_TRANSPORTER_PHONE_NUMBER, phoneNumber);
+        db.insert(TABLE_LOGGED_IN_TRANSPORTER, null, contentValues);
     }
 
     // Save logged-in receiver data.
@@ -368,9 +379,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete existing entry from the table.
         db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_RECEIVER);
-        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_RECEIVER + " VALUES(" +
-                id + ", '" + name + "', '" + phoneNumber + "');";
-        db.execSQL(insertStatement);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LOGGED_IN_RECEIVER_ID, id);
+        contentValues.put(LOGGED_IN_RECEIVER_NAME, name);
+        contentValues.put(LOGGED_IN_RECEIVER_PHONE_NUMBER, phoneNumber);
+        db.insert(TABLE_LOGGED_IN_RECEIVER, null, contentValues);
     }
 
     // Save farmer collection data.
