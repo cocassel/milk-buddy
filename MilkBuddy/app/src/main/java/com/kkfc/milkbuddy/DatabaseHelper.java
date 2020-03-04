@@ -190,16 +190,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Check receiver credentials
-    public Boolean checkReceiverLoginCredentials(String username, String password) {
+    public Cursor checkReceiverLoginCredentials(String username, String password) {
         // TODO hash password
 
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_RECEIVER + " WHERE " + RECEIVER_USERNAME + "='" +
                 username + "' AND " + RECEIVER_PASSWORD + "='" + password + "'";
+        // Get all the matching entries for the entered username and password (there should be 0 or 1)
         Cursor cursor = db.rawQuery(query, null);
-        // If there is at least one matching entry in the db, return true
-        Boolean test = cursor.getCount() >= 1;
-        return (cursor.getCount() >= 1);
+        return cursor;
     }
 
     public Cursor fetchLoggedInTransporter() {
@@ -341,6 +340,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
         String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(-1, '" +
                 name + "', '" + phoneNumber + "');";
+        db.execSQL(insertStatement);
+    }
+
+    // Save logged-in receiver data.
+    public void insertLoggedInReceiver(int id, String name, String phoneNumber) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete existing entry from the table.
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_RECEIVER);
+        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_RECEIVER + " VALUES(" +
+                id + ", '" + name + "', '" + phoneNumber + "');";
         db.execSQL(insertStatement);
     }
 

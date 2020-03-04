@@ -3,6 +3,7 @@ package com.kkfc.milkbuddy;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -50,11 +51,22 @@ public class ReceiverLogin extends AppCompatActivity {
                 String username = usernameField.getText().toString();
                 String password = passwordField.getText().toString();
 
-                Boolean authenticated = db.checkReceiverLoginCredentials(username, password);
-                Log.i("auth", authenticated.toString());
-                goToReceiverHomepage();
+                Cursor authenticatedReceivers = db.checkReceiverLoginCredentials(username, password);
+                // If there is at least one matching entry in the db, user is authenticated
+                if(authenticatedReceivers.getCount() >= 1) {
+                    authenticatedReceivers.moveToFirst();
+                    goToReceiverHomepage();
+                    // TODO add to logged in receiver table
+                    int loggedInId = authenticatedReceivers.getInt(authenticatedReceivers.getColumnIndex(db.RECEIVER_ID));
+                    String loggedInName = authenticatedReceivers.getString(authenticatedReceivers.getColumnIndex(db.RECEIVER_NAME));
+                    String loggedInPhoneNumber = authenticatedReceivers.getString(authenticatedReceivers.getColumnIndex(db.RECEIVER_PHONE_NUMBER));
 
-                // TODO add to logged in receiver table
+                    db.insertLoggedInReceiver(loggedInId, loggedInName, loggedInPhoneNumber);
+                } else {
+
+                }
+
+
             }
         });
     }
