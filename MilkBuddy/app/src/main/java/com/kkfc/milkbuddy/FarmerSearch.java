@@ -69,23 +69,13 @@ public class FarmerSearch extends AppCompatActivity {
         // Retrieve saved state of checkboxes, dropdown, and search bar. This will be used to set them accordingly
         states = getSharedPreferences("states", Context.MODE_PRIVATE);
 
-        // Get past search bar query (if applicable)
-        searchBarQuery = states.getString("searchBarQuery", "");
         // Set search bar query
         farmerSearchView = findViewById(R.id.farmerSearchView);
-        farmerSearchView.setQuery(searchBarQuery, true);
         farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String text) {
-                searchBarQuery = text;
-                Cursor newFarmerCursor = db.fetchFarmers(
-                        active_checkbox.isChecked(),
-                        collected_checkbox.isChecked(),
-                        selectedDropdownRoute,
-                        text);
-                farmerCursorAdapter.changeCursor(newFarmerCursor);
-                saveState();
+
                 return false;
             }
 
@@ -291,9 +281,10 @@ public class FarmerSearch extends AppCompatActivity {
     private void saveState() {
         states = getSharedPreferences("states", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = states.edit();
+        // Save state of both checkboxes and dropdown position
+        // We purposely do not save the state of the search bar
         editor.putBoolean("activeCheckbox", active_checkbox.isChecked());
         editor.putBoolean("collectedCheckbox", collected_checkbox.isChecked());
-        editor.putString("searchBarQuery", searchBarQuery);
         editor.putInt("selectedDropdownPosition", transportersSpinnerView.getSelectedItemPosition());
         editor.commit();
     }

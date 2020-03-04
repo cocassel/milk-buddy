@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -255,6 +257,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    // fetch container data in a concatenated form for the container dropdown on the farmer collection page
+    public Cursor fetchConcatContainerInfo(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
+                CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " +
+                CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
+        Log.i("query ", SQLquery);
+        Cursor cursor = db.rawQuery(SQLquery, null);
+        return cursor;
+
+    }
+
+    // Check receiver credentials
+    public Cursor checkReceiverLoginCredentials(String username, String password) {
+        String passwordHash = getMd5Hash(password);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_RECEIVER + " WHERE " + RECEIVER_USERNAME + "='" +
+                username + "' AND " + RECEIVER_PASSWORD + "='" + passwordHash + "'";
+        // Get all the matching entries for the entered username and password (there should be 0 or 1)
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+
+    public String getMd5Hash(String password) {
+        try {
+            final String MD5 = "MD5";
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance(MD5);
+            digest.update(password.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+        }catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     public void deleteLoggedInTransporter() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -303,9 +350,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Delete existing entry from the table. The table will only be non-empty if the transporter
         // goes back from the container selection page and chooses a different transporter
         db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
-        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(" +
-                id + ", '" + name + "', '" + phoneNumber + "');";
-        db.execSQL(insertStatement);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LOGGED_IN_TRANSPORTER_ID, id);
+        contentValues.put(LOGGED_IN_TRANSPORTER_NAME, name);
+        contentValues.put(LOGGED_IN_TRANSPORTER_PHONE_NUMBER, phoneNumber);
+        db.insert(TABLE_LOGGED_IN_TRANSPORTER, null, contentValues);
     }
 
     // Save logged-in transporter data. Use -1 as the transporter ID
@@ -314,9 +364,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Delete existing entry from the table. The table will only be non-empty if the transporter
         // goes back from the container selection page and chooses a different transporter
         db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
-        String insertStatement = "INSERT INTO " + TABLE_LOGGED_IN_TRANSPORTER + " VALUES(-1, '" +
-                name + "', '" + phoneNumber + "');";
-        db.execSQL(insertStatement);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LOGGED_IN_TRANSPORTER_ID, -1);
+        contentValues.put(LOGGED_IN_TRANSPORTER_NAME, name);
+        contentValues.put(LOGGED_IN_TRANSPORTER_PHONE_NUMBER, phoneNumber);
+        db.insert(TABLE_LOGGED_IN_TRANSPORTER, null, contentValues);
+    }
+
+    // Save logged-in receiver data.
+    public void insertLoggedInReceiver(int id, String name, String phoneNumber) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete existing entry from the table.
+        db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_RECEIVER);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LOGGED_IN_RECEIVER_ID, id);
+        contentValues.put(LOGGED_IN_RECEIVER_NAME, name);
+        contentValues.put(LOGGED_IN_RECEIVER_PHONE_NUMBER, phoneNumber);
+        db.insert(TABLE_LOGGED_IN_RECEIVER, null, contentValues);
     }
 
     // Save farmer collection data.
@@ -333,18 +399,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 wordComment.replace("'", "''") + "', '" +
                 createDate + "', '" + createTime +"');";
         db.execSQL(insertStatement);
-    }
-
-    // fetch container data in a concatenated form for the container dropdown on the farmer collection page
-    public Cursor fetchConcatContainerInfo(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
-                CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " +
-                CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
-        Log.i("query ", SQLquery);
-        Cursor cursor = db.rawQuery(SQLquery, null);
-        return cursor;
-
     }
 
     //Update conatiner data after collection
