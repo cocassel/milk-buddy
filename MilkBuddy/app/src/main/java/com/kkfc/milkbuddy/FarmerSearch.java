@@ -69,23 +69,13 @@ public class FarmerSearch extends AppCompatActivity {
         // Retrieve saved state of checkboxes, dropdown, and search bar. This will be used to set them accordingly
         states = getSharedPreferences("states", Context.MODE_PRIVATE);
 
-        // Get past search bar query (if applicable)
-        searchBarQuery = states.getString("searchBarQuery", "");
         // Set search bar query
         farmerSearchView = findViewById(R.id.farmerSearchView);
-        farmerSearchView.setQuery(searchBarQuery, true);
         farmerSearchView.setOnQueryTextListener(new OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String text) {
-                searchBarQuery = text;
-                Cursor newFarmerCursor = db.fetchFarmers(
-                        active_checkbox.isChecked(),
-                        collected_checkbox.isChecked(),
-                        selectedDropdownRoute,
-                        text);
-                farmerCursorAdapter.changeCursor(newFarmerCursor);
-                saveState();
+
                 return false;
             }
 
@@ -217,34 +207,14 @@ public class FarmerSearch extends AppCompatActivity {
 
         // Button for dropping off to receiver
         dropOffToReceiverButton = findViewById(R.id.button1);
-        builder = new AlertDialog.Builder(this);
         dropOffToReceiverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder.setMessage("Are you sure you want to drop-off your milk?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getApplicationContext(),"Switching to receiver flow",
+
+                                Toast.makeText(getApplicationContext(),"Switching to receiver login",
                                         Toast.LENGTH_SHORT).show();
                                 goToReceiverLogin();
                             }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //  Action for 'NO' Button
-                                dialog.cancel();
-                                Toast.makeText(getApplicationContext(),"Cancelling drop-off",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                //Creating dialog box
-                AlertDialog alert = builder.create();
-                //Setting the title manually
-                alert.setTitle("Milk Buddy");
-                alert.show();
-            }
-
         });
 
         // Button for resetting the app
@@ -291,9 +261,10 @@ public class FarmerSearch extends AppCompatActivity {
     private void saveState() {
         states = getSharedPreferences("states", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = states.edit();
+        // Save state of both checkboxes and dropdown position
+        // We purposely do not save the state of the search bar
         editor.putBoolean("activeCheckbox", active_checkbox.isChecked());
         editor.putBoolean("collectedCheckbox", collected_checkbox.isChecked());
-        editor.putString("searchBarQuery", searchBarQuery);
         editor.putInt("selectedDropdownPosition", transportersSpinnerView.getSelectedItemPosition());
         editor.commit();
     }
