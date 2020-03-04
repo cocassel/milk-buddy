@@ -28,9 +28,7 @@ public class ReceiverLogin extends AppCompatActivity {
         setContentView(R.layout.activity_receiver_login);
 
         db = new DatabaseHelper(this);
-
-
-
+        
         cancelButton = findViewById(R.id.Button01);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,9 +42,6 @@ public class ReceiverLogin extends AppCompatActivity {
         loginReceiver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // TODO show popup if empty fields and disallow moving forward
-
                 // Get text from username and password fields
                 usernameField = findViewById(R.id.editText1);
                 passwordField = findViewById(R.id.editText2);
@@ -56,20 +51,16 @@ public class ReceiverLogin extends AppCompatActivity {
                 Cursor authenticatedReceivers = db.checkReceiverLoginCredentials(username, password);
                 // If there is at least one matching entry in the db, user is authenticated
                 if(authenticatedReceivers.getCount() >= 1) {
-                    authenticatedReceivers.moveToFirst();
                     goToReceiverHomepage();
-                    // TODO add to logged in receiver table
+                    authenticatedReceivers.moveToFirst();
                     int loggedInId = authenticatedReceivers.getInt(authenticatedReceivers.getColumnIndex(db.RECEIVER_ID));
                     String loggedInName = authenticatedReceivers.getString(authenticatedReceivers.getColumnIndex(db.RECEIVER_NAME));
                     String loggedInPhoneNumber = authenticatedReceivers.getString(authenticatedReceivers.getColumnIndex(db.RECEIVER_PHONE_NUMBER));
 
                     db.insertLoggedInReceiver(loggedInId, loggedInName, loggedInPhoneNumber);
                 } else {
-                    // TODO popup
                     invalidCredentialsPopup();
                 }
-
-
             }
         });
     }
