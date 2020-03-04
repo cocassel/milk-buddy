@@ -271,9 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Check receiver credentials
     public Cursor checkReceiverLoginCredentials(String username, String password) {
-        // TODO hash password
         String passwordHash = getMd5Hash(password);
-        Log.i("hash", passwordHash);
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_RECEIVER + " WHERE " + RECEIVER_USERNAME + "='" +
                 username + "' AND " + RECEIVER_PASSWORD + "='" + passwordHash + "'";
