@@ -28,7 +28,7 @@ public class ReceiverLogin extends AppCompatActivity {
         setContentView(R.layout.activity_receiver_login);
 
         db = new DatabaseHelper(this);
-        
+
         cancelButton = findViewById(R.id.Button01);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override

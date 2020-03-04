@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -189,18 +191,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    // Check receiver credentials
-    public Cursor checkReceiverLoginCredentials(String username, String password) {
-        // TODO hash password
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_RECEIVER + " WHERE " + RECEIVER_USERNAME + "='" +
-                username + "' AND " + RECEIVER_PASSWORD + "='" + password + "'";
-        // Get all the matching entries for the entered username and password (there should be 0 or 1)
-        Cursor cursor = db.rawQuery(query, null);
-        return cursor;
-    }
-
     public Cursor fetchLoggedInTransporter() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LOGGED_IN_TRANSPORTER, null);
@@ -279,6 +269,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    // Check receiver credentials
+    public Cursor checkReceiverLoginCredentials(String username, String password) {
+        // TODO hash password
+        String passwordHash = getMd5Hash(password);
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_RECEIVER + " WHERE " + RECEIVER_USERNAME + "='" +
+                username + "' AND " + RECEIVER_PASSWORD + "='" + passwordHash + "'";
+        // Get all the matching entries for the entered username and password (there should be 0 or 1)
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+
+    public String getMd5Hash(String password) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(password.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+
+            return hexString.toString();
+        }catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     public void deleteLoggedInTransporter() {
         SQLiteDatabase db = this.getWritableDatabase();
