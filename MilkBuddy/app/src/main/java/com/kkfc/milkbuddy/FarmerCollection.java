@@ -36,7 +36,7 @@ public class FarmerCollection extends AppCompatActivity {
     private TextView nameFarmer;
     private EditText quantity;
     private EditText comment;
-    private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,desnityTwoSeven, densityTwoEight, densityTwoNine, densityThirtyPlus, densityNa ;
+    private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,densityTwoSeven, densityTwoEight, densityTwoNine, densityThirty, densityThirtyOnePlus, densityNa ;
     private String sniffTest;
     private String alcoholTest;
     private String densityTest;
@@ -136,19 +136,22 @@ public class FarmerCollection extends AppCompatActivity {
                 }
 
                 //Gathering collection data from density test
-                desnityTwoSeven = findViewById(R.id.radioButton7);
+                densityTwoSeven = findViewById(R.id.radioButton7);
                 densityTwoEight = findViewById(R.id.radioButton8);
                 densityTwoNine = findViewById(R.id.radioButton9);
-                densityThirtyPlus = findViewById(R.id.radioButton10);
-                densityNa = findViewById(R.id.radioButton11);
-                if(desnityTwoSeven.isChecked()){
-                    densityTest = desnityTwoSeven.getText().toString();
+                densityThirty = findViewById(R.id.radioButton10);
+                densityThirtyOnePlus = findViewById(R.id.radioButton11);
+                densityNa = findViewById(R.id.radioButton12);
+                if(densityTwoSeven.isChecked()){
+                    densityTest = densityTwoSeven.getText().toString();
                 } else if(densityTwoEight.isChecked()){
                     densityTest=densityTwoEight.getText().toString();
                 } else if(densityTwoNine.isChecked()){
                     densityTest=densityTwoNine.getText().toString();
-                } else if(densityThirtyPlus.isChecked()){
-                    densityTest=densityThirtyPlus.getText().toString();
+                } else if(densityThirty.isChecked()){
+                    densityTest=densityThirty.getText().toString();
+                } else if(densityThirtyOnePlus.isChecked()){
+                    densityTest=densityThirtyOnePlus.getText().toString();
                 } else if(densityNa.isChecked()){
                     densityTest=densityNa.getText().toString();
                 }
