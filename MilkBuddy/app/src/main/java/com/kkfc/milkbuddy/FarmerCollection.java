@@ -162,7 +162,7 @@ public class FarmerCollection extends AppCompatActivity {
                     if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
                         // Recorded milk collection with failed tests
                         containerId = -1;
-                        builder.setMessage("Are you sure you save farmer collection with failed test?")
+                        builder.setMessage("Are you sure you want to save farmer collection with failed test?")
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
