@@ -352,7 +352,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
                 CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (amount collected: ' || " +
-                 CONTAINER_AMOUNT_REMAINING +" || 'L, container size: '|| " + CONTAINER_SIZE + "|| 'L) ' AS container_info  FROM " + TABLE_CONTAINER + ";";
+                ("SELECT " + CONTAINER_SIZE + "-" + CONTAINER_AMOUNT_REMAINING + " AS filled_amount") +" || 'L, container size: '|| " + CONTAINER_SIZE + "|| 'L) ' AS container_info  FROM " + TABLE_CONTAINER + ";";
         Log.i("query ", SQLquery);
         Cursor cursor = db.rawQuery(SQLquery, null);
         return cursor;
