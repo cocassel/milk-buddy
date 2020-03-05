@@ -18,6 +18,7 @@ public class ReceiverHome extends AppCompatActivity {
 
     DatabaseHelper db;
     private TextView NAME;
+    private TextView receiverName;
     private ListView containerListView;
     private Button exportButton;
     SimpleCursorAdapter containerCursorAdapter;
@@ -47,6 +48,7 @@ public class ReceiverHome extends AppCompatActivity {
         // TODO: Automatically redirect to export page if all containers are received
 
         NAME = (TextView) findViewById(R.id.transporterName);
+        receiverName = (TextView) findViewById(R.id.receiverName);
 
         db = new DatabaseHelper(this);
 
@@ -58,6 +60,17 @@ public class ReceiverHome extends AppCompatActivity {
         Log.i("logged in", loggedInTransporter);
         NAME= (TextView)findViewById(R.id.transporterName);
         NAME.setText("These are " + loggedInTransporter + "'s containers");
+
+        //Fetch the loggedInReciever to show on the UI
+        Cursor c = db.fetchLoggedInReceiver();
+        //only one row in the table so use the first row
+        c.moveToFirst();
+        String loggedInReceiver = c.getString(c.getColumnIndex(db.RECEIVER_NAME));
+        Log.i("logged in", loggedInReceiver);
+        receiverName = (TextView)findViewById(R.id.receiverName);
+        receiverName.setText("Hello " + loggedInReceiver + "!");
+
+
 
         exportButton = findViewById(R.id.button1);
         exportButton.setOnClickListener(new View.OnClickListener() {
