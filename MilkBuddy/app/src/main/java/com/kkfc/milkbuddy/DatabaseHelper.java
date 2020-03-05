@@ -301,9 +301,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "'Container ' || " + CONTAINER_ID + " || ' (Amount Collected: ' || amount_collected" +
                 "|| 'L, Container Size: '|| " + CONTAINER_SIZE + "|| 'L) ' AS container_info  FROM ("
                 + "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " + CONTAINER_AMOUNT_REMAINING +
-                ", " + CONTAINER_SIZE + "-" + CONTAINER_AMOUNT_REMAINING + " AS amount_collected FROM " + TABLE_CONTAINER + ");";
-        SQLquery += " AND " + CONTAINER_ID + "NOT IN (SELECT " + PLANT_DATA_CONTAINER_ID + " FROM " + TABLE_PLANT_DATA + ")";
-        SQLquery += " ORDER BY " + CONTAINER_ID;
+                ", " + CONTAINER_SIZE + "-" + CONTAINER_AMOUNT_REMAINING + " AS amount_collected FROM " + TABLE_CONTAINER + ")" +
+                " WHERE " + CONTAINER_ID + " NOT IN (SELECT " + PLANT_DATA_CONTAINER_ID + " FROM " + TABLE_PLANT_DATA + ")" +
+                " ORDER BY " + CONTAINER_ID;
         Log.i("query ", SQLquery);
         Cursor cursor = db.rawQuery(SQLquery, null);
         return cursor;
