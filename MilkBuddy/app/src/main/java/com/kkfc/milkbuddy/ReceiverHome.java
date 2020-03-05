@@ -81,15 +81,6 @@ public class ReceiverHome extends AppCompatActivity {
             }
 
         });
-//TODO: REMOVE TEST
-        //test = findViewById(R.id.button);
-        //test.setOnClickListener(new View.OnClickListener() {
-          //  @Override
-            //public void onClick(View v) {
-              //  db.insertContainerID(1);
-            //}
-
-        //});
 
 
         // List transporters
