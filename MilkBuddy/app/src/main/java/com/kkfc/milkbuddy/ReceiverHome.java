@@ -23,16 +23,20 @@ public class ReceiverHome extends AppCompatActivity {
     SimpleCursorAdapter containerCursorAdapter;
 
     // THE DESIRED COLUMNS TO BE BOUND
-    final String[] containerColumns = new String[]{
-            db.CONTAINER_ID,
-            db.CONTAINER_SIZE
+    String[] containerColumns = new String[]{
+            "container_dropdown"
+            //db.CONTAINER_ID,
+            //db.CONTAINER_SIZE
     };
 
     // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
-    final int[] containerTo = new int[]{
+   int[] containerTo = new int[]{
             R.id.container_id,
-            R.id.container_size
+            //R.id.container_size
     };
+
+    //String [] containerColumns = new String[]{"container_dropdown"};
+    //int[] containerTo =new int[]{android.R.id.list};
 
 
     @Override
@@ -64,7 +68,7 @@ public class ReceiverHome extends AppCompatActivity {
         });
 
         // List transporters
-        Cursor containerCursor = db.fetchContainers();
+        Cursor containerCursor = db.fetchConcatContainerInfo();
         containerListView = findViewById(R.id.list_view);
 
         if(containerCursor.getCount() == 0) {
@@ -72,6 +76,7 @@ public class ReceiverHome extends AppCompatActivity {
         } else {
             containerCursorAdapter = new SimpleCursorAdapter(this, R.layout.container_list_entry, containerCursor, containerColumns, containerTo, 0);
             containerListView.setAdapter(containerCursorAdapter);
+
         }
 
 
