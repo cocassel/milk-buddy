@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -62,19 +63,29 @@ public class ExportTransporterData extends AppCompatActivity {
                     OutputStream outputStream = getContentResolver().openOutputStream(uri);
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 
-                    Cursor cursor = db.fetchTransporterData();
+                    Cursor cursor = db.fetchTransporterDataToExport();
+
                     if(cursor.getCount() == 0) {
                         Toast.makeText(this, "No data to export", Toast.LENGTH_LONG).show();
                     } else {
+                        // Write column names to file as a header
+                        String[] columnNamesArray = cursor.getColumnNames();
+                        String columnNamesString = TextUtils.join(",", columnNamesArray);
+                        writer.write(columnNamesString + "\n");
+
+                        // Write actual data to file
                         while(cursor.moveToNext()) {
-                            // 1 is the column for first name
-                             String blah = cursor.getString(1) + " " + cursor.getString(2);
+
+                            String[] valuesArray = new String[cursor.getColumnCount()];
+
+                            for(int i=0; i < cursor.getColumnCount(); i ++ ) {
+                                valuesArray[i] = cursor.getString(i);
+                            }
+
+                            String valuesString = TextUtils.join(",", valuesArray);
+                            writer.write(valuesString + "\n");
                         }
                     }
-
-                    // TODO
-
-                    writer.write("DO I WORK?, YES");
                     
                     writer.close();
 
