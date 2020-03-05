@@ -24,7 +24,7 @@ public class ReceiverHome extends AppCompatActivity {
 
     // THE DESIRED COLUMNS TO BE BOUND
     String[] containerColumns = new String[]{
-            "container_dropdown"
+            "container_info"
             //db.CONTAINER_ID,
             //db.CONTAINER_SIZE
     };
@@ -68,7 +68,7 @@ public class ReceiverHome extends AppCompatActivity {
         });
 
         // List transporters
-        Cursor containerCursor = db.fetchConcatContainerInfo();
+        Cursor containerCursor = db.fetchConcatContainerForReceiver();
         containerListView = findViewById(R.id.list_view);
 
         if(containerCursor.getCount() == 0) {
