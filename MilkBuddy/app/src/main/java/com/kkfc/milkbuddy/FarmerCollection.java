@@ -135,7 +135,7 @@ public class FarmerCollection extends AppCompatActivity {
                     alcoholTest=alcoholNa.getText().toString();
                 }
 
-                //Gathering collection data from sniff test
+                //Gathering collection data from density test
                 desnityTwoSeven = findViewById(R.id.radioButton7);
                 densityTwoEight = findViewById(R.id.radioButton8);
                 densityTwoNine = findViewById(R.id.radioButton9);
@@ -159,8 +159,35 @@ public class FarmerCollection extends AppCompatActivity {
                     quantity.setError("Please collect milk quantity, otherwise click 'Cancel'");
                 } else {
                     final Double quantityL = Double.parseDouble(quantityLitre);
+                    if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
+                        // Recorded milk collection with failed tests
+                        containerId = -1;
+                        builder.setMessage("Are you sure you save farmer collection with failed test?")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        db.insertFarmerCollection(farmerId, transporterId, containerId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                        Toast.makeText(getApplicationContext(), "Collection Information Saved",
+                                                Toast.LENGTH_SHORT).show();
+                                        returnToFarmerSearch();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //  Action for 'NO' Button
+                                        dialog.cancel();
+                                        Toast.makeText(getApplicationContext(), "Saving Aborted",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        //Creating dialog box
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Milk Buddy");
+                        alert.show();
+                    } else {
                         if (quantityL > quantityLeftContainer) {
-                            //Toast.makeText(getApplicationContext(), "Quantity needs to be less than " + quantityLeftContainer + " for Container " + containerId + ".", Toast.LENGTH_LONG).show();
+                            // Warning for going over capacity
                             builder.setMessage("Are you sure you want to progress with current container? According to our records, quantity of milk being collected is greater than remaining capacity")
                                     .setCancelable(false)
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -181,12 +208,13 @@ public class FarmerCollection extends AppCompatActivity {
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                                    //Creating dialog box
-                                    AlertDialog alert = builder.create();
-                                    //Setting the title manually
-                                    alert.setTitle("Milk Buddy");
-                                    alert.show();
+                            //Creating dialog box
+                            AlertDialog alert = builder.create();
+                            //Setting the title manually
+                            alert.setTitle("Milk Buddy");
+                            alert.show();
                         } else {
+                            // Check if users is satisfied with correct entry
                             builder.setMessage("Are you sure you save farmer collection?")
                                     .setCancelable(false)
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -215,6 +243,7 @@ public class FarmerCollection extends AppCompatActivity {
                             alert.setTitle("Milk Buddy");
                             alert.show();
                         }
+                    }
                 }
             }
         });
