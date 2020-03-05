@@ -24,6 +24,7 @@ public class ExportPlantData extends AppCompatActivity {
     DatabaseHelper db;
     private static final int WRITE_REQUEST_CODE = 42;
     private Button exportButton;
+    private Button skipButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,15 @@ public class ExportPlantData extends AppCompatActivity {
                 startActivityForResult(intent, WRITE_REQUEST_CODE);
             }
         });
+
+        skipButton = findViewById(R.id.button2);
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToCompleted();
+            }
+        });
+
     }
 
 
@@ -100,6 +110,11 @@ public class ExportPlantData extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+    }
+
+    public void goToCompleted() {
+        Intent intent = new Intent(this, Completed.class);
+        startActivity(intent);
     }
 
     @Override
