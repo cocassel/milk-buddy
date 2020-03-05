@@ -12,16 +12,6 @@
            android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Reset"
-            android:textSize="15sp"
-            android:background="#EDF0F0F0"
-            android:layout_weight="1"/>
-
-        <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +19,16 @@
             android:text="Drop-Off"
             android:textSize="15sp"
             android:background="#EDF0F0F0"
-            android:layout_weight="1"/>
+            android:layout_weight="10"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Reset"
+            android:textSize="15sp"
+            android:background="#EDF0F0F0"/>
 
        </LinearLayout>
 
