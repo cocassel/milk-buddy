@@ -246,14 +246,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Fetch transporter data table
     public Cursor fetchTransporterDataToExport() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_TRANSPORTER_DATA + " AS data INNER JOIN " + "(SELECT " +
-                FARMER_ID + " AS farmer_id, " + FARMER_NAME + " AS farmer_name, " + FARMER_PHONE_NUMBER +
+        String query = "SELECT " + TRANSPORTER_DATA_PICK_UP_NUMBER + ", " + TRANSPORTER_DATA_CONTAINER_ID +
+                ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " + TRANSPORTER_DATA_QUALITY_TEST_SMELL +
+                ", " + TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + ", " + TRANSPORTER_DATA_QUALITY_TEST_DENSITY +
+                ", " + TRANSPORTER_DATA_COMMENT + ", " + TRANSPORTER_DATA_CREATE_DATE + ", " +
+                TRANSPORTER_DATA_CREATE_TIME + ", " + TRANSPORTER_DATA_FARMER_ID + ", farmer_name, farmer_phone_number, " +
+                TRANSPORTER_DATA_TRANSPORTER_ID + ", transporter_name, transporter_phone_number FROM " +
+                TABLE_TRANSPORTER_DATA + " AS data INNER JOIN " + "(SELECT " +
+                FARMER_ID + " AS farmer_id_2, " + FARMER_NAME + " AS farmer_name, " + FARMER_PHONE_NUMBER +
                 " AS farmer_phone_number FROM " + TABLE_FARMER + ") AS farmer ON data." +
-                TRANSPORTER_DATA_FARMER_ID + "=farmer.farmer_id INNER JOIN (SELECT " + LOGGED_IN_TRANSPORTER_ID +
-                " AS transporter_id, " + LOGGED_IN_TRANSPORTER_NAME + " AS transporter_name, " +
+                TRANSPORTER_DATA_FARMER_ID + "=farmer.farmer_id_2 INNER JOIN (SELECT " + LOGGED_IN_TRANSPORTER_ID +
+                " AS transporter_id_2, " + LOGGED_IN_TRANSPORTER_NAME + " AS transporter_name, " +
                 LOGGED_IN_TRANSPORTER_PHONE_NUMBER + " AS transporter_phone_number FROM " +
                 TABLE_LOGGED_IN_TRANSPORTER + ") AS transporter ON data." + TRANSPORTER_DATA_TRANSPORTER_ID +
-                "=transporter.transporter_id";
+                "=transporter.transporter_id_2";
         Log.i("query", query);
         Cursor cursor = db.rawQuery(query, null);
         return cursor;
