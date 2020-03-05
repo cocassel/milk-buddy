@@ -244,6 +244,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Fetch transporter data table
+    public Cursor fetchTransporterDataToExport() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_TRANSPORTER_DATA + " AS data INNER JOIN " + "(SELECT " +
+                FARMER_ID + " AS farmer_id, " + FARMER_NAME + " AS farmer_name, " + FARMER_PHONE_NUMBER +
+                " AS farmer_phone_number FROM " + TABLE_FARMER + ") AS farmer ON data." +
+                TRANSPORTER_DATA_FARMER_ID + "=farmer.farmer_id INNER JOIN (SELECT " + LOGGED_IN_TRANSPORTER_ID +
+                " AS transporter_id, " + LOGGED_IN_TRANSPORTER_NAME + " AS transporter_name, " +
+                LOGGED_IN_TRANSPORTER_PHONE_NUMBER + " AS transporter_phone_number FROM " +
+                TABLE_LOGGED_IN_TRANSPORTER + ") AS transporter ON data." + TRANSPORTER_DATA_TRANSPORTER_ID +
+                "=transporter.transporter_id";
+        Log.i("query", query);
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+
+    // Fetch transporter data table
     public Cursor fetchPlantData() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PLANT_DATA, null);

@@ -62,19 +62,23 @@ public class ExportTransporterData extends AppCompatActivity {
                     OutputStream outputStream = getContentResolver().openOutputStream(uri);
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 
-                    Cursor cursor = db.fetchTransporterData();
+                    Cursor cursor = db.fetchTransporterDataToExport();
+
                     if(cursor.getCount() == 0) {
                         Toast.makeText(this, "No data to export", Toast.LENGTH_LONG).show();
                     } else {
                         while(cursor.moveToNext()) {
                             // 1 is the column for first name
-                             String blah = cursor.getString(1) + " " + cursor.getString(2);
+                            String blah = cursor.getString(1) + " " + cursor.getString(2);
+                            // TODO
+                            // write header
+
+                            writer.write("DO I WORK?, YES\n");
+
                         }
                     }
 
-                    // TODO
 
-                    writer.write("DO I WORK?, YES");
                     
                     writer.close();
 
