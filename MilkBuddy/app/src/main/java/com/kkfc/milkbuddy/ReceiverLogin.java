@@ -11,15 +11,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class ReceiverLogin extends AppCompatActivity {
 
     DatabaseHelper db;
+    private Button forgotPasswordButton;
     private Button loginReceiver;
     private Button cancelButton;
     private EditText usernameField;
     private EditText passwordField;
     AlertDialog.Builder builder;
+    private Button resetButton;
+    private Button dropOffToReceiverButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,29 @@ public class ReceiverLogin extends AppCompatActivity {
                     invalidCredentialsPopup();
                 }
             }
+        });
+
+        // Forgot password popup
+        forgotPasswordButton = findViewById(R.id.Button03);
+        builder = new AlertDialog.Builder(this);
+        forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.setMessage("Please talk to the admin to reset your password.")
+                        .setCancelable(false)
+                        .setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'Okay' Button
+                                dialog.cancel();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Milk Buddy");
+                alert.show();
+            }
+
         });
     }
 

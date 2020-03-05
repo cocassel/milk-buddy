@@ -215,7 +215,7 @@ public class FarmerCollection extends AppCompatActivity {
                             alert.show();
                         } else {
                             // Check if users is satisfied with correct entry
-                            builder.setMessage("Are you sure you save farmer collection?")
+                            builder.setMessage("Are you sure you want to save farmer collection?")
                                     .setCancelable(false)
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {

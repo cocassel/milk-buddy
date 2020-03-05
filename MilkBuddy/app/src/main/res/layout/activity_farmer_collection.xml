@@ -31,17 +31,9 @@
                 android:layout_weight="1"
                 android:text="Farmer Name:"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:paddingBottom="15dp"/>
 
-        <!--    <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginTop="30dp"
-                android:layout_weight="1"
-                android:text="Place Holder"
-                android:textColor="#000000"
-                android:textSize="20sp" />-->
         </TableRow>
 
         <TableRow
@@ -64,7 +56,8 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="15dp">
 
                 <RadioButton
                     android:id="@+id/radioButton1"
@@ -101,8 +94,8 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="20dp"
                 android:layout_weight="1"
+                android:layout_marginLeft="20dp"
                 android:text="Alcohol Test:"
                 android:textColor="#000000"
                 android:textSize="20sp" />
@@ -110,7 +103,8 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="15dp">
 
                 <RadioButton
                     android:id="@+id/radioButton4"
@@ -183,11 +177,18 @@
                     android:id="@+id/radioButton10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30+L"
+                    android:text="30L"
                     android:textSize="20sp"/>
 
                 <RadioButton
                     android:id="@+id/radioButton11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="31+L"
+                    android:textSize="20sp"/>
+
+                <RadioButton
+                    android:id="@+id/radioButton12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
@@ -202,7 +203,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:paddingBottom="15dp">
 
             <TextView
                 android:id="@+id/textView6"
@@ -229,7 +231,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:paddingBottom="15dp">
 
             <TextView
                 android:id="@+id/textView7"
@@ -245,10 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginLeft="20dp"/>
 
         </TableRow>
 
@@ -257,7 +257,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:id="@+id/textView8"
@@ -299,8 +300,9 @@
 
             <Button
                 android:id="@+id/Button01"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Cancel"
                 android:textSize="20sp"
@@ -310,8 +312,9 @@
 
             <Button
                 android:id="@+id/Button02"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Save"
                 android:textSize="20sp"

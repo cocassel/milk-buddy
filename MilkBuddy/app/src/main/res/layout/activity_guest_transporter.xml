@@ -26,9 +26,6 @@
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:text="Guest Transporter Login"
                 android:textColor="#000000"
@@ -44,7 +41,6 @@
                 android:id="@+id/textView2"
                 android:layout_marginStart="57dp"
                 android:layout_marginLeft="57dp"
-                android:layout_marginTop="20dp"
                 android:text="Full Name"
                 android:textColor="#000000"
                 android:textSize="20sp"/>
@@ -52,23 +48,21 @@
 
         <TableRow
             android:id="@+id/third_row"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="75dp">
 
             <EditText
                 android:id="@+id/editText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="57dp"
-                android:layout_marginRight="67dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="67dp"
                 android:ems="10"
                 android:inputType="textPersonName"/>
         </TableRow>
 
         <TableRow
-            android:id="@+id/sixth_row"
+            android:id="@+id/fourth_row"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
@@ -82,31 +76,32 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/seventh_row"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:id="@+id/fifth_row"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <EditText
                 android:id="@+id/editText2"
                 android:layout_marginLeft="57dp"
-                android:layout_marginRight="67dp"
-                android:layout_marginBottom="42dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="67dp"
                 android:ems="10"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName" />
         </TableRow>
 
         <LinearLayout
             android:id="@+id/LinearLayout01"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:layout_weight="1">
 
             <Button
                 android:id="@+id/Button01"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Cancel"
                 android:textSize="20sp"
@@ -116,8 +111,9 @@
 
             <Button
                 android:id="@+id/Button02"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Login"
                 android:textSize="20sp"
