@@ -236,6 +236,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+
+
     // Fetch transporter data table
     public Cursor fetchTransporterData() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -291,6 +293,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    // fetch container data in a concatenated form for the container view on the receiver homepage
+    public Cursor fetchConcatContainerForReceiver(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
+                CONTAINER_AMOUNT_REMAINING + ", " +
+                "'Container ' || " + CONTAINER_ID + " || ' (Amount Collected: ' || amount_collected" +
+                "|| 'L, Container Size: '|| " + CONTAINER_SIZE + "|| 'L) ' AS container_info  FROM ("
+                + "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " + CONTAINER_AMOUNT_REMAINING +
+                ", " + CONTAINER_SIZE + "-" + CONTAINER_AMOUNT_REMAINING + " AS amount_collected FROM " + TABLE_CONTAINER + ")" +
+                " WHERE " + CONTAINER_ID + " NOT IN (SELECT " + PLANT_DATA_CONTAINER_ID + " FROM " + TABLE_PLANT_DATA + ")" +
+                " ORDER BY " + CONTAINER_ID;
+        Log.i("query ", SQLquery);
+        Cursor cursor = db.rawQuery(SQLquery, null);
+        return cursor;
+
+    }
+    
     // Check receiver credentials
     public Cursor checkReceiverLoginCredentials(String username, String password) {
         String passwordHash = getMd5Hash(password);
@@ -420,23 +439,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" +
                 wordComment.replace("'", "''") + "', '" +
                 createDate + "', '" + createTime +"');";
+
         db.execSQL(insertStatement);
-    }
-    
-
-    // fetch container data in a concatenated form for the container view on the receiver homepage
-    public Cursor fetchConcatContainerForReceiver(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
-                CONTAINER_AMOUNT_REMAINING + ", " +
-                "'Container ' || " + CONTAINER_ID + " || ' (Amount Collected: ' || amount_collected" +
-                 "|| 'L, Container Size: '|| " + CONTAINER_SIZE + "|| 'L) ' AS container_info  FROM ("
-                + "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " + CONTAINER_AMOUNT_REMAINING +
-                ", " + CONTAINER_SIZE + "-" + CONTAINER_AMOUNT_REMAINING + " AS amount_collected FROM " + TABLE_CONTAINER + ");";
-        Log.i("query ", SQLquery);
-        Cursor cursor = db.rawQuery(SQLquery, null);
-        return cursor;
-
     }
 
     //Update conatiner data after collection
