@@ -40,14 +40,6 @@ public class ReceiverCollection extends AppCompatActivity {
         startActivity(intent);
     }
 
-  //  @Override
-    //public void onBackPressed() {
-        // TODO add warning/pop-up before going back. Also use this function for the cancel button
-
-      //  Intent intent = new Intent(this, ReceiverHome.class);
-        //startActivity(intent);
-   // }
-
 
     @Override
     public void onBackPressed() {
