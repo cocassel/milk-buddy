@@ -243,7 +243,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    // Fetch transporter data table
+    // Fetch transporter data table joined with farmer table joined with logged-in transporter table
     public Cursor fetchTransporterDataToExport() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + TRANSPORTER_DATA_PICK_UP_NUMBER + ", " + TRANSPORTER_DATA_CONTAINER_ID +
@@ -260,6 +260,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 LOGGED_IN_TRANSPORTER_PHONE_NUMBER + " AS transporter_phone_number FROM " +
                 TABLE_LOGGED_IN_TRANSPORTER + ") AS transporter ON data." + TRANSPORTER_DATA_TRANSPORTER_ID +
                 "=transporter.transporter_id_2";
+        Log.i("query", query);
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+
+    // Fetch plant data table joined with logged-in transporter table joined with logged-in receiver table
+    public Cursor fetchPlantDataToExport() {
+        //TODO
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + PLANT_DATA_CONTAINER_ID + ", " + PLANT_DATA_QUANTITY_COLLECTED +
+                ", " + PLANT_DATA_QUALITY_TEST_SMELL + ", " + PLANT_DATA_QUALITY_TEST_ALCOHOL + ", " +
+                PLANT_DATA_QUALITY_TEST_DENSITY + ", " + PLANT_DATA_COMMENT + ", " + PLANT_DATA_CREATE_DATE +
+                ", " + PLANT_DATA_CREATE_TIME + ", " + PLANT_DATA_TRANSPORTER_ID +
+                ", transporter_name, transporter_phone_number, " + PLANT_DATA_RECEIVER_ID +
+                ", receiver_name, receiver_phone_number FROM " + TABLE_PLANT_DATA +
+                " AS data INNER JOIN (SELECT " + LOGGED_IN_TRANSPORTER_ID +
+                " AS transporter_id_2, " + LOGGED_IN_TRANSPORTER_NAME + " AS transporter_name, " +
+                LOGGED_IN_TRANSPORTER_PHONE_NUMBER + " AS transporter_phone_number FROM " +
+                TABLE_LOGGED_IN_TRANSPORTER + ") AS transporter ON data." + PLANT_DATA_TRANSPORTER_ID +
+                "=transporter.transporter_id_2 INNER JOIN (SELECT " + LOGGED_IN_RECEIVER_ID +
+                " AS receiver_id_2, " + LOGGED_IN_RECEIVER_NAME + " AS receiver_name, " +
+                LOGGED_IN_RECEIVER_PHONE_NUMBER + " AS receiver_phone_number FROM " +
+                TABLE_LOGGED_IN_RECEIVER + ") AS receiver ON data." + PLANT_DATA_RECEIVER_ID +
+                "=receiver.receiver_id_2";
+
         Log.i("query", query);
         Cursor cursor = db.rawQuery(query, null);
         return cursor;

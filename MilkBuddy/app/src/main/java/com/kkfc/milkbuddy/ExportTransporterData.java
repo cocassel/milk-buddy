@@ -78,7 +78,7 @@ public class ExportTransporterData extends AppCompatActivity {
 
                             String[] valuesArray = new String[cursor.getColumnCount()];
 
-                            for(int i=0; i < cursor.getColumnCount(); i ++ ) {
+                            for(int i=0; i < cursor.getColumnCount(); i ++) {
                                 valuesArray[i] = cursor.getString(i);
                             }
 
