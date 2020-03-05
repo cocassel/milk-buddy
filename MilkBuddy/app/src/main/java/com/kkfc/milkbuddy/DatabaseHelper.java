@@ -422,6 +422,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 createDate + "', '" + createTime +"');";
         db.execSQL(insertStatement);
     }
+    
+
+    // fetch container data in a concatenated form for the container view on the receiver homepage
+    public Cursor fetchConcatContainerForReceiver(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
+                CONTAINER_AMOUNT_REMAINING + ", " +
+                "'Container ' || " + CONTAINER_ID + " || ' (Amount Collected: ' || amount_collected" +
+                 "|| 'L, Container Size: '|| " + CONTAINER_SIZE + "|| 'L) ' AS container_info  FROM ("
+                + "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " + CONTAINER_AMOUNT_REMAINING +
+                ", " + CONTAINER_SIZE + "-" + CONTAINER_AMOUNT_REMAINING + " AS amount_collected FROM " + TABLE_CONTAINER + ");";
+        Log.i("query ", SQLquery);
+        Cursor cursor = db.rawQuery(SQLquery, null);
+        return cursor;
+
+    }
 
     //Update conatiner data after collection
     public void updateContainerInfo (int cId, double amountRemaining){
