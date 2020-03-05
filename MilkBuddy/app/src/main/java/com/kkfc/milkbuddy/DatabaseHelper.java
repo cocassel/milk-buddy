@@ -236,6 +236,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+
+
     // Fetch transporter data table
     public Cursor fetchTransporterData() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -285,6 +287,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
                 CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " +
                 CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
+        SQLquery += " AND " + CONTAINER_ID + "NOT IN (SELECT " + PLANT_DATA_CONTAINER_ID + " FROM " + TABLE_PLANT_DATA + ")";
+        SQLquery += " ORDER BY " + CONTAINER_ID;
         Log.i("query ", SQLquery);
         Cursor cursor = db.rawQuery(SQLquery, null);
         return cursor;
@@ -422,6 +426,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 createDate + "', '" + createTime +"');";
         db.execSQL(insertStatement);
     }
+//TODO remove test
+    //Save container id in the plant_info table
+   /* public void insertContainerID (int cID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //db.execSQL("INSERT INTO "+ TABLE_PLANT_DATA);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PLANT_DATA_CONTAINER_ID, cID);
+        db.insert(TABLE_PLANT_DATA, null, contentValues);
+
+    }*/
+
     
 
     // fetch container data in a concatenated form for the container view on the receiver homepage
