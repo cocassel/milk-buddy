@@ -30,6 +30,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Export plant receiving data"
+                android:textColor="#000000"
                 android:textSize="25sp" />
         </TableRow>
 
@@ -47,6 +48,25 @@
                 android:layout_weight="1"
                 android:text="Export to CSV"
                 android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/third_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5">
+
+            <Button
+                android:id="@+id/button2"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#FAFAFA"
+                android:text="Skip"
+                android:textColor="#000000"
+                android:textSize="23sp"></Button>
+
         </TableRow>
 
     </TableLayout>
