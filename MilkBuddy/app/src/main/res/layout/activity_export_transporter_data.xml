@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:gravity="center"
                 android:text="Export transporter collection data"
@@ -56,7 +56,7 @@
             <Button
                 android:id="@+id/button2"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="#FAFAFA"
