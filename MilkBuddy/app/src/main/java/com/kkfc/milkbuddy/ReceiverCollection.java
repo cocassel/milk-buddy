@@ -31,6 +31,7 @@ public class ReceiverCollection extends AppCompatActivity {
     private EditText quantityFull;
     private EditText quantityEmpty;
     private EditText comment;
+    private double containerQuantity;
     private int transporterId;
     private int containerId;
     private String containerSize;
@@ -148,11 +149,61 @@ public class ReceiverCollection extends AppCompatActivity {
                     final Double quantityFullL = Double.parseDouble(quantityFullLitre);
                     final Double quantityEmptyL = Double.parseDouble(quantityEmptyLitre);
                     final Double quantityL = quantityFullL - quantityEmptyL;
+                    containerQuantity = Integer.parseInt(containerSize);
                     //Input plant data
-                    db.insertReceiverCollection(containerId,transporterId,receiverId , quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                    Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
-                            Toast.LENGTH_SHORT).show();
-                    returnToReceiverHome();
+
+                    if(quantityL>containerQuantity){
+                        builder.setMessage("Quantity being inputted is greater than container capacity. Are you sure you want to proceed?")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        db.insertReceiverCollection(containerId,transporterId,receiverId , quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
+                                                Toast.LENGTH_SHORT).show();
+                                        returnToReceiverHome();
+
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //  Action for 'NO' Button
+                                        dialog.cancel();
+                                        Toast.makeText(getApplicationContext(),"Collection Aborted",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        //Creating dialog box
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Milk Buddy");
+                        alert.show();
+                    } else {
+                        builder.setMessage("Are you sure you want to proceed?")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        db.insertReceiverCollection(containerId,transporterId,receiverId , quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
+                                                Toast.LENGTH_SHORT).show();
+                                        returnToReceiverHome();
+
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //  Action for 'NO' Button
+                                        dialog.cancel();
+                                        Toast.makeText(getApplicationContext(),"Collection Aborted",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        //Creating dialog box
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Milk Buddy");
+                        alert.show();
+                    }
+
                 }
             }
         });
