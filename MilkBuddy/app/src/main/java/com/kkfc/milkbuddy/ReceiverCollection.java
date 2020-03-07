@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,12 +21,15 @@ public class ReceiverCollection extends AppCompatActivity {
     AlertDialog.Builder builder;
     private Button cancelCollection;
     private Button saveCollection;
-    private Button transporterTextView;
+    private TextView transporterTextView;
     private TextView containerTextView;
+    private TextView containerSizeTextView;
     private EditText quantity;
     private EditText quantityEmpty;
+    private EditText comment;
     private int transporterId;
     private int containerId;
+    private String containerSize;
     private int receiverId;
     private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,densityTwoSeven, densityTwoEight, densityTwoNine, densityThirty, densityThirtyOnePlus, densityNa ;
     private String sniffTest;
@@ -51,8 +53,23 @@ public class ReceiverCollection extends AppCompatActivity {
         transporterId = cursor.getInt(cursor.getColumnIndex(db.TRANSPORTER_ID));
         String loggedInTransporter = cursor.getString(cursor.getColumnIndex(db.TRANSPORTER_NAME));
         transporterTextView = findViewById(R.id.textView1);
-        transporterTextView.setText("Transporter: " );
+        transporterTextView.setText("Transporter Name: " + loggedInTransporter );
 
+
+        Intent intent = getIntent();
+        // Get the container ID, which was passed from the receiver home page
+        containerId = intent.getIntExtra("containerId", 1);
+        containerTextView = findViewById(R.id.textView2);
+        containerTextView.setText("Container: " + containerId);
+
+        // Set the container size
+        containerSize = intent.getStringExtra("containerSize");
+        containerSizeTextView = findViewById(R.id.textView6);
+        containerSizeTextView.setText("Container Weight: ("+containerSize+" L)");
+
+
+
+        // Save Collection Process
 
 
         // Cancel Collection Process
@@ -66,8 +83,6 @@ public class ReceiverCollection extends AppCompatActivity {
             }
         });
 
-
-        // Save Collection Process
 
 
 
