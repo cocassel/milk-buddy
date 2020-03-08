@@ -152,7 +152,23 @@ public class ReceiverCollection extends AppCompatActivity {
                     containerQuantity = Integer.parseInt(containerSize);
                     //Input plant data
 
-                    if(quantityL>containerQuantity){
+                    if(quantityEmptyL>quantityFullL){
+                        builder.setMessage("Container weight: full value needs to be greater than container weight: empty value")
+                                .setCancelable(false)
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                        Toast.makeText(getApplicationContext(),"Collection Aborted",
+                                                Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                        //Creating dialog box
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Milk Buddy");
+                        alert.show();
+                    } if(quantityL>containerQuantity) {
                         builder.setMessage("Quantity being inputted is greater than container capacity. Are you sure you want to proceed?")
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
