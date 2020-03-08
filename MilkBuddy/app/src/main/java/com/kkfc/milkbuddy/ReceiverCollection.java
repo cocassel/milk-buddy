@@ -153,6 +153,7 @@ public class ReceiverCollection extends AppCompatActivity {
                     //Input plant data
 
                     if(quantityEmptyL>quantityFullL){
+                        // Check container quantity to make sure container quantity is a positive number
                         builder.setMessage("Container weight: full value needs to be greater than container weight: empty value")
                                 .setCancelable(false)
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -169,11 +170,12 @@ public class ReceiverCollection extends AppCompatActivity {
                         alert.setTitle("Milk Buddy");
                         alert.show();
                     } if(quantityL>containerQuantity) {
+                        // Check recorded container quantity is not greater than actual container quantity
                         builder.setMessage("Quantity being inputted is greater than container capacity. Are you sure you want to proceed?")
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        db.insertReceiverCollection(containerId,transporterId,receiverId , quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                        db.insertReceiverCollection(containerId, transporterId, receiverId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
                                         Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
                                                 Toast.LENGTH_SHORT).show();
                                         returnToReceiverHome();
@@ -184,7 +186,32 @@ public class ReceiverCollection extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int id) {
                                         //  Action for 'NO' Button
                                         dialog.cancel();
-                                        Toast.makeText(getApplicationContext(),"Collection Aborted",
+                                        Toast.makeText(getApplicationContext(), "Collection Aborted",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        //Creating dialog box
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Milk Buddy");
+                        alert.show();
+                    } if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
+                        // Check failing quantity tests 
+                        builder.setMessage("You have a failed quality test. Are you sure you want to proceed?")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        db.insertReceiverCollection(containerId,transporterId,receiverId , quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
+                                                Toast.LENGTH_SHORT).show();
+                                        returnToReceiverHome();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //  Action for 'NO' Button
+                                        dialog.cancel();
+                                        Toast.makeText(getApplicationContext(), "Saving Aborted",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 });
