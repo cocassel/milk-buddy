@@ -1,10 +1,12 @@
 package com.kkfc.milkbuddy;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -27,6 +29,7 @@ public class ImportTransporters extends AppCompatActivity {
     private Button keepExistingButton;
     private int STORAGE_PERMISSION_CODE = 200;
     private static final int READ_REQUEST_CODE = 42;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +74,14 @@ public class ImportTransporters extends AppCompatActivity {
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(ImportTransporters.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(ImportTransporters.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-                } else {
-                    ActivityCompat.requestPermissions(ImportTransporters.this,
-                            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-                }
-                performFileSearch();
+            } else {
+                ActivityCompat.requestPermissions(ImportTransporters.this,
+                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+            }
+            performFileSearch();
 
             }
         });
@@ -87,7 +90,13 @@ public class ImportTransporters extends AppCompatActivity {
         keepExistingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            // Check if the db table is empty. If so, restrict this button
+            Cursor transporters = db.fetchTransporters();
+            if(transporters.getCount() > 0) {
                 continueWithExistingTransporterData();
+            } else {
+                emptyTablePopup();
+            }
             }
         });
 
@@ -140,6 +149,23 @@ public class ImportTransporters extends AppCompatActivity {
         // Uncomment the following line to test export
         //Intent intent = new Intent(this, ExportTransporterData.class);
         startActivity(intent);
+    }
+
+    private void emptyTablePopup() {
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("There are no transporters saved. Please import transporters.")
+                .setCancelable(false)
+                .setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Milk Buddy");
+        alert.show();
     }
 
     @Override

@@ -25,7 +25,7 @@ public class ExportTransporterData extends AppCompatActivity {
     DatabaseHelper db;
     private static final int WRITE_REQUEST_CODE = 42;
     private Button exportButton;
-
+    private Button skipButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,13 @@ public class ExportTransporterData extends AppCompatActivity {
             }
         });
 
+        skipButton = findViewById(R.id.button2);
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToExportPlantData();
+            }
+        });
 
     }
 
@@ -78,7 +85,7 @@ public class ExportTransporterData extends AppCompatActivity {
 
                             String[] valuesArray = new String[cursor.getColumnCount()];
 
-                            for(int i=0; i < cursor.getColumnCount(); i ++ ) {
+                            for(int i=0; i < cursor.getColumnCount(); i ++) {
                                 valuesArray[i] = cursor.getString(i);
                             }
 
@@ -103,6 +110,11 @@ public class ExportTransporterData extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+    }
+
+    public void goToExportPlantData() {
+        Intent intent = new Intent(this, ExportPlantData.class);
+        startActivity(intent);
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class ExportPlantData extends AppCompatActivity {
     DatabaseHelper db;
     private static final int WRITE_REQUEST_CODE = 42;
     private Button exportButton;
+    private Button skipButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,15 @@ public class ExportPlantData extends AppCompatActivity {
                 startActivityForResult(intent, WRITE_REQUEST_CODE);
             }
         });
+
+        skipButton = findViewById(R.id.button2);
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToCompleted();
+            }
+        });
+
     }
 
 
@@ -59,19 +70,29 @@ public class ExportPlantData extends AppCompatActivity {
                     OutputStream outputStream = getContentResolver().openOutputStream(uri);
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
 
-                    Cursor cursor = db.fetchPlantData();
+                    Cursor cursor = db.fetchPlantDataToExport();
+
                     if(cursor.getCount() == 0) {
                         Toast.makeText(this, "No data to export", Toast.LENGTH_LONG).show();
                     } else {
+                        // Write column names to file as a header
+                        String[] columnNamesArray = cursor.getColumnNames();
+                        String columnNamesString = TextUtils.join(",", columnNamesArray);
+                        writer.write(columnNamesString + "\n");
+
+                        // Write actual data to file
                         while(cursor.moveToNext()) {
-                            // 1 is the column for first name
-                            String blah = cursor.getString(1) + " " + cursor.getString(2);
+
+                            String[] valuesArray = new String[cursor.getColumnCount()];
+
+                            for(int i=0; i < cursor.getColumnCount(); i ++) {
+                                valuesArray[i] = cursor.getString(i);
+                            }
+
+                            String valuesString = TextUtils.join(",", valuesArray);
+                            writer.write(valuesString + "\n");
                         }
                     }
-
-                    // TODO
-
-                    writer.write("DO I WORK?, YES");
 
                     writer.close();
 
@@ -89,6 +110,11 @@ public class ExportPlantData extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+    }
+
+    public void goToCompleted() {
+        Intent intent = new Intent(this, Completed.class);
+        startActivity(intent);
     }
 
     @Override
