@@ -443,6 +443,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(insertStatement);
     }
 
+    //Save receiver collction data.
+    public void insertReceiverCollection(int cId, int tId, int rId, double quantityL, String sniffTest, String alcoholTest, String densityTest, String wordComment, String createDate, String createTime){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String insertStatement = "INSERT INTO " + TABLE_PLANT_DATA + " ( "+
+                PLANT_DATA_CONTAINER_ID + ", " + PLANT_DATA_TRANSPORTER_ID + ", " +
+                PLANT_DATA_RECEIVER_ID + ", " + PLANT_DATA_QUANTITY_COLLECTED + ", " +
+                PLANT_DATA_QUALITY_TEST_SMELL + ", " + PLANT_DATA_QUALITY_TEST_ALCOHOL + ", " +
+                PLANT_DATA_QUALITY_TEST_DENSITY + ", " + PLANT_DATA_COMMENT + ", " +
+                PLANT_DATA_CREATE_DATE + ", " + PLANT_DATA_CREATE_TIME + " ) " +
+                "VALUES ('" + cId + "', '" + tId + "', '" + rId + "', '" + quantityL + "', '" +
+                sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" +
+                wordComment.replace("'", "''") + "', '" +
+                createDate + "', '" + createTime +"');";
+
+        db.execSQL(insertStatement);
+    }
+
     //Update conatiner data after collection
     public void updateContainerInfo (int cId, double amountRemaining){
         SQLiteDatabase db = this.getWritableDatabase();
