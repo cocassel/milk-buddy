@@ -196,8 +196,8 @@ public class ReceiverCollection extends AppCompatActivity {
                         alert.setTitle("Milk Buddy");
                         alert.show();
                     } if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
-                        // Check failing quantity tests 
-                        builder.setMessage("You have a failed quality test. Are you sure you want to proceed?")
+                        // Check failing quantity tests
+                        builder.setMessage("You have failed quality test(S). Are you sure you want to proceed?")
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
