@@ -161,7 +161,6 @@ public class ReceiverCollection extends AppCompatActivity {
                                         dialog.cancel();
                                         Toast.makeText(getApplicationContext(),"Collection Aborted",
                                                 Toast.LENGTH_SHORT).show();
-
                                     }
                                 });
                         //Creating dialog box
