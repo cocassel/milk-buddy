@@ -220,26 +220,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Fetch farmer table based on checkboxes, dropdown filter, and search bar
     public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id, String search) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "SELECT * FROM " + TABLE_FARMER
+        String sqlStatement = "SELECT * FROM " + TABLE_FARMER
                 + " WHERE " + FARMER_NAME + " LIKE " + "'%" + search + "%'";
 
         // if active checkbox is toggled, only select farmers who are active
         if(active) {
-            insertStatement += " AND " + FARMER_ACTIVE + "='1'";
+            sqlStatement += " AND " + FARMER_ACTIVE + "='1'";
         }
         // if collected checkbox is toggled, only select farmers who have not been collected from
         if(collected) {
-            insertStatement += " AND " + FARMER_ID + " NOT IN (SELECT " + TRANSPORTER_DATA_FARMER_ID
+            sqlStatement += " AND " + FARMER_ID + " NOT IN (SELECT " + TRANSPORTER_DATA_FARMER_ID
                     + " FROM " + TABLE_TRANSPORTER_DATA + ")" ;
         }
         // if a transporter is selected from the dropdown, only select farmers who are on that transporter's route
         // id is -1 for the "All Routes" dropdown item. So when id = -1, don't filter by route.
         if(id != -1) {
-            insertStatement += " AND " + FARMER_ASSIGNED_TRANSPORTER_ID + "=" + id;
+            sqlStatement += " AND " + FARMER_ASSIGNED_TRANSPORTER_ID + "=" + id;
 
         }
-        insertStatement += " ORDER BY " + FARMER_NAME;
-        Cursor cursor = db.rawQuery(insertStatement, null);
+        sqlStatement += " ORDER BY " + FARMER_NAME;
+        Cursor cursor = db.rawQuery(sqlStatement, null);
         return cursor;
     }
 
