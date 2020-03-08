@@ -1,6 +1,8 @@
 package com.kkfc.milkbuddy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
@@ -21,6 +24,7 @@ public class ImportFarmers extends AppCompatActivity {
     private Button importButton;
     private Button keepExistingButton;
     private static final int READ_REQUEST_CODE = 42;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,13 @@ public class ImportFarmers extends AppCompatActivity {
         keepExistingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            // Check if the db table is empty. If so, restrict this button
+            Cursor farmers = db.fetchFarmers();
+            if(farmers.getCount() > 0) {
                 continueWithExistingFarmerData();
+            } else {
+                emptyTablePopup();
+            }
             }
         });
     }
@@ -88,6 +98,23 @@ public class ImportFarmers extends AppCompatActivity {
     private void continueWithExistingFarmerData() {
         Intent intent = new Intent(this, TransporterLogin.class);
         startActivity(intent);
+    }
+
+    private void emptyTablePopup() {
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("There are no farmers saved. Please import farmers.")
+                .setCancelable(false)
+                .setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Milk Buddy");
+        alert.show();
     }
 
     @Override
