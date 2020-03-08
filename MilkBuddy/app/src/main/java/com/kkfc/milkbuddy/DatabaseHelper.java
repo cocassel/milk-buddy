@@ -191,6 +191,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    // Fetch receiver table
+    public Cursor fetchReceivers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_RECEIVER, null);
+        return cursor;
+    }
+
     public Cursor fetchLoggedInTransporter() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_LOGGED_IN_TRANSPORTER, null);

@@ -1,8 +1,11 @@
 package com.kkfc.milkbuddy;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +24,7 @@ public class ImportReceivers extends AppCompatActivity {
     private Button importButton;
     private Button keepExistingButton;
     private static final int READ_REQUEST_CODE = 42;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,13 @@ public class ImportReceivers extends AppCompatActivity {
         keepExistingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            // Check if the db table is empty. If so, restrict this button
+            Cursor receivers = db.fetchReceivers();
+            if(receivers.getCount() > 0) {
                 continueWithExistingReceiverData();
+            } else {
+                emptyTablePopup();
+            }
             }
         });
     }
@@ -88,6 +98,23 @@ public class ImportReceivers extends AppCompatActivity {
     private void continueWithExistingReceiverData() {
         Intent intent = new Intent(this, ImportFarmers.class);
         startActivity(intent);
+    }
+
+    private void emptyTablePopup() {
+        builder = new AlertDialog.Builder(this);
+        builder.setMessage("There are no receivers saved. Please import receivers.")
+                .setCancelable(false)
+                .setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Milk Buddy");
+        alert.show();
     }
 
     @Override
