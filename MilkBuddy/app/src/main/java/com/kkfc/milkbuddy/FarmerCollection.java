@@ -156,6 +156,12 @@ public class FarmerCollection extends AppCompatActivity {
                     densityTest=densityNa.getText().toString();
                 }
 
+              /*  if(alcoholFail.isChecked());{
+                    containerSpinnerView.setEnabled(false);
+                    containerSpinnerView.setClickable(false);
+                    containerSpinnerView.setAdapter(containerCursorAdapter);
+                }*/
+
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
                 if(quantityLitre.length()==0){
@@ -164,6 +170,9 @@ public class FarmerCollection extends AppCompatActivity {
                     final Double quantityL = Double.parseDouble(quantityLitre);
                     if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
                         // Recorded milk collection with failed tests
+                        containerSpinnerView.setEnabled(false);
+                        containerSpinnerView.setClickable(false);
+                        containerSpinnerView.setAdapter(containerCursorAdapter);
                         containerId = -1;
                         builder.setMessage("Are you sure you want to save farmer collection with failed test?")
                                 .setCancelable(false)
