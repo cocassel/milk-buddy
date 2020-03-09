@@ -172,7 +172,6 @@ public class FarmerCollection extends AppCompatActivity {
                         // Recorded milk collection with failed tests
                         containerSpinnerView.setEnabled(false);
                         containerSpinnerView.setClickable(false);
-                        containerSpinnerView.setAdapter(containerCursorAdapter);
                         containerId = -1;
                         builder.setMessage("Are you sure you want to save farmer collection with failed test?")
                                 .setCancelable(false)
