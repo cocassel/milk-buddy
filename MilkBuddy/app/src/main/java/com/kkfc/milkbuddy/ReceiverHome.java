@@ -46,7 +46,6 @@ public class ReceiverHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver_home);
 
-        // TODO: Automatically redirect to export page if all containers are received
 
         NAME = (TextView) findViewById(R.id.transporterName);
         receiverName = (TextView) findViewById(R.id.receiverName);
@@ -73,14 +72,14 @@ public class ReceiverHome extends AppCompatActivity {
 
 
 
-        exportButton = findViewById(R.id.button1);
+       /* exportButton = findViewById(R.id.button1);
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 exportData();
             }
 
-        });
+        });*/
 
 
         // List transporters
@@ -88,7 +87,7 @@ public class ReceiverHome extends AppCompatActivity {
         containerListView = findViewById(R.id.list_view);
 
         if(containerCursor.getCount() == 0) {
-            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+            exportData();
         } else {
             containerCursorAdapter = new SimpleCursorAdapter(this, R.layout.container_list_entry, containerCursor, containerColumns, containerTo, 0);
             containerListView.setAdapter(containerCursorAdapter);
