@@ -66,7 +66,6 @@ public class ReceiverHome extends AppCompatActivity {
         receiverName.setText("Hello " + loggedInReceiver + "!");
 
 
-        // List transporters
         Cursor containerCursor = db.fetchConcatContainerForReceiver();
         containerListView = findViewById(R.id.list_view);
 
