@@ -27,18 +27,14 @@ public class ReceiverHome extends AppCompatActivity {
     // THE DESIRED COLUMNS TO BE BOUND
     String[] containerColumns = new String[]{
             "container_info"
-            //db.CONTAINER_ID,
-            //db.CONTAINER_SIZE
+
     };
 
     // THE XML DEFINED VIEWS WHICH THE DATA WILL BE BOUND TO
    int[] containerTo = new int[]{
             R.id.container_id,
-            //R.id.container_size
     };
 
-    //String [] containerColumns = new String[]{"container_dropdown"};
-    //int[] containerTo =new int[]{android.R.id.list};
 
 
     @Override
