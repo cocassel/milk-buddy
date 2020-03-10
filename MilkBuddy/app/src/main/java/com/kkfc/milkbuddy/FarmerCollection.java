@@ -127,7 +127,7 @@ public class FarmerCollection extends AppCompatActivity {
            }
        });
 
-        //Greying out Container dropdown when Alcohol Test Fails
+        /*//Greying out Container dropdown when Alcohol Test Fails
         radioAlcoholTest = findViewById(R.id.radioGroup2);
         radioAlcoholTest.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -150,7 +150,7 @@ public class FarmerCollection extends AppCompatActivity {
                         break;
                 }
             }
-        });
+        });*/
 
         // Cancel Collection Process
         cancelCollection = findViewById(R.id.Button01);
