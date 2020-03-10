@@ -93,13 +93,13 @@ public class FarmerCollection extends AppCompatActivity {
             }
         });
 
-        // Greying out Container dropdown when Sniff Test Fails
+        // Greying out container dropdown when sniff or alcohol tests fail
        radioSniffTestGroup = findViewById(R.id.radioGroup1);
        radioSniffTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
            @Override
            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-               //Gathering collection data from sniff test
+               //Gathering collection data from sniff and alcohol tests
                RadioButton sniffTestFail = findViewById(R.id.radioButton2);
                RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
 
@@ -118,7 +118,7 @@ public class FarmerCollection extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                //Gathering collection data from sniff test
+                //Gathering collection data from sniff and alcohol tests
                 RadioButton sniffTestFail = findViewById(R.id.radioButton2);
                 RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
 
@@ -198,15 +198,6 @@ public class FarmerCollection extends AppCompatActivity {
                 } else if(densityNa.isChecked()){
                     densityTest=densityNa.getText().toString();
                 }
-
-               /* if(alcoholFail.isChecked() || sniffFail.isChecked()){
-                    containerSpinnerView.setEnabled(false);
-                    containerSpinnerView.setClickable(false);
-                }
-                else{
-                    containerSpinnerView.setEnabled(true);
-                    containerSpinnerView.setClickable(true);
-                }*/
 
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
