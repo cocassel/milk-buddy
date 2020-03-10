@@ -97,24 +97,24 @@ public class ReceiverCollection extends AppCompatActivity {
                 sniffPass = findViewById(R.id.radioButton1);
                 sniffFail = findViewById(R.id.radioButton2);
                 sniffNa = findViewById(R.id.radioButton3);
-                if(sniffPass.isChecked()){
+                if (sniffPass.isChecked()) {
                     sniffTest = sniffPass.getText().toString();
-                } else if(sniffFail.isChecked()){
-                    sniffTest=sniffFail.getText().toString();
-                } else if(sniffNa.isChecked()){
-                    sniffTest=sniffNa.getText().toString();
+                } else if (sniffFail.isChecked()) {
+                    sniffTest = sniffFail.getText().toString();
+                } else if (sniffNa.isChecked()) {
+                    sniffTest = sniffNa.getText().toString();
                 }
 
                 //Gathering collection data from alcohol test
                 alcoholPass = findViewById(R.id.radioButton4);
                 alcoholFail = findViewById(R.id.radioButton5);
                 alcoholNa = findViewById(R.id.radioButton6);
-                if(alcoholPass.isChecked()){
+                if (alcoholPass.isChecked()) {
                     alcoholTest = alcoholPass.getText().toString();
-                } else if(alcoholFail.isChecked()){
-                    alcoholTest=alcoholFail.getText().toString();
-                } else if(alcoholNa.isChecked()){
-                    alcoholTest=alcoholNa.getText().toString();
+                } else if (alcoholFail.isChecked()) {
+                    alcoholTest = alcoholFail.getText().toString();
+                } else if (alcoholNa.isChecked()) {
+                    alcoholTest = alcoholNa.getText().toString();
                 }
 
                 //Gathering collection data from density test
@@ -124,66 +124,40 @@ public class ReceiverCollection extends AppCompatActivity {
                 densityThirty = findViewById(R.id.radioButton10);
                 densityThirtyOnePlus = findViewById(R.id.radioButton11);
                 densityNa = findViewById(R.id.radioButton12);
-                if(densityTwoSeven.isChecked()){
+                if (densityTwoSeven.isChecked()) {
                     densityTest = densityTwoSeven.getText().toString();
-                } else if(densityTwoEight.isChecked()){
-                    densityTest=densityTwoEight.getText().toString();
-                } else if(densityTwoNine.isChecked()){
-                    densityTest=densityTwoNine.getText().toString();
-                } else if(densityThirty.isChecked()){
-                    densityTest=densityThirty.getText().toString();
-                } else if(densityThirtyOnePlus.isChecked()){
-                    densityTest=densityThirtyOnePlus.getText().toString();
-                } else if(densityNa.isChecked()){
-                    densityTest=densityNa.getText().toString();
+                } else if (densityTwoEight.isChecked()) {
+                    densityTest = densityTwoEight.getText().toString();
+                } else if (densityTwoNine.isChecked()) {
+                    densityTest = densityTwoNine.getText().toString();
+                } else if (densityThirty.isChecked()) {
+                    densityTest = densityThirty.getText().toString();
+                } else if (densityThirtyOnePlus.isChecked()) {
+                    densityTest = densityThirtyOnePlus.getText().toString();
+                } else if (densityNa.isChecked()) {
+                    densityTest = densityNa.getText().toString();
                 }
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
 
-                if(quantityFullLitre.length()==0 ){
+                if (quantityFullLitre.length() == 0) {
                     quantityFull.setError("Please record weight with full container , otherwise click 'Cancel'");
-                } if(quantityEmptyLitre.length()==0 ){
+                }
+                if (quantityEmptyLitre.length() == 0) {
                     quantityEmpty.setError("Please record weight with empty container , otherwise click 'Cancel'");
                 } else {
                     final Double quantityFullL = Double.parseDouble(quantityFullLitre);
                     final Double quantityEmptyL = Double.parseDouble(quantityEmptyLitre);
                     final Double quantityL = quantityFullL - quantityEmptyL;
                     containerQuantity = Integer.parseInt(containerSize);
-                    //Input plant data
 
-                    if(quantityEmptyL>quantityFullL){
-                        // Check container quantity to make sure container quantity is a positive number
+                    // Check container quantity to make sure container quantity is a positive number
+                    if (quantityEmptyL > quantityFullL) {
                         builder.setMessage("Container weight: full value needs to be greater than container weight: empty value")
                                 .setCancelable(false)
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        Toast.makeText(getApplicationContext(),"Collection Aborted",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                        //Creating dialog box
-                        AlertDialog alert = builder.create();
-                        //Setting the title manually
-                        alert.setTitle("Milk Buddy");
-                        alert.show();
-                    } if(quantityL>containerQuantity) {
-                        // Check recorded container quantity is not greater than actual container quantity
-                        builder.setMessage("Quantity being inputted is greater than container capacity. Are you sure you want to proceed?")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        db.insertReceiverCollection(containerId, transporterId, receiverId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                                        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
-                                                Toast.LENGTH_SHORT).show();
-                                        returnToReceiverHome();
-
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //  Action for 'NO' Button
                                         dialog.cancel();
                                         Toast.makeText(getApplicationContext(), "Collection Aborted",
                                                 Toast.LENGTH_SHORT).show();
@@ -194,58 +168,110 @@ public class ReceiverCollection extends AppCompatActivity {
                         //Setting the title manually
                         alert.setTitle("Milk Buddy");
                         alert.show();
-                    } if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
-                        // Check failing quantity tests
-                        builder.setMessage("You have failed quality test(S). Are you sure you want to proceed?")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        db.insertReceiverCollection(containerId,transporterId,receiverId , quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                                        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
-                                                Toast.LENGTH_SHORT).show();
-                                        returnToReceiverHome();
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //  Action for 'NO' Button
-                                        dialog.cancel();
-                                        Toast.makeText(getApplicationContext(), "Saving Aborted",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                        //Creating dialog box
-                        AlertDialog alert = builder.create();
-                        //Setting the title manually
-                        alert.setTitle("Milk Buddy");
-                        alert.show();
                     } else {
-                        builder.setMessage("Are you sure you want to proceed?")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        db.insertReceiverCollection(containerId,transporterId,receiverId , quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                                        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
-                                                Toast.LENGTH_SHORT).show();
-                                        returnToReceiverHome();
+                        // Check recorded container quantity is not greater than actual container quantity
+                        if (quantityL > containerQuantity) {
 
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //  Action for 'NO' Button
-                                        dialog.cancel();
-                                        Toast.makeText(getApplicationContext(),"Collection Aborted",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                        //Creating dialog box
-                        AlertDialog alert = builder.create();
-                        //Setting the title manually
-                        alert.setTitle("Milk Buddy");
-                        alert.show();
+                            builder.setMessage("Quantity being inputted is greater than container capacity. Are you sure you want to proceed?")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+
+                                            if (alcoholTest.equals("Fail") || sniffTest.equals("Fail")) {
+
+                                                builder.setMessage("You have failed quality test(S). Are you sure you want to proceed?")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                db.insertReceiverCollection(containerId, transporterId, receiverId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                                                Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                                returnToReceiverHome();
+                                                            }
+                                                        })
+                                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                //  Action for 'NO' Button
+                                                                dialog.cancel();
+                                                                Toast.makeText(getApplicationContext(), "Saving Aborted",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                //Creating dialog box
+                                                AlertDialog alert = builder.create();
+                                                //Setting the title manually
+                                                alert.setTitle("Milk Buddy");
+                                                alert.show();
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //  Action for 'NO' Button
+                                            dialog.cancel();
+                                            Toast.makeText(getApplicationContext(), "Collection Aborted",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            //Creating dialog box
+                            AlertDialog alert = builder.create();
+                            //Setting the title manually
+                            alert.setTitle("Milk Buddy");
+                            alert.show();
+                        } else {
+                            // Check failing quantity tests
+                            if (alcoholTest.equals("Fail") || sniffTest.equals("Fail")) {
+                                builder.setMessage("You have failed quality test(S). Are you sure you want to proceed?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                db.insertReceiverCollection(containerId, transporterId, receiverId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                                Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
+                                                        Toast.LENGTH_SHORT).show();
+                                                returnToReceiverHome();
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //  Action for 'NO' Button
+                                                dialog.cancel();
+                                                Toast.makeText(getApplicationContext(), "Saving Aborted",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                //Creating dialog box
+                                AlertDialog alert = builder.create();
+                                //Setting the title manually
+                                alert.setTitle("Milk Buddy");
+                                alert.show();
+                            } else {
+                                builder.setMessage("Are you sure you want to proceed?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                db.insertReceiverCollection(containerId, transporterId, receiverId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+                                                Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
+                                                        Toast.LENGTH_SHORT).show();
+                                                returnToReceiverHome();
+
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //  Action for 'NO' Button
+                                                dialog.cancel();
+                                                Toast.makeText(getApplicationContext(), "Collection Aborted",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                //Creating dialog box
+                                AlertDialog alert = builder.create();
+                                //Setting the title manually
+                                alert.setTitle("Milk Buddy");
+                                alert.show();
+                            }
+                        }
                     }
-
                 }
             }
         });
