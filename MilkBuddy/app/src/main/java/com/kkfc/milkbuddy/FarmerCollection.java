@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,6 +45,9 @@ public class FarmerCollection extends AppCompatActivity {
     private String timeToday;
     SimpleCursorAdapter containerCursorAdapter;
     private Spinner containerSpinnerView;
+    private RadioGroup radioSniffTest;
+    private RadioGroup radioAlcoholTest;
+
 
 
     @Override
@@ -86,6 +90,56 @@ public class FarmerCollection extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        //Greying out Container dropdown when Sniff Test Fails
+       radioSniffTest = findViewById(R.id.radioGroup1);
+       radioSniffTest.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+               switch(checkedId){
+                   case R.id.radioButton1:
+                       containerSpinnerView.setEnabled(true);
+                       containerSpinnerView.setClickable(true);
+                       break;
+
+                   case R.id.radioButton3:
+                       containerSpinnerView.setEnabled(true);
+                       containerSpinnerView.setClickable(true);
+                       break;
+
+                   case R.id.radioButton2:
+                       containerSpinnerView.setEnabled(false);
+                       containerSpinnerView.setClickable(false);
+                       break;
+               }
+           }
+       });
+
+        //Greying out Container dropdown when Alcohol Test Fails
+        radioAlcoholTest = findViewById(R.id.radioGroup2);
+        radioAlcoholTest.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                switch(checkedId){
+                    case R.id.radioButton4:
+                        containerSpinnerView.setEnabled(true);
+                        containerSpinnerView.setClickable(true);
+                        break;
+
+                    case R.id.radioButton6:
+                        containerSpinnerView.setEnabled(true);
+                        containerSpinnerView.setClickable(true);
+                        break;
+
+                    case R.id.radioButton5:
+                        containerSpinnerView.setEnabled(false);
+                        containerSpinnerView.setClickable(false);
+                        break;
+                }
             }
         });
 
@@ -156,11 +210,15 @@ public class FarmerCollection extends AppCompatActivity {
                     densityTest=densityNa.getText().toString();
                 }
 
-              /*  if(alcoholFail.isChecked());{
+               /* if(alcoholFail.isChecked() || sniffFail.isChecked()){
                     containerSpinnerView.setEnabled(false);
                     containerSpinnerView.setClickable(false);
-                    containerSpinnerView.setAdapter(containerCursorAdapter);
+                }
+                else{
+                    containerSpinnerView.setEnabled(true);
+                    containerSpinnerView.setClickable(true);
                 }*/
+
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
@@ -170,8 +228,6 @@ public class FarmerCollection extends AppCompatActivity {
                     final Double quantityL = Double.parseDouble(quantityLitre);
                     if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
                         // Recorded milk collection with failed tests
-                        containerSpinnerView.setEnabled(false);
-                        containerSpinnerView.setClickable(false);
                         containerId = -1;
                         builder.setMessage("Are you sure you want to save farmer collection with failed test?")
                                 .setCancelable(false)
