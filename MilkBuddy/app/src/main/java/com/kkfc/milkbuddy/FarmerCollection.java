@@ -169,6 +169,7 @@ public class FarmerCollection extends AppCompatActivity {
 
                 //Gathering collection data from alcohol test
                 alcoholPass = findViewById(R.id.radioButton4);
+                alcoholFail = findViewById(R.id.radioButton5);
                 alcoholNa = findViewById(R.id.radioButton6);
                 if(alcoholPass.isChecked()){
                     alcoholTest = alcoholPass.getText().toString();
