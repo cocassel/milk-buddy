@@ -45,8 +45,8 @@ public class FarmerCollection extends AppCompatActivity {
     private String timeToday;
     SimpleCursorAdapter containerCursorAdapter;
     private Spinner containerSpinnerView;
-    private RadioGroup radioSniffTest;
-    private RadioGroup radioAlcoholTest;
+    private RadioGroup radioSniffTestGroup;
+    private RadioGroup radioAlcoholTestGroup;
 
 
 
@@ -93,64 +93,45 @@ public class FarmerCollection extends AppCompatActivity {
             }
         });
 
-        //Greying out Container dropdown when Sniff Test Fails
-       radioSniffTest = findViewById(R.id.radioGroup1);
-       radioSniffTest.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        // Greying out Container dropdown when Sniff Test Fails
+       radioSniffTestGroup = findViewById(R.id.radioGroup1);
+       radioSniffTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
            @Override
            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-               if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
+               //Gathering collection data from sniff test
+               RadioButton sniffTestFail = findViewById(R.id.radioButton2);
+               RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
+
+               if(sniffTestFail.isChecked() || alcoholTestFail.isChecked()){
                    containerSpinnerView.setEnabled(false);
                    containerSpinnerView.setClickable(false);
-               }
-               else{
+               } else {
                    containerSpinnerView.setEnabled(true);
                    containerSpinnerView.setClickable(true);
                }
-
-               /*switch(checkedId){
-                   case R.id.radioButton1:
-                       containerSpinnerView.setEnabled(true);
-                       containerSpinnerView.setClickable(true);
-                       break;
-
-                   case R.id.radioButton3:
-                       containerSpinnerView.setEnabled(true);
-                       containerSpinnerView.setClickable(true);
-                       break;
-
-                   case R.id.radioButton2:
-                       containerSpinnerView.setEnabled(false);
-                       containerSpinnerView.setClickable(false);
-                       break;
-               }*/
            }
        });
 
-        /*//Greying out Container dropdown when Alcohol Test Fails
-        radioAlcoholTest = findViewById(R.id.radioGroup2);
-        radioAlcoholTest.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioAlcoholTestGroup = findViewById(R.id.radioGroup2);
+        radioAlcoholTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                switch(checkedId){
-                    case R.id.radioButton4:
-                        containerSpinnerView.setEnabled(true);
-                        containerSpinnerView.setClickable(true);
-                        break;
+                //Gathering collection data from sniff test
+                RadioButton sniffTestFail = findViewById(R.id.radioButton2);
+                RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
 
-                    case R.id.radioButton6:
-                        containerSpinnerView.setEnabled(true);
-                        containerSpinnerView.setClickable(true);
-                        break;
-
-                    case R.id.radioButton5:
-                        containerSpinnerView.setEnabled(false);
-                        containerSpinnerView.setClickable(false);
-                        break;
+                if(sniffTestFail.isChecked() || alcoholTestFail.isChecked()){
+                    containerSpinnerView.setEnabled(false);
+                    containerSpinnerView.setClickable(false);
+                } else {
+                    containerSpinnerView.setEnabled(true);
+                    containerSpinnerView.setClickable(true);
                 }
+
             }
-        });*/
+        });
 
         // Cancel Collection Process
         cancelCollection = findViewById(R.id.Button01);
@@ -188,7 +169,6 @@ public class FarmerCollection extends AppCompatActivity {
 
                 //Gathering collection data from alcohol test
                 alcoholPass = findViewById(R.id.radioButton4);
-                alcoholFail = findViewById(R.id.radioButton5);
                 alcoholNa = findViewById(R.id.radioButton6);
                 if(alcoholPass.isChecked()){
                     alcoholTest = alcoholPass.getText().toString();
