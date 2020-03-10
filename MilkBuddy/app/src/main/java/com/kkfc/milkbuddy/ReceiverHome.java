@@ -69,12 +69,12 @@ public class ReceiverHome extends AppCompatActivity {
         Cursor containerCursor = db.fetchConcatContainerForReceiver();
         containerListView = findViewById(R.id.list_view);
 
+        // If there are no containers left to display on the homepage, redirect to export page
         if(containerCursor.getCount() == 0) {
             exportData();
         } else {
             containerCursorAdapter = new SimpleCursorAdapter(this, R.layout.container_list_entry, containerCursor, containerColumns, containerTo, 0);
             containerListView.setAdapter(containerCursorAdapter);
-
         }
 
 
