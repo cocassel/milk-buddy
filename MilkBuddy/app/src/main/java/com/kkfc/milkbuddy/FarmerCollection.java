@@ -99,7 +99,16 @@ public class FarmerCollection extends AppCompatActivity {
            @Override
            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-               switch(checkedId){
+               if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
+                   containerSpinnerView.setEnabled(false);
+                   containerSpinnerView.setClickable(false);
+               }
+               else{
+                   containerSpinnerView.setEnabled(true);
+                   containerSpinnerView.setClickable(true);
+               }
+
+               /*switch(checkedId){
                    case R.id.radioButton1:
                        containerSpinnerView.setEnabled(true);
                        containerSpinnerView.setClickable(true);
@@ -114,7 +123,7 @@ public class FarmerCollection extends AppCompatActivity {
                        containerSpinnerView.setEnabled(false);
                        containerSpinnerView.setClickable(false);
                        break;
-               }
+               }*/
            }
        });
 
