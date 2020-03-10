@@ -154,7 +154,7 @@ public class ReceiverCollection extends AppCompatActivity {
 
                     // Check container quantity to make sure container quantity is a positive number
                     if (quantityEmptyL > quantityFullL) {
-                        builder.setMessage("Container weight: full value needs to be greater than container weight: empty value")
+                        builder.setMessage("'Container Weight: Full' value needs to be greater than 'Container Weight: Empty' value")
                                 .setCancelable(false)
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
