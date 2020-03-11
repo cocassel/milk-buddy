@@ -296,7 +296,7 @@ public class ReceiverCollection extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getApplicationContext(),"Collection Canceled",
+                        Toast.makeText(getApplicationContext(),"Collection Cancelled",
                                 Toast.LENGTH_SHORT).show();
                         returnToReceiverHome();
 
