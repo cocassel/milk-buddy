@@ -53,6 +53,7 @@
                     android:layout_height="match_parent"
                     android:paddingTop="20dp"
                     android:text="My Containers"
+                    android:textColor="#050505"
                     android:textSize="30sp" />
             </LinearLayout>
 
