@@ -154,21 +154,10 @@ public class ReceiverCollection extends AppCompatActivity {
 
                     // Check container quantity to make sure container quantity is a positive number
                     if (quantityEmptyL > quantityFullL) {
-                        builder.setMessage("'Container Weight: Full' value needs to be greater than 'Container Weight: Empty' value")
-                                .setCancelable(false)
-                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        Toast.makeText(getApplicationContext(), "Collection Aborted",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                        //Creating dialog box
-                        AlertDialog alert = builder.create();
-                        //Setting the title manually
-                        alert.setTitle("Milk Buddy");
-                        alert.show();
+                        quantityFull.setError("'Container Weight: Full' value needs to be greater than 'Container Weight: Empty' value");
+                        quantityEmpty.setError("'Container Weight: Full' value needs to be greater than 'Container Weight: Empty' value");
                     } else {
+                        // Check recorded container quantity is not greater than actual container quantity
                         // Check recorded container quantity is not greater than actual container quantity
                         if (quantityL > containerQuantity) {
 
@@ -270,6 +259,7 @@ public class ReceiverCollection extends AppCompatActivity {
                                 alert.setTitle("Milk Buddy");
                                 alert.show();
                             }
+
                         }
                     }
                 }
