@@ -216,7 +216,7 @@
                 android:id="@+id/row"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp">
 
                 <TextView
@@ -235,7 +235,7 @@
                 android:id="@+id/sixth_row"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp">
 
                 <TextView
@@ -262,7 +262,7 @@
                 android:id="@+id/seventh_row"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp">
 
                 <TextView
@@ -290,7 +290,7 @@
                 android:id="@+id/eighth_row"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp">
 
                 <TextView
@@ -309,7 +309,7 @@
                 android:id="@+id/ninth_row"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp">
 
                 <EditText
@@ -333,8 +333,9 @@
 
                 <Button
                     android:id="@+id/Button01"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:text="Cancel"
                     android:textSize="20sp"
@@ -344,8 +345,9 @@
 
                 <Button
                     android:id="@+id/Button02"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:text="Save"
                     android:textSize="20sp"
