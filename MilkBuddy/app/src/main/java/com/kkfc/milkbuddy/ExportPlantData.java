@@ -1,7 +1,9 @@
 package com.kkfc.milkbuddy;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -25,6 +27,7 @@ public class ExportPlantData extends AppCompatActivity {
     private static final int WRITE_REQUEST_CODE = 42;
     private Button exportButton;
     private Button skipButton;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +52,32 @@ public class ExportPlantData extends AppCompatActivity {
         });
 
         skipButton = findViewById(R.id.button2);
+        builder = new AlertDialog.Builder(this);
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToCompleted();
+                builder.setMessage("Are you sure you want to skip exporting plant receiving data?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                goToCompleted();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Action for 'NO' Button
+                                dialog.cancel();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("Milk Buddy");
+                alert.show();
             }
         });
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
