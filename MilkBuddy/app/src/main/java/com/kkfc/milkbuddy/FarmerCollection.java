@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,6 +45,9 @@ public class FarmerCollection extends AppCompatActivity {
     private String timeToday;
     SimpleCursorAdapter containerCursorAdapter;
     private Spinner containerSpinnerView;
+    private RadioGroup radioSniffTestGroup;
+    private RadioGroup radioAlcoholTestGroup;
+
 
 
     @Override
@@ -85,6 +89,46 @@ public class FarmerCollection extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // Greying out container dropdown when sniff or alcohol tests fail
+       radioSniffTestGroup = findViewById(R.id.radioGroup1);
+       radioSniffTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+               //Gathering collection data from sniff and alcohol tests
+               RadioButton sniffTestFail = findViewById(R.id.radioButton2);
+               RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
+
+               if(sniffTestFail.isChecked() || alcoholTestFail.isChecked()){
+                   containerSpinnerView.setEnabled(false);
+                   containerSpinnerView.setClickable(false);
+               } else {
+                   containerSpinnerView.setEnabled(true);
+                   containerSpinnerView.setClickable(true);
+               }
+           }
+       });
+
+        radioAlcoholTestGroup = findViewById(R.id.radioGroup2);
+        radioAlcoholTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                //Gathering collection data from sniff and alcohol tests
+                RadioButton sniffTestFail = findViewById(R.id.radioButton2);
+                RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
+
+                if(sniffTestFail.isChecked() || alcoholTestFail.isChecked()){
+                    containerSpinnerView.setEnabled(false);
+                    containerSpinnerView.setClickable(false);
+                } else {
+                    containerSpinnerView.setEnabled(true);
+                    containerSpinnerView.setClickable(true);
+                }
 
             }
         });
@@ -155,6 +199,7 @@ public class FarmerCollection extends AppCompatActivity {
                 } else if(densityNa.isChecked()){
                     densityTest=densityNa.getText().toString();
                 }
+
 
                 dateToday = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault()).format(new Date());
                 timeToday = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());

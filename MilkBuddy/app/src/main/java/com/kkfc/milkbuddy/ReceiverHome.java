@@ -20,8 +20,7 @@ public class ReceiverHome extends AppCompatActivity {
     private TextView NAME;
     private TextView receiverName;
     private ListView containerListView;
-    private Button exportButton;
-    private Button test;
+
     SimpleCursorAdapter containerCursorAdapter;
 
     // THE DESIRED COLUMNS TO BE BOUND

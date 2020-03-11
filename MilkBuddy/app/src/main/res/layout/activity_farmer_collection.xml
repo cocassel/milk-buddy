@@ -54,6 +54,7 @@
                 android:textSize="20sp" />
 
             <RadioGroup
+                android:id="@+id/radioGroup1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -101,6 +102,7 @@
                 android:textSize="20sp" />
 
             <RadioGroup
+                android:id="@+id/radioGroup2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -149,6 +151,7 @@
                 android:textSize="20sp" />
 
             <RadioGroup
+                android:id="@+id/radioGroup3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -240,7 +243,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:layout_marginLeft="20dp"
-                android:text="Container(s):"
+                android:text="Container:"
                 android:textSize="20sp"
                 android:textColor="#000000"/>
             <Spinner

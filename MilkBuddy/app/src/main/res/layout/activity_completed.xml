@@ -29,7 +29,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="You're all done! Reset the app to start a new session. "
+                android:text="You're all done! Reset the app to start a new session."
+                android:textColor="#000000"
                 android:textSize="25sp" />
         </TableRow>
 
@@ -47,6 +48,13 @@
                 android:layout_weight="1"
                 android:text="Reset"
                 android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/third_row"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
         </TableRow>
 
     </TableLayout>
