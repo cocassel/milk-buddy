@@ -243,7 +243,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:layout_marginLeft="20dp"
-                android:text="Container(s):"
+                android:text="Container:"
                 android:textSize="20sp"
                 android:textColor="#000000"/>
             <Spinner
