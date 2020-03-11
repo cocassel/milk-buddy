@@ -220,8 +220,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Fetch farmer table based on checkboxes, dropdown filter, and search bar
     public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id, String search) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sqlStatement = "SELECT * FROM " + TABLE_FARMER
-                + " WHERE " + FARMER_NAME + " LIKE " + "'%" + search + "%'";
+        String sqlStatement = "SELECT "  + FARMER_ID + ", " + FARMER_ASSIGNED_TRANSPORTER_ID + ", " +
+                FARMER_NAME + ", " + FARMER_PHONE_NUMBER + ", " + FARMER_ACTIVE + ", " +
+                FARMER_EXPECTED_COLLECTION_TIME + ", time(" + FARMER_EXPECTED_COLLECTION_TIME + ") " +
+                "FROM " + TABLE_FARMER + " WHERE " + FARMER_NAME + " LIKE " + "'%" + search + "%'";
 
         // if active checkbox is toggled, only select farmers who are active
         if(active) {
@@ -238,7 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sqlStatement += " AND " + FARMER_ASSIGNED_TRANSPORTER_ID + "=" + id;
 
         }
-        sqlStatement += " ORDER BY " + FARMER_NAME;
+        sqlStatement += " ORDER BY time(" + FARMER_EXPECTED_COLLECTION_TIME + "), " + FARMER_NAME;
         Cursor cursor = db.rawQuery(sqlStatement, null);
         return cursor;
     }
@@ -318,7 +320,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String SQLquery = "SELECT " + CONTAINER_ID + ", " + CONTAINER_SIZE + ", " +
                 CONTAINER_AMOUNT_REMAINING + ", " + "'Container ' || " +CONTAINER_ID + " || ' (' || " +
-                CONTAINER_AMOUNT_REMAINING +" || 'L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
+                " ROUND (" + CONTAINER_AMOUNT_REMAINING + "," + 2 + ")" +" || ' L left) ' AS container_dropdown  FROM " + TABLE_CONTAINER + ";";
         Log.i("query ", SQLquery);
         Cursor cursor = db.rawQuery(SQLquery, null);
         return cursor;
