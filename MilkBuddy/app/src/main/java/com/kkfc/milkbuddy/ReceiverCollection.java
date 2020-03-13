@@ -210,7 +210,7 @@ public class ReceiverCollection extends AppCompatActivity {
                         } else {
                             // Check failing quantity tests
                             if (alcoholTest.equals("Fail") || sniffTest.equals("Fail")) {
-                                builder.setMessage("You have failed quality test(S). Are you sure you want to proceed?")
+                                builder.setMessage("You have failed quality test(s). Are you sure you want to proceed?")
                                         .setCancelable(false)
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
@@ -296,7 +296,7 @@ public class ReceiverCollection extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getApplicationContext(),"Collection Canceled",
+                        Toast.makeText(getApplicationContext(),"Collection Cancelled",
                                 Toast.LENGTH_SHORT).show();
                         returnToReceiverHome();
 
