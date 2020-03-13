@@ -36,7 +36,7 @@ public class ReceiverCollection extends AppCompatActivity {
     private int containerId;
     private String containerSize;
     private int receiverId;
-    private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,densityTwoSeven, densityTwoEight, densityTwoNine, densityThirty, densityThirtyOnePlus, densityNa ;
+    private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,densityTwoSeven, densityTwoEight, densityTwoNine, densityThirty, densityThirtyOnePlus, densityFail, densityNa ;
     private String sniffTest;
     private String alcoholTest;
     private String densityTest;
@@ -60,7 +60,7 @@ public class ReceiverCollection extends AppCompatActivity {
         transporterTextView = findViewById(R.id.textView1);
         transporterTextView.setText("Transporter Name: " + loggedInTransporter );
 
-        //Fetch the loggedInReciever to show on the UI
+        //Fetch the loggedInReceiver to show on the UI
         Cursor c = db.fetchLoggedInReceiver();
         //only one row in the table so use the first row
         c.moveToFirst();
@@ -123,7 +123,8 @@ public class ReceiverCollection extends AppCompatActivity {
                 densityTwoNine = findViewById(R.id.radioButton9);
                 densityThirty = findViewById(R.id.radioButton10);
                 densityThirtyOnePlus = findViewById(R.id.radioButton11);
-                densityNa = findViewById(R.id.radioButton12);
+                densityFail = findViewById(R.id.radioButton12);
+                densityNa = findViewById(R.id.radioButton13);
                 if (densityTwoSeven.isChecked()) {
                     densityTest = densityTwoSeven.getText().toString();
                 } else if (densityTwoEight.isChecked()) {
@@ -134,6 +135,8 @@ public class ReceiverCollection extends AppCompatActivity {
                     densityTest = densityThirty.getText().toString();
                 } else if (densityThirtyOnePlus.isChecked()) {
                     densityTest = densityThirtyOnePlus.getText().toString();
+                } else if(densityFail.isChecked()){
+                    densityTest=densityFail.getText().toString();
                 } else if (densityNa.isChecked()) {
                     densityTest = densityNa.getText().toString();
                 }
@@ -166,7 +169,7 @@ public class ReceiverCollection extends AppCompatActivity {
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
 
-                                            if (alcoholTest.equals("Fail") || sniffTest.equals("Fail")) {
+                                            if (alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail") ) {
 
                                                 builder.setMessage("You have failed quality test(S). Are you sure you want to proceed?")
                                                         .setCancelable(false)
@@ -209,7 +212,7 @@ public class ReceiverCollection extends AppCompatActivity {
                             alert.show();
                         } else {
                             // Check failing quantity tests
-                            if (alcoholTest.equals("Fail") || sniffTest.equals("Fail")) {
+                            if (alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail") ) {
                                 builder.setMessage("You have failed quality test(s). Are you sure you want to proceed?")
                                         .setCancelable(false)
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

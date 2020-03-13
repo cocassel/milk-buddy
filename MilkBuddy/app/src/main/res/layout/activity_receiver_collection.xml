@@ -205,6 +205,13 @@
                         android:id="@+id/radioButton12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Fail"
+                        android:textSize="20sp"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButton13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="N/A"
                         android:checked="true"
                         android:textSize="20sp"/>
