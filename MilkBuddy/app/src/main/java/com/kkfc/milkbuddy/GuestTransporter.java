@@ -39,11 +39,18 @@ public class GuestTransporter extends AppCompatActivity {
                 // Save guest transporter info to database
                 guestTransporterName = findViewById(R.id.editText1);
                 guestTransporterPhoneNumber = findViewById(R.id.editText2);
-                db.insertLoggedInGuestTransporter(
-                        guestTransporterName.getText().toString(),
-                        guestTransporterPhoneNumber.getText().toString()
-                );
-                goToTransporterHomepage();
+
+                if(guestTransporterName.getText().toString().length()==0 ){
+                    guestTransporterName.setError("Please input a name");
+                } else if (guestTransporterPhoneNumber.getText().toString().length()==0){
+                    guestTransporterPhoneNumber.setError("Please input a phone number");
+                }else {
+                    db.insertLoggedInGuestTransporter(
+                            guestTransporterName.getText().toString(),
+                            guestTransporterPhoneNumber.getText().toString()
+                    );
+                    goToTransporterHomepage();
+                }
             }
         });
 
