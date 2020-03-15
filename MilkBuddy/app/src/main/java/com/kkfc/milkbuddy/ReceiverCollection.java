@@ -156,19 +156,17 @@ public class ReceiverCollection extends AppCompatActivity {
 
                     // Check container quantity to make sure container quantity is a positive number
                     if (quantityEmptyL > quantityFullL) {
-                        quantityFull.setError("'Container Weight: Full' value needs to be greater than 'Container Weight: Empty' value");
-                        quantityEmpty.setError("'Container Weight: Full' value needs to be greater than 'Container Weight: Empty' value");
+                        quantityFull.setError("Weight of full container needs to be greater than weight of empty container");
+                        quantityEmpty.setError("Weight of full container needs to be greater than weight of empty container");
                     } else {
-                        // Check recorded container quantity is not greater than actual container quantity
-                        if (quantityL > containerQuantity) {
+                        if (quantityL > containerQuantity && (alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail"))) {
+                            overCapacityAndFailedTests();
+                        } else if (quantityL > containerQuantity) {
                             overCapacity();
+                        } else if (alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail")) {
+                            failedTest();
                         } else {
-                            // Check failing quantity tests
-                            if (alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail") ) {
-                                failedTest();
-                            } else {
-                                noFailedTests();
-                            }
+                            noFailedTestsAndUnderCapacity();
                         }
                     }
                 }
@@ -189,8 +187,34 @@ public class ReceiverCollection extends AppCompatActivity {
 
     }
 
+    private void overCapacityAndFailedTests() {
+        builder.setMessage("You have failed quality test(s) and the quantity entered is greater than the container capacity. Are you sure you want to proceed?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail") ) {
+                            failedTest();
+                        }
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                        Toast.makeText(getApplicationContext(), "Collection Aborted",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Milk Buddy");
+        alert.show();
+    }
+
+    // Check recorded container quantity is not greater than actual container quantity
     private void overCapacity() {
-        builder.setMessage("Quantity being inputted is greater than container capacity. Are you sure you want to proceed?")
+        builder.setMessage("The quantity entered is greater than the container capacity. Are you sure you want to proceed?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -240,7 +264,7 @@ public class ReceiverCollection extends AppCompatActivity {
         alert.show();
     }
 
-    private void noFailedTests() {
+    private void noFailedTestsAndUnderCapacity() {
         builder.setMessage("Are you sure you want to proceed?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
