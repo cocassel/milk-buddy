@@ -192,9 +192,7 @@ public class ReceiverCollection extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail") ) {
-                            failedTest();
-                        }
+                        saveCollectionData();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -218,9 +216,7 @@ public class ReceiverCollection extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail") ) {
-                            failedTest();
-                        }
+                        saveCollectionData();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -243,10 +239,7 @@ public class ReceiverCollection extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        db.insertReceiverCollection(containerId, transporterId, receiverId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
-                                Toast.LENGTH_SHORT).show();
-                        returnToReceiverHome();
+                        saveCollectionData();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -269,11 +262,7 @@ public class ReceiverCollection extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        db.insertReceiverCollection(containerId, transporterId, receiverId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
-                        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
-                                Toast.LENGTH_SHORT).show();
-                        returnToReceiverHome();
-
+                        saveCollectionData();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -289,6 +278,13 @@ public class ReceiverCollection extends AppCompatActivity {
         //Setting the title manually
         alert.setTitle("Milk Buddy");
         alert.show();
+    }
+
+    private void saveCollectionData() {
+        db.insertReceiverCollection(containerId, transporterId, receiverId, quantityL, sniffTest, alcoholTest, densityTest, wordComment, dateToday, timeToday);
+        Toast.makeText(getApplicationContext(), "Receiver Collection Information Saved",
+                Toast.LENGTH_SHORT).show();
+        returnToReceiverHome();
     }
 
     private void returnToReceiverHome() {
