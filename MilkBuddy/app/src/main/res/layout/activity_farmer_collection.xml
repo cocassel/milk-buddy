@@ -44,7 +44,7 @@
             android:layout_marginRight="10dp">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="20dp"
@@ -92,7 +92,7 @@
             android:layout_marginRight="10dp">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -141,7 +141,7 @@
             android:layout_marginRight="10dp">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="20dp"
@@ -218,7 +218,7 @@
             android:paddingBottom="15dp">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -246,7 +246,7 @@
             android:paddingBottom="15dp">
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -254,17 +254,27 @@
                 android:text="Container:"
                 android:textSize="20sp"
                 android:textColor="#000000"/>
+
+        </TableRow>
+
+            <TableRow
+                android:id="@+id/seventh_row"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="10dp">
+
             <Spinner
                 android:id="@+id/Spinner1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginLeft="15dp"/>
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/seventh_row"
+            android:id="@+id/eighth_row"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -272,7 +282,7 @@
             android:layout_marginTop="15dp">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -284,7 +294,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/eight_row"
+            android:id="@+id/ninth_row"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
