@@ -231,7 +231,7 @@ public class FarmerCollection extends AppCompatActivity {
                     } else {
                         if (quantityL > quantityLeftContainer) {
                             // Warning for going over capacity
-                            builder.setMessage("Are you sure you want to progress with current container? According to our records, quantity of milk being collected is greater than remaining capacity")
+                            builder.setMessage("Are you sure you want to proceed with current container? According to our records, the quantity of milk being collected is greater than remaining capacity")
                                     .setCancelable(false)
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
