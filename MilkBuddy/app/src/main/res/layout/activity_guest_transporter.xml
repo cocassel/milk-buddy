@@ -86,7 +86,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="67dp"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="number" />
         </TableRow>
 
         <LinearLayout
