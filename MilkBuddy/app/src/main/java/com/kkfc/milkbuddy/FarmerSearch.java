@@ -114,8 +114,6 @@ public class FarmerSearch extends AppCompatActivity {
         int selectedDropdownPosition = states.getInt("selectedDropdownPosition", -1);
 
         //Set dropdown selection
-        // TODO
-
         transportersSpinnerView.setSelection(selectedDropdownPosition);
 
 

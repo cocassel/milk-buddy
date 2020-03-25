@@ -1,7 +1,10 @@
 package com.kkfc.milkbuddy;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -48,6 +51,9 @@ public class FarmerCollection extends AppCompatActivity {
     private RadioGroup radioSniffTestGroup;
     private RadioGroup radioAlcoholTestGroup;
     private RadioGroup radioDensityTestGroup;
+    SharedPreferences states;
+
+
 
 
 
@@ -69,6 +75,10 @@ public class FarmerCollection extends AppCompatActivity {
         nameFarmer = findViewById(R.id.textView1);
         nameFarmer.setText("Farmer Name: " + farmerName);
 
+        // Retrieve saved state of dropdown, This will be used to set them accordingly
+        states = getSharedPreferences("states", Context.MODE_PRIVATE);
+
+
         String [] containerAdapterCols = new String[]{"container_dropdown"};
         int[] containerAdapterRowViews=new int[]{android.R.id.text1};
 
@@ -78,6 +88,12 @@ public class FarmerCollection extends AppCompatActivity {
         containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         containerSpinnerView = findViewById(R.id.Spinner1);
         containerSpinnerView.setAdapter(containerCursorAdapter);
+        // Get prior dropdown selection (if applicable)
+        int selectedDropdownPosition = states.getInt("selectedDropdownPosition2", -1);
+
+        //Set dropdown selection
+        containerSpinnerView.setSelection(selectedDropdownPosition);
+
         containerSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -85,6 +101,7 @@ public class FarmerCollection extends AppCompatActivity {
                 c.moveToPosition(position);
                 containerId = c.getInt(c.getColumnIndex(db.CONTAINER_ID));
                 quantityLeftContainer=c.getDouble(c.getColumnIndex((db.CONTAINER_AMOUNT_REMAINING)));
+                saveState();
 
             }
 
@@ -93,6 +110,8 @@ public class FarmerCollection extends AppCompatActivity {
 
             }
         });
+
+
 
 
 
@@ -291,6 +310,26 @@ public class FarmerCollection extends AppCompatActivity {
             }
         });
 
+    }
+
+    // This function saves the state of the checkboxes, dropdown, and search bar. The idea is that after
+    // a transporter saves collection information and returns to the farmer search page, the transporter
+    // should not need to redo their preferences. If the checkboxes were checked before, they should
+    // stay checked. The search bar query should also remain. The dropdown should also keep its selection
+    private void saveState() {
+        states = getSharedPreferences("states", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = states.edit();
+        // Save state of both checkboxes and dropdown position
+        // We purposely do not save the state of the search bar
+        editor.putInt("selectedDropdownPosition2", containerSpinnerView.getSelectedItemPosition());
+        editor.commit();
+    }
+
+    // Clear state of farmer search page (checkboxes, search bar, dropdown)
+    private void clearState() {
+        SharedPreferences states = getSharedPreferences("states", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = states.edit();
+        editor.clear().commit();
     }
 
     // Grey out container dropdown when there are any failing tests (since the milk will be rejected,
