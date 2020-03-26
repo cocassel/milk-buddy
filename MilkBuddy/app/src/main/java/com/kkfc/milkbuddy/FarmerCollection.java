@@ -53,10 +53,6 @@ public class FarmerCollection extends AppCompatActivity {
     private RadioGroup radioDensityTestGroup;
     SharedPreferences states;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +71,6 @@ public class FarmerCollection extends AppCompatActivity {
         nameFarmer = findViewById(R.id.textView1);
         nameFarmer.setText("Farmer Name: " + farmerName);
 
-        // Retrieve saved state of dropdown, This will be used to set them accordingly
-        states = getSharedPreferences("states", Context.MODE_PRIVATE);
-
 
         String [] containerAdapterCols = new String[]{"container_dropdown"};
         int[] containerAdapterRowViews=new int[]{android.R.id.text1};
@@ -88,8 +81,11 @@ public class FarmerCollection extends AppCompatActivity {
         containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         containerSpinnerView = findViewById(R.id.Spinner1);
         containerSpinnerView.setAdapter(containerCursorAdapter);
+
+        // Retrieve saved state (current selection) of container dropdown
+        states = getSharedPreferences("states", Context.MODE_PRIVATE);
         // Get prior dropdown selection (if applicable)
-        int selectedDropdownPosition = states.getInt("selectedDropdownPosition2", -1);
+        int selectedDropdownPosition = states.getInt("selectedDropdownPosition2", 1);
 
         //Set dropdown selection
         containerSpinnerView.setSelection(selectedDropdownPosition);
@@ -110,10 +106,6 @@ public class FarmerCollection extends AppCompatActivity {
 
             }
         });
-
-
-
-
 
         // Greying out container dropdown when sniff, alcohol, or density tests fail
         radioSniffTestGroup = findViewById(R.id.radioGroup1);
@@ -141,8 +133,6 @@ public class FarmerCollection extends AppCompatActivity {
                 enableOrDisableContainerDropdown();
             }
         });
-
-
 
         // Cancel Collection Process
         cancelCollection = findViewById(R.id.Button01);
@@ -312,24 +302,12 @@ public class FarmerCollection extends AppCompatActivity {
 
     }
 
-    // This function saves the state of the checkboxes, dropdown, and search bar. The idea is that after
-    // a transporter saves collection information and returns to the farmer search page, the transporter
-    // should not need to redo their preferences. If the checkboxes were checked before, they should
-    // stay checked. The search bar query should also remain. The dropdown should also keep its selection
+    // The container dropdown should keep its selection
     private void saveState() {
         states = getSharedPreferences("states", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = states.edit();
-        // Save state of both checkboxes and dropdown position
-        // We purposely do not save the state of the search bar
         editor.putInt("selectedDropdownPosition2", containerSpinnerView.getSelectedItemPosition());
         editor.commit();
-    }
-
-    // Clear state of farmer search page (checkboxes, search bar, dropdown)
-    private void clearState() {
-        SharedPreferences states = getSharedPreferences("states", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = states.edit();
-        editor.clear().commit();
     }
 
     // Grey out container dropdown when there are any failing tests (since the milk will be rejected,
