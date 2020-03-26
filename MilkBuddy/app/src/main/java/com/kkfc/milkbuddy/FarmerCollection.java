@@ -85,9 +85,8 @@ public class FarmerCollection extends AppCompatActivity {
         // Retrieve saved state (current selection) of container dropdown
         states = getSharedPreferences("states", Context.MODE_PRIVATE);
         // Get prior dropdown selection (if applicable)
-        int selectedDropdownPosition = states.getInt("selectedDropdownPosition2", 1);
-
-        //Set dropdown selection
+        int selectedDropdownPosition = states.getInt("selectedDropdownPosition2", 0);
+        //Set dropdown selection to prior selection
         containerSpinnerView.setSelection(selectedDropdownPosition);
 
         containerSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
