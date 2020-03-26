@@ -1,7 +1,10 @@
 package com.kkfc.milkbuddy;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -48,8 +51,7 @@ public class FarmerCollection extends AppCompatActivity {
     private RadioGroup radioSniffTestGroup;
     private RadioGroup radioAlcoholTestGroup;
     private RadioGroup radioDensityTestGroup;
-
-
+    SharedPreferences states;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class FarmerCollection extends AppCompatActivity {
         nameFarmer = findViewById(R.id.textView1);
         nameFarmer.setText("Farmer Name: " + farmerName);
 
+
         String [] containerAdapterCols = new String[]{"container_dropdown"};
         int[] containerAdapterRowViews=new int[]{android.R.id.text1};
 
@@ -78,6 +81,14 @@ public class FarmerCollection extends AppCompatActivity {
         containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         containerSpinnerView = findViewById(R.id.Spinner1);
         containerSpinnerView.setAdapter(containerCursorAdapter);
+
+        // Retrieve saved state (current selection) of container dropdown
+        states = getSharedPreferences("states", Context.MODE_PRIVATE);
+        // Get prior dropdown selection (if applicable)
+        int selectedDropdownPosition = states.getInt("selectedDropdownPosition2", 0);
+        //Set dropdown selection to prior selection
+        containerSpinnerView.setSelection(selectedDropdownPosition);
+
         containerSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -85,6 +96,7 @@ public class FarmerCollection extends AppCompatActivity {
                 c.moveToPosition(position);
                 containerId = c.getInt(c.getColumnIndex(db.CONTAINER_ID));
                 quantityLeftContainer=c.getDouble(c.getColumnIndex((db.CONTAINER_AMOUNT_REMAINING)));
+                saveState();
 
             }
 
@@ -93,8 +105,6 @@ public class FarmerCollection extends AppCompatActivity {
 
             }
         });
-
-
 
         // Greying out container dropdown when sniff, alcohol, or density tests fail
         radioSniffTestGroup = findViewById(R.id.radioGroup1);
@@ -122,8 +132,6 @@ public class FarmerCollection extends AppCompatActivity {
                 enableOrDisableContainerDropdown();
             }
         });
-
-
 
         // Cancel Collection Process
         cancelCollection = findViewById(R.id.Button01);
@@ -291,6 +299,14 @@ public class FarmerCollection extends AppCompatActivity {
             }
         });
 
+    }
+
+    // The container dropdown should keep its selection
+    private void saveState() {
+        states = getSharedPreferences("states", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = states.edit();
+        editor.putInt("selectedDropdownPosition2", containerSpinnerView.getSelectedItemPosition());
+        editor.commit();
     }
 
     // Grey out container dropdown when there are any failing tests (since the milk will be rejected,

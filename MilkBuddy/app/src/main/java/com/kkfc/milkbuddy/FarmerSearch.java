@@ -114,8 +114,6 @@ public class FarmerSearch extends AppCompatActivity {
         int selectedDropdownPosition = states.getInt("selectedDropdownPosition", -1);
 
         //Set dropdown selection
-        // TODO
-
         transportersSpinnerView.setSelection(selectedDropdownPosition);
 
 
@@ -270,6 +268,7 @@ public class FarmerSearch extends AppCompatActivity {
     }
 
     // Clear state of farmer search page (checkboxes, search bar, dropdown)
+    // Also clear state of farmer collection page (container dropdown)
     private void clearState() {
         SharedPreferences states = getSharedPreferences("states", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = states.edit();
