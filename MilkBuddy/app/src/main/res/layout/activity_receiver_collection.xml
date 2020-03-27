@@ -272,6 +272,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.60"
                     android:ems="10"
+                    android:maxLength="5"
                     android:inputType="numberDecimal" />
 
             </TableRow>
@@ -301,6 +302,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.60"
                     android:ems="10"
+                    android:maxLength="5"
                     android:inputType="numberDecimal" />
 
             </TableRow>
