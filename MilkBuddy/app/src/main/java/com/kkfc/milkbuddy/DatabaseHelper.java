@@ -351,6 +351,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     // Check receiver credentials
     public Cursor checkReceiverLoginCredentials(String username, String password) {
+        // Usernames ideally should just be letters, but we do not want the app to crash if an
+        // apostrophe is entered into the username field
+        username = username.replace("'", "''");
         String passwordHash = getMd5Hash(password);
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_RECEIVER + " WHERE " + RECEIVER_USERNAME + "='" +
