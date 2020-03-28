@@ -219,6 +219,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Fetch farmer table based on checkboxes, dropdown filter, and search bar
     public Cursor fetchFarmers(Boolean active, Boolean collected, Integer id, String search) {
+        search = search.replaceAll("[^a-zA-Z ]", "").toLowerCase();
+
         SQLiteDatabase db = this.getWritableDatabase();
         String sqlStatement = "SELECT "  + FARMER_ID + ", " + FARMER_ASSIGNED_TRANSPORTER_ID + ", " +
                 FARMER_NAME + ", " + FARMER_PHONE_NUMBER + ", " + FARMER_ACTIVE + ", " +
