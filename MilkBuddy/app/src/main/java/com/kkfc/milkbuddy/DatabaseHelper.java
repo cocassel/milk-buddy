@@ -471,6 +471,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Save farmer collection data.
     public void insertFarmerCollection(int fId, int tId,int cId, double quantityL, String sniffTest, String alcoholTest, String densityTest, String wordComment, String createDate, String createTime) {
         SQLiteDatabase db = this.getWritableDatabase();
+        // TODO Change this to content values
         String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+
                 TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " +
                 TRANSPORTER_DATA_CONTAINER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " +
@@ -485,21 +486,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(insertStatement);
     }
 
-    //Save receiver collction data.
-    public void insertReceiverCollection(int cId, int tId, int rId, double quantityL, String sniffTest, String alcoholTest, String densityTest, String wordComment, String createDate, String createTime){
+    //Save receiver collection data.
+    public void insertReceiverCollection(int cId, int tId, int rId, double quantityL, String sniffTest,
+                                         String alcoholTest, String densityTest, String wordComment,
+                                         String createDate, String createTime) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String insertStatement = "INSERT INTO " + TABLE_PLANT_DATA + " ( "+
-                PLANT_DATA_CONTAINER_ID + ", " + PLANT_DATA_TRANSPORTER_ID + ", " +
-                PLANT_DATA_RECEIVER_ID + ", " + PLANT_DATA_QUANTITY_COLLECTED + ", " +
-                PLANT_DATA_QUALITY_TEST_SMELL + ", " + PLANT_DATA_QUALITY_TEST_ALCOHOL + ", " +
-                PLANT_DATA_QUALITY_TEST_DENSITY + ", " + PLANT_DATA_COMMENT + ", " +
-                PLANT_DATA_CREATE_DATE + ", " + PLANT_DATA_CREATE_TIME + " ) " +
-                "VALUES ('" + cId + "', '" + tId + "', '" + rId + "', '" + quantityL + "', '" +
-                sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" +
-                wordComment.replace("'", "''") + "', '" +
-                createDate + "', '" + createTime +"');";
 
-        db.execSQL(insertStatement);
+        // Since we save to CSVs, we do not want any commas in this
+        wordComment = wordComment.replace(",","");
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PLANT_DATA_CONTAINER_ID, cId);
+        contentValues.put(PLANT_DATA_TRANSPORTER_ID, tId);
+        contentValues.put(PLANT_DATA_RECEIVER_ID, rId);
+        contentValues.put(PLANT_DATA_QUANTITY_COLLECTED, quantityL);
+        contentValues.put(PLANT_DATA_QUALITY_TEST_SMELL, sniffTest);
+        contentValues.put(PLANT_DATA_QUALITY_TEST_ALCOHOL, alcoholTest);
+        contentValues.put(PLANT_DATA_QUALITY_TEST_DENSITY, densityTest);
+        contentValues.put(PLANT_DATA_COMMENT, wordComment);
+        contentValues.put(PLANT_DATA_CREATE_DATE, createDate);
+        contentValues.put(PLANT_DATA_CREATE_TIME, createTime);
+        db.insert(TABLE_PLANT_DATA, null, contentValues);
     }
 
     //Update conatiner data after collection
