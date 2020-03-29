@@ -444,6 +444,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Save logged-in transporter data. Use -1 as the transporter ID
     public void insertLoggedInGuestTransporter(String name, String phoneNumber) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        // Since we save to CSVs, we do not want any commas in this
+        name = name.replace(",","");
+
         // Delete existing entry from the table. The table will only be non-empty if the transporter
         // goes back from the container selection page and chooses a different transporter
         db.execSQL("DELETE FROM "+ TABLE_LOGGED_IN_TRANSPORTER);
