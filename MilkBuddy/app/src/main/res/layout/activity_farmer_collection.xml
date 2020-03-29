@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".FarmerCollection">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
         <TableRow
             android:id="@+id/first_row"
@@ -24,8 +25,8 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
@@ -44,7 +45,7 @@
             android:layout_marginRight="10dp">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="20dp"
@@ -92,7 +93,7 @@
             android:layout_marginRight="10dp">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -141,7 +142,7 @@
             android:layout_marginRight="10dp">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="20dp"
@@ -153,7 +154,8 @@
             <RadioGroup
                 android:id="@+id/radioGroup3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp">
 
                 <RadioButton
                     android:id="@+id/radioButton7"
@@ -194,6 +196,14 @@
                     android:id="@+id/radioButton12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Fail"
+                    android:checked="false"
+                    android:textSize="20sp"/>
+
+                <RadioButton
+                    android:id="@+id/radioButton13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="N/A"
                     android:checked="true"
                     android:textSize="20sp"/>
@@ -210,7 +220,7 @@
             android:paddingBottom="15dp">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -225,7 +235,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:maxLength="5"
+                android:imeOptions="actionDone"/>
 
         </TableRow>
 
@@ -238,7 +250,7 @@
             android:paddingBottom="15dp">
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -246,17 +258,28 @@
                 android:text="Container:"
                 android:textSize="20sp"
                 android:textColor="#000000"/>
+
+        </TableRow>
+
+            <TableRow
+                android:id="@+id/seventh_row"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="10dp">
+
             <Spinner
                 android:id="@+id/Spinner1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="40dp"/>
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/seventh_row"
+            android:id="@+id/eighth_row"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -264,7 +287,7 @@
             android:layout_marginTop="15dp">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -276,11 +299,12 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/eight_row"
+            android:id="@+id/ninth_row"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:paddingBottom="15dp">
 
             <EditText
                 android:id="@+id/editText2"

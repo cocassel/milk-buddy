@@ -1,7 +1,10 @@
 package com.kkfc.milkbuddy;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -37,7 +40,7 @@ public class FarmerCollection extends AppCompatActivity {
     private TextView nameFarmer;
     private EditText quantity;
     private EditText comment;
-    private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,densityTwoSeven, densityTwoEight, densityTwoNine, densityThirty, densityThirtyOnePlus, densityNa ;
+    private RadioButton sniffPass, sniffFail, sniffNa, alcoholPass, alcoholFail, alcoholNa,densityTwoSeven, densityTwoEight, densityTwoNine, densityThirty, densityThirtyOnePlus, densityFail, densityNa ;
     private String sniffTest;
     private String alcoholTest;
     private String densityTest;
@@ -47,8 +50,8 @@ public class FarmerCollection extends AppCompatActivity {
     private Spinner containerSpinnerView;
     private RadioGroup radioSniffTestGroup;
     private RadioGroup radioAlcoholTestGroup;
-
-
+    private RadioGroup radioDensityTestGroup;
+    SharedPreferences states;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class FarmerCollection extends AppCompatActivity {
         nameFarmer = findViewById(R.id.textView1);
         nameFarmer.setText("Farmer Name: " + farmerName);
 
+
         String [] containerAdapterCols = new String[]{"container_dropdown"};
         int[] containerAdapterRowViews=new int[]{android.R.id.text1};
 
@@ -77,6 +81,14 @@ public class FarmerCollection extends AppCompatActivity {
         containerCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         containerSpinnerView = findViewById(R.id.Spinner1);
         containerSpinnerView.setAdapter(containerCursorAdapter);
+
+        // Retrieve saved state (current selection) of container dropdown
+        states = getSharedPreferences("states", Context.MODE_PRIVATE);
+        // Get prior dropdown selection (if applicable)
+        int selectedDropdownPosition = states.getInt("selectedDropdownPosition2", 0);
+        //Set dropdown selection to prior selection
+        containerSpinnerView.setSelection(selectedDropdownPosition);
+
         containerSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -84,6 +96,7 @@ public class FarmerCollection extends AppCompatActivity {
                 c.moveToPosition(position);
                 containerId = c.getInt(c.getColumnIndex(db.CONTAINER_ID));
                 quantityLeftContainer=c.getDouble(c.getColumnIndex((db.CONTAINER_AMOUNT_REMAINING)));
+                saveState();
 
             }
 
@@ -93,43 +106,30 @@ public class FarmerCollection extends AppCompatActivity {
             }
         });
 
-        // Greying out container dropdown when sniff or alcohol tests fail
-       radioSniffTestGroup = findViewById(R.id.radioGroup1);
-       radioSniffTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        // Greying out container dropdown when sniff, alcohol, or density tests fail
+        radioSniffTestGroup = findViewById(R.id.radioGroup1);
+        radioSniffTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
            @Override
            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-               //Gathering collection data from sniff and alcohol tests
-               RadioButton sniffTestFail = findViewById(R.id.radioButton2);
-               RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
-
-               if(sniffTestFail.isChecked() || alcoholTestFail.isChecked()){
-                   containerSpinnerView.setEnabled(false);
-                   containerSpinnerView.setClickable(false);
-               } else {
-                   containerSpinnerView.setEnabled(true);
-                   containerSpinnerView.setClickable(true);
-               }
+               enableOrDisableContainerDropdown();
            }
-       });
+        });
 
+        // Greying out container dropdown when sniff, alcohol, or density tests fail
         radioAlcoholTestGroup = findViewById(R.id.radioGroup2);
         radioAlcoholTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                enableOrDisableContainerDropdown();
+            }
+        });
 
-                //Gathering collection data from sniff and alcohol tests
-                RadioButton sniffTestFail = findViewById(R.id.radioButton2);
-                RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
-
-                if(sniffTestFail.isChecked() || alcoholTestFail.isChecked()){
-                    containerSpinnerView.setEnabled(false);
-                    containerSpinnerView.setClickable(false);
-                } else {
-                    containerSpinnerView.setEnabled(true);
-                    containerSpinnerView.setClickable(true);
-                }
-
+        // Greying out container dropdown when sniff, alcohol, or density tests fail
+        radioDensityTestGroup = findViewById(R.id.radioGroup3);
+        radioDensityTestGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                enableOrDisableContainerDropdown();
             }
         });
 
@@ -185,7 +185,8 @@ public class FarmerCollection extends AppCompatActivity {
                 densityTwoNine = findViewById(R.id.radioButton9);
                 densityThirty = findViewById(R.id.radioButton10);
                 densityThirtyOnePlus = findViewById(R.id.radioButton11);
-                densityNa = findViewById(R.id.radioButton12);
+                densityFail = findViewById(R.id.radioButton12);
+                densityNa = findViewById(R.id.radioButton13);
                 if(densityTwoSeven.isChecked()){
                     densityTest = densityTwoSeven.getText().toString();
                 } else if(densityTwoEight.isChecked()){
@@ -196,6 +197,8 @@ public class FarmerCollection extends AppCompatActivity {
                     densityTest=densityThirty.getText().toString();
                 } else if(densityThirtyOnePlus.isChecked()){
                     densityTest=densityThirtyOnePlus.getText().toString();
+                } else if(densityFail.isChecked()){
+                    densityTest=densityFail.getText().toString();
                 } else if(densityNa.isChecked()){
                     densityTest=densityNa.getText().toString();
                 }
@@ -207,7 +210,7 @@ public class FarmerCollection extends AppCompatActivity {
                     quantity.setError("Please collect milk quantity, otherwise click 'Cancel'");
                 } else {
                     final Double quantityL = Double.parseDouble(quantityLitre);
-                    if(alcoholTest.equals("Fail")||sniffTest.equals("Fail")){
+                    if(alcoholTest.equals("Fail") || sniffTest.equals("Fail") || densityTest.equals("Fail") ){
                         // Recorded milk collection with failed tests
                         containerId = -1;
                         builder.setMessage("Are you sure you want to save farmer collection with failed test?")
@@ -236,7 +239,7 @@ public class FarmerCollection extends AppCompatActivity {
                     } else {
                         if (quantityL > quantityLeftContainer) {
                             // Warning for going over capacity
-                            builder.setMessage("Are you sure you want to progress with current container? According to our records, quantity of milk being collected is greater than remaining capacity")
+                            builder.setMessage("Are you sure you want to proceed with current container? According to our records, the quantity of milk being collected is greater than remaining capacity")
                                     .setCancelable(false)
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
@@ -298,6 +301,31 @@ public class FarmerCollection extends AppCompatActivity {
 
     }
 
+    // The container dropdown should keep its selection
+    private void saveState() {
+        states = getSharedPreferences("states", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = states.edit();
+        editor.putInt("selectedDropdownPosition2", containerSpinnerView.getSelectedItemPosition());
+        editor.commit();
+    }
+
+    // Grey out container dropdown when there are any failing tests (since the milk will be rejected,
+    // it won't be added to any container
+    private void enableOrDisableContainerDropdown() {
+        //Gathering collection data from sniff and alcohol tests
+        RadioButton sniffTestFail = findViewById(R.id.radioButton2);
+        RadioButton alcoholTestFail = findViewById(R.id.radioButton5);
+        RadioButton densityTestFail = findViewById(R.id.radioButton12);
+
+        if(sniffTestFail.isChecked() || alcoholTestFail.isChecked() || densityTestFail.isChecked()){
+            containerSpinnerView.setEnabled(false);
+            containerSpinnerView.setClickable(false);
+        } else {
+            containerSpinnerView.setEnabled(true);
+            containerSpinnerView.setClickable(true);
+        }
+    }
+
     private void returnToFarmerSearch() {
         Intent intent = new Intent(this, FarmerSearch.class);
         startActivity(intent);
@@ -309,7 +337,7 @@ public class FarmerCollection extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getApplicationContext(),"Collection Canceled",
+                        Toast.makeText(getApplicationContext(),"Collection Cancelled",
                                 Toast.LENGTH_SHORT).show();
                         returnToFarmerSearch();
 
