@@ -469,21 +469,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Save farmer collection data.
-    public void insertFarmerCollection(int fId, int tId,int cId, double quantityL, String sniffTest, String alcoholTest, String densityTest, String wordComment, String createDate, String createTime) {
+    public void insertFarmerCollection(int fId, int tId,int cId, double quantityL, String sniffTest,
+                                       String alcoholTest, String densityTest, String wordComment,
+                                       String createDate, String createTime) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // TODO Change this to content values
-        String insertStatement = "INSERT INTO " + TABLE_TRANSPORTER_DATA + " ( "+
-                TRANSPORTER_DATA_FARMER_ID + ", " + TRANSPORTER_DATA_TRANSPORTER_ID + ", " +
-                TRANSPORTER_DATA_CONTAINER_ID + ", " + TRANSPORTER_DATA_QUANTITY_COLLECTED + ", " +
-                TRANSPORTER_DATA_QUALITY_TEST_SMELL + ", " + TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL + ", " +
-                TRANSPORTER_DATA_QUALITY_TEST_DENSITY + ", " + TRANSPORTER_DATA_COMMENT + ", " +
-                TRANSPORTER_DATA_CREATE_DATE + ", " + TRANSPORTER_DATA_CREATE_TIME + " ) " +
-                "VALUES ('" + fId + "', '" + tId + "', '" + cId + "', '" + quantityL + "', '" +
-                sniffTest + "', '" + alcoholTest + "', '" + densityTest + "', '" +
-                wordComment.replace("'", "''") + "', '" +
-                createDate + "', '" + createTime +"');";
 
-        db.execSQL(insertStatement);
+        // Since we save to CSVs, we do not want any commas in this
+        wordComment = wordComment.replace(",","");
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TRANSPORTER_DATA_FARMER_ID, fId);
+        contentValues.put(TRANSPORTER_DATA_TRANSPORTER_ID, tId);
+        contentValues.put(TRANSPORTER_DATA_CONTAINER_ID, cId);
+        contentValues.put(TRANSPORTER_DATA_QUANTITY_COLLECTED, quantityL);
+        contentValues.put(TRANSPORTER_DATA_QUALITY_TEST_SMELL, sniffTest);
+        contentValues.put(TRANSPORTER_DATA_QUALITY_TEST_ALCOHOL, alcoholTest);
+        contentValues.put(TRANSPORTER_DATA_QUALITY_TEST_DENSITY, densityTest);
+        contentValues.put(TRANSPORTER_DATA_COMMENT, wordComment);
+        contentValues.put(TRANSPORTER_DATA_CREATE_DATE, createDate);
+        contentValues.put(TRANSPORTER_DATA_CREATE_TIME, createTime);
+        db.insert(TABLE_TRANSPORTER_DATA, null, contentValues);
     }
 
     //Save receiver collection data.
@@ -509,12 +514,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_PLANT_DATA, null, contentValues);
     }
 
-    //Update conatiner data after collection
+    //Update container data after collection
     public void updateContainerInfo (int cId, double amountRemaining){
         SQLiteDatabase db = this.getWritableDatabase();
         String insertStatement = "UPDATE " + TABLE_CONTAINER + " SET " + CONTAINER_AMOUNT_REMAINING + " = " +"'" + amountRemaining + "' WHERE " + CONTAINER_ID + " = " +"'" + cId + "';";
         db.execSQL(insertStatement);
-
     }
 
     // Insert into container table a number of containers of the specified size
@@ -527,7 +531,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(CONTAINER_AMOUNT_REMAINING, size);
             db.insert(TABLE_CONTAINER, null, contentValues);
         }
-
     }
 
     public void insertTransportersFromCSV(BufferedReader buffer) {
@@ -538,6 +541,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_TRANSPORTER);
 
             // TODO: Don't hardcode this
+            // TODO: Change to content values
             String insertStatementPart1 = "INSERT INTO " + TABLE_TRANSPORTER + " (_id, " +
                     "name, phone_number) values(";
             String insertStatementPart2 = ");";
@@ -569,6 +573,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_RECEIVER);
 
             // TODO: Don't hardcode this
+            // TODO: Change to content values
             String insertStatementPart1 = "INSERT INTO " + TABLE_RECEIVER + " (_id, " +
                     "name, phone_number, username, password_hash) values(";
             String insertStatementPart2 = ");";
@@ -602,6 +607,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DELETE FROM "+ TABLE_FARMER);
 
             // TODO: Don't hardcode this
+            // TODO: Change to content values
             String insertStatementPart1 = "INSERT INTO " + TABLE_FARMER + " (_id, " +
                     "assigned_transporter_id, name, phone_number," +
                     "active, expected_collection_time) values(";
