@@ -61,7 +61,7 @@
                 android:layout_gravity="center"
                 android:background="#FAFAFA"
                 android:text="I have already exported"
-                android:textColor="#000000"
+                android:textColor="#8B979797"
                 android:textSize="23sp"></Button>
 
         </TableRow>
