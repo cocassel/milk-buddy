@@ -221,9 +221,9 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.45"
                 android:layout_marginLeft="20dp"
                 android:text="Quantity (L):"
                 android:gravity="center_vertical"
@@ -232,8 +232,9 @@
 
             <EditText
                 android:id="@+id/editText1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.55"
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:maxLength="5"
