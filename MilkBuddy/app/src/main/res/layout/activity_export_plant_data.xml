@@ -58,13 +58,15 @@
 
             <Button
                 android:id="@+id/button2"
-                style="?android:attr/borderlessButtonStyle"
+                style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="#FAFAFA"
-                android:text="I have already exported"
-                android:textColor="#8B979797"
+                android:background="?attr/colorButtonNormal"
+                android:text="   I have already exported   "
+                android:textAllCaps="false"
+                android:textColor="#000000"
+                android:textIsSelectable="false"
                 android:textSize="23sp"></Button>
 
         </TableRow>
