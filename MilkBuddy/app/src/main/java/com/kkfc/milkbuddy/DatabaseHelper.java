@@ -445,8 +445,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertLoggedInGuestTransporter(String name, String phoneNumber) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Since we save to CSVs, we do not want any commas in this
-        name = name.replace(",","");
+        // Get rid of all punctuation
+        name = name.replaceAll("[^a-zA-Z ]", "");
+        // Removes leading and trailing spaces and turns multiple spaces (or tabs) into a single space
+        name = name.trim().replaceAll(" +", " ");
 
         // Delete existing entry from the table. The table will only be non-empty if the transporter
         // goes back from the container selection page and chooses a different transporter
